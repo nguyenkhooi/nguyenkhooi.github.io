@@ -35,12 +35,12 @@ android_library(
 
 android_build_config(
     name = "build_config",
-    package = "com.site",
+    package = "com.nguyenkhooi",
 )
 
 android_resource(
     name = "res",
-    package = "com.site",
+    package = "com.nguyenkhooi",
     res = "src/main/res",
 )
 
