@@ -1,0 +1,13 @@
+{
+  "compilerOptions": {
+    "baseUrl": "./src",
+    "paths": {
+      "*": ["*"],
+      "screens": ["./screens"],
+      "assets": ["./assets"],
+      "utils": ["./utils"],
+      "components": ["./components"],
+      "engines": ["./engines"]
+    }
+  }
+}

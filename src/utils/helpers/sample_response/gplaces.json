@@ -1,0 +1,24 @@
+/** Mock result of <GooglePlacesAutocomplete /> */
+{
+  "data": {
+    "description": "1971 University Boulevard, Lynchburg, VA, USA",
+    "id": "e1999ae78406b1f5878cb09e6a0e3f07929100cd",
+    "matched_substrings": [{ "length": 4, "offset": 0 }],
+    "place_id": "ChIJNd7rS_XasokRALHHNom30TQ",
+    "reference": "ChIJNd7rS_XasokRALHHNom30TQ",
+    "structured_formatting": {
+      "main_text": "1971 University Boulevard",
+      "main_text_matched_substrings": [[Object]],
+      "secondary_text": "Lynchburg, VA, USA"
+    },
+    "terms": [
+      { "offset": 0, "value": "1971" },
+      { "offset": 5, "value": "University Boulevard" },
+      { "offset": 27, "value": "Lynchburg" },
+      { "offset": 38, "value": "VA" },
+      { "offset": 42, "value": "USA" }
+    ],
+    "types": ["street_address", "geocode"]
+  },
+  "details": { "formatted_address": "1971 University Blvd, Lynchburg, VA 24514, USA" }
+}
