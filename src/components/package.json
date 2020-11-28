@@ -1,0 +1,28 @@
+{
+  "name": "@oooh/components",
+  "version": "1.0.0",
+  "description": "Curated collection of components used by Khoi Tran",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/nguyenkhooi/oooh/tree/master/src/components"
+  },
+  "keywords": [
+    "components"
+  ],
+  "author": "Khoi Tran <drkhoi16@gmail.com> (https://nguyenkhooi.github.io/oooh)",
+  "license": "MIT",
+  "peerDependencies": {
+    "@eva-design/eva": "^2.0.0",
+    "@react-native-community/masked-view": "0.1.10",
+    "@react-navigation/native": "^5.7.3",
+    "@react-navigation/stack": "^5.9.0",
+    "@ui-kitten/components": "^5.0.0",
+    "ramda": "^0.27.1",
+    "react": "~16.11.0",
+    "react-native": "~0.62.2"
+  }
+}

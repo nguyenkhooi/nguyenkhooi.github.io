@@ -1,0 +1,12 @@
+{
+  "name": "nguyenkhooi",
+  "displayName": "nguyenkhooi",
+  "expo": {
+    "name": "nguyenkhooi",
+    "slug": "nguyenkhooi",
+    "version": "1.0.0",
+    "assetBundlePatterns": [
+      "**/*"
+    ]
+  }
+}
