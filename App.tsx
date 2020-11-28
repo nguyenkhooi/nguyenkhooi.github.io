@@ -27,7 +27,7 @@ function App() {
     <ThemeProvider theme={_theme} setTheme={setTheme}>
       <ApplicationProvider
         {...eva}
-        theme={_theme == "themeLight" ? themeLight : themeDark}
+        theme={_theme == "themeLight" ? themeDark : themeDark}
       >
         <AppNavigator
           ref={navigationRef}
