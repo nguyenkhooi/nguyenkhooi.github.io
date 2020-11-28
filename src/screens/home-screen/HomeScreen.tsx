@@ -119,21 +119,21 @@ const $_Intro = (props: d$_Intro) => {
           ></Image>
         )} */}
         <Txt.H6
-          // onPress={() => setTheme(dark ? "themeLight" : "themeDark")}
-          onPress={() => {
-            const __toast = Toasty.show("Loading...", {
-              type: "loading",
-            });
-            global.setTimeout(() => {
-              !!__toast &&
-                Toasty.update(__toast, "Done!", {
-                  type: "success",
-                  //icon: Toasty.icon().success,
-                });
-            }, 1000);
+          onPress={() => setTheme(dark ? "themeLight" : "themeDark")}
+          // onPress={() => {
+          //   const __toast = Toasty.show("Loading...", {
+          //     type: "loading",
+          //   });
+          //   global.setTimeout(() => {
+          //     !!__toast &&
+          //       Toasty.update(__toast, "Done!", {
+          //         type: "success",
+          //         //icon: Toasty.icon().success,
+          //       });
+          //   }, 1000);
 
-            // Toasty.show("Hey", { type: "success" });
-          }}
+          //   // Toasty.show("Hey", { type: "success" });
+          // }}
         >
           Hi, I'm Khoi 👋
         </Txt.H6>
