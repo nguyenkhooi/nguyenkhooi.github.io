@@ -1,14 +1,15 @@
 {
   "files": {
-    "app.js": "/static/js/app.9088e249.chunk.js",
-    "app.js.map": "/static/js/app.9088e249.chunk.js.map",
+    "app.js": "/static/js/app.b5192ea6.chunk.js",
+    "app.js.map": "/static/js/app.b5192ea6.chunk.js.map",
     "runtime~app.js": "/static/js/runtime~app.2e9f1821.js",
     "runtime~app.js.map": "/static/js/runtime~app.2e9f1821.js.map",
-    "static/js/2.f9762f83.chunk.js": "/static/js/2.f9762f83.chunk.js",
-    "static/js/2.f9762f83.chunk.js.map": "/static/js/2.f9762f83.chunk.js.map",
+    "static/js/2.9432e2c8.chunk.js": "/static/js/2.9432e2c8.chunk.js",
+    "static/js/2.9432e2c8.chunk.js.map": "/static/js/2.9432e2c8.chunk.js.map",
     "fonts/AntDesign.ttf": "/./fonts/AntDesign.ttf",
     "fonts/Entypo.ttf": "/./fonts/Entypo.ttf",
     "fonts/Feather.ttf": "/./fonts/Feather.ttf",
+    "fonts/FontAwesome.ttf": "/./fonts/FontAwesome.ttf",
     "fonts/FontAwesome5_Brands.ttf": "/./fonts/FontAwesome5_Brands.ttf",
     "fonts/FontAwesome5_Solid.ttf": "/./fonts/FontAwesome5_Solid.ttf",
     "fonts/Fontisto.ttf": "/./fonts/Fontisto.ttf",
@@ -16,17 +17,19 @@
     "fonts/MaterialCommunityIcons.ttf": "/./fonts/MaterialCommunityIcons.ttf",
     "fonts/MaterialIcons.ttf": "/./fonts/MaterialIcons.ttf",
     "fonts/SimpleLineIcons.ttf": "/./fonts/SimpleLineIcons.ttf",
+    "favicon-16.png": "/favicon-16.png",
+    "favicon-32.png": "/favicon-32.png",
+    "favicon.ico": "/favicon.ico",
     "index.html": "/index.html",
     "manifest.json": "/manifest.json",
     "serve.json": "/serve.json",
-    "static/js/2.f9762f83.chunk.js.LICENSE.txt": "/static/js/2.f9762f83.chunk.js.LICENSE.txt",
-    "static/js/app.9088e249.chunk.js.LICENSE.txt": "/static/js/app.9088e249.chunk.js.LICENSE.txt",
-    "static/media/khoi-1.jpg": "/static/media/khoi-1.afd2c1e0.jpg",
+    "static/js/2.9432e2c8.chunk.js.LICENSE.txt": "/static/js/2.9432e2c8.chunk.js.LICENSE.txt",
+    "static/js/app.b5192ea6.chunk.js.LICENSE.txt": "/static/js/app.b5192ea6.chunk.js.LICENSE.txt",
     "static/media/x-icon.png": "/static/media/x-icon.e89ccce9.png"
   },
   "entrypoints": [
     "static/js/runtime~app.2e9f1821.js",
-    "static/js/2.f9762f83.chunk.js",
-    "static/js/app.9088e249.chunk.js"
+    "static/js/2.9432e2c8.chunk.js",
+    "static/js/app.b5192ea6.chunk.js"
   ]
 }
