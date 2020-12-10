@@ -37,12 +37,12 @@ const S2 = sstyled(Text)((p) => ({
 const P1 = sstyled(Text)((p) => ({
   fontSize: p.ms(14),
   fontWeight: "400",
-  letterSpacing: 1,
+  letterSpacing: 0.5,
 }));
 const P2 = sstyled(Text)((p) => ({
   fontSize: p.ms(12),
   fontWeight: "400",
-  letterSpacing: 1,
+  letterSpacing: 0.5,
 }));
 const C1 = sstyled(Text)((p) => ({
   fontSize: p.ms(12),
@@ -51,6 +51,10 @@ const C1 = sstyled(Text)((p) => ({
 const C2 = sstyled(Text)((p) => ({
   fontSize: p.ms(12),
   fontWeight: "400",
+}));
+const $Title = sstyled(H6)((p) => ({
+  paddingLeft: spacing(5),
+  color: p.C.grey600,
 }));
 
 /**
@@ -78,6 +82,7 @@ Txt.P1 = P1;
 Txt.P2 = P2;
 Txt.C1 = C1;
 Txt.C2 = C2;
+Txt.$Title = $Title;
 
 export interface dTxtC0 extends React.FC<TextProps> {
   /** Heading 1 */

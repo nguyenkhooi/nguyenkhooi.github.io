@@ -41,16 +41,16 @@ export const PrimaryStack = (props: IPSCR) => {
     animationEnabled: true,
     headerStyle: {
       elevation: 0,
-      backgroundColor: C.background01,
+      backgroundColor: C.background,
       borderBottomWidth: 0,
     },
     headerTitleStyle: {
-      color: C.text01,
+      color: C.text,
     } as TextStyle,
     headerBackImage: (props) => (
       <IconOooh
         name="x"
-        color={C.primary}
+        color={C.hazardYellow}
         containerStyle={{ marginLeft: spacing(4) }}
       />
     ),

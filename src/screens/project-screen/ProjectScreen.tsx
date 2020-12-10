@@ -239,14 +239,14 @@ const $_RingadingDeck = (props) => {
 
 const SS = {
   Sctnr: sstyled(ScrollView)((p) => ({
-    backgroundColor: p.C.background01,
+    backgroundColor: p.C.background,
     paddingTop: spacing(5),
   })),
   CtnrImg: sstyled(Animatable.View)((p) => ({
     margin: 10,
     borderRadius: 10,
     overflow: "hidden",
-    backgroundColor: p.C.surface01,
+    backgroundColor: p.C.surface,
   })),
   CtnrLabel: sstyled(Animatable.View)((p) => ({
     margin: 10,
@@ -265,7 +265,7 @@ const SS = {
   //*----Txt-SECTION ----------
   Headline: sstyled(Txt.H6)((p) => ({
     // fontSize: 26,
-    color: p.C.text01,
+    color: p.C.text,
     textAlign: "center",
     justifyContent: "center",
     marginBottom: spacing(2),

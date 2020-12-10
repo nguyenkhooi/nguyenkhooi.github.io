@@ -1,7 +1,20 @@
-import { Text } from "@ui-kitten/components";
-import { Txt, TouchableWeb, TouchableWebProps } from "components";
+import {
+  ButtonGroup,
+  IndexPath,
+  Menu,
+  MenuItem,
+  Text,
+} from "@ui-kitten/components";
+import {
+  Txt,
+  TouchableWeb,
+  TouchableWebProps,
+  Buttoon,
+  sstyled,
+} from "components";
 import { useSheets } from "engines/hooks";
 import { useAppContext } from "engines/providers/app-provider";
+import * as R from "ramda";
 import React from "react";
 import {
   ActivityIndicator,
@@ -20,6 +33,7 @@ import {
 } from "rn-placeholder";
 import { Navigation } from "screens/_navigation";
 import { dColors, IPSCR, scale, spacing, useDimension } from "utils";
+import * as Animatable from "react-native-animatable";
 
 export function S_PortfolioGrid(props: IPSCR) {
   const { C } = useAppContext();
@@ -28,33 +42,60 @@ export function S_PortfolioGrid(props: IPSCR) {
   const { WIDTH } = useDimension("window");
   // if (!!data) {
 
+  const ogData = React.useMemo(() => data, [data]);
+  const [_data, setData] = React.useState([]);
+
+  const refGrid = React.useRef<Animatable.View>();
+  const [selectedIndex, setSelectedIndex] = React.useState(new IndexPath(0));
+
   return (
     <View style={{}}>
-      {/* <Text>{JSON.stringify(keys)}</Text> */}
-      <Text
-        category={"h3"}
-        style={{ paddingHorizontal: spacing(6), color: C.dim }}
+      <SS.CtnrFilter
+        selectedIndex={selectedIndex}
+        onSelect={(index) => setSelectedIndex(index)}
       >
-        Work
-      </Text>
-      {!!data ? (
-        <FlatGrid
-          itemDimension={WIDTH <= 1000 ? WIDTH * 0.9 : WIDTH * 0.3}
-          data={data}
-          style={SS().GRID_CTNR}
-          // staticDimension={300}
-          // fixed
-          spacing={10}
-          renderItem={({ item }) => (
-            <CtnrGrid
-              {...props}
-              onPress={() => Navigation.navigate("Project", { project: item })}
-              item={item}
-            />
-          )}
+        <MenuItem
+          onPress={() => {
+            setData(ogData);
+            setSelectedIndex(new IndexPath(0));
+          }}
+          title={"All"}
         />
+        {[...new Set(R.pluck("cat", ogData))].map((cat, index) => (
+          <MenuItem
+            onPress={() => {
+              setData([...ogData.filter((item) => item.cat === cat)]);
+              setSelectedIndex(new IndexPath(index + 1));
+              refGrid.current.fadeInUp(800);
+            }}
+            title={cat}
+          />
+        ))}
+      </SS.CtnrFilter>
+      {!!_data ? (
+        <Animatable.View ref={refGrid} animation="fadeInUp">
+          <FlatGrid
+            itemDimension={WIDTH <= 1000 ? WIDTH * 0.9 : WIDTH * 0.3}
+            data={R.isEmpty(_data) ? data : _data}
+            style={SSS().GRID_CTNR}
+            // staticDimension={300}
+            // fixed
+            spacing={10}
+            renderItem={({ item, index }) => (
+              <Animatable.View animation="fadeIn" delay={100 * index}>
+                <CtnrGrid
+                  {...props}
+                  onPress={() =>
+                    Navigation.navigate("Project", { project: item })
+                  }
+                  item={item}
+                />
+              </Animatable.View>
+            )}
+          />
+        </Animatable.View>
       ) : (
-        <View style={{ ...SS().GRID_CTNR }}>
+        <View style={{ ...SSS().GRID_CTNR }}>
           <CtnrGrid {...props} type="placeholder" />
         </View>
       )}
@@ -84,7 +125,7 @@ const CtnrGrid = (props: dGridCtnr) => {
       <ImageBackground
         source={{ uri: item?.thumbnail }}
         style={[
-          SS().ITEM_CTNR,
+          SSS().ITEM_CTNR,
           {
             backgroundColor: item?.color,
             overflow: "hidden",
@@ -93,15 +134,15 @@ const CtnrGrid = (props: dGridCtnr) => {
           },
         ]}
       >
-        <Txt.S1 style={SS().itemName}>{item?.title}</Txt.S1>
-        <Txt.P2 style={SS().itemCode}>{item?.label}</Txt.P2>
+        <Txt.S1 style={SSS().itemName}>{item?.title}</Txt.S1>
+        <Txt.P2 style={SSS().itemCode}>{item?.label}</Txt.P2>
       </ImageBackground>
     </TouchableWeb>
   ) : (
     <Placeholder Animation={ShineOverlay}>
       <PlaceholderMedia
         style={[
-          SS().ITEM_CTNR,
+          SSS().ITEM_CTNR,
           { width: width <= 1000 ? width * 0.9 : width * 0.3 },
         ]}
       ></PlaceholderMedia>
@@ -109,7 +150,21 @@ const CtnrGrid = (props: dGridCtnr) => {
   );
 };
 
-const SS = (C?: dColors) => {
+const SS = {
+  CtnrFilter: sstyled(Menu)((p) => ({
+    flexDirection: "row",
+    backgroundColor: p.C.background,
+    alignItems: "center",
+    justifyContent: "center",
+    borderRadius: 5,
+    borderBottomWidth: 1,
+    alignSelf: "center",
+    overflow: "hidden",
+    borderColor: p.C.dim,
+  })),
+};
+
+const SSS = (C?: dColors) => {
   return {
     GRID_CTNR: {
       marginTop: 10,

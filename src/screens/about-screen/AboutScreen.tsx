@@ -12,24 +12,25 @@ export default (props: IPSCR) => {
   const { data } = useSheets(0, "About");
 
   return (
-    <CtnrScroll {...props}>
-      <Animatable.View animation="fadeInUp" delay={1000}>
+    <Sctnr {...props}>
+      <Animatable.View animation="fadeInUp" delay={100}>
         <TxtBody {...props} category={"s2"} adjustsFontSizeToFit>
           {!!data[0] && data[0].body}
         </TxtBody>
       </Animatable.View>
-    </CtnrScroll>
+    </Sctnr>
   );
 };
 
-const CtnrScroll = sstyled(ScrollView)((p) => ({
+const Sctnr = sstyled(ScrollView)((p) => ({
   flex: 1,
   // paddingHorizontal: spacing(6),
   paddingTop: spacing(5),
-  backgroundColor: p.C.background01,
+  backgroundColor: p.C.background,
 }));
 
 const TxtBody = sstyled(Txt.P1)((p) => ({
-  color: p.C.text01,
+  color: p.C.text,
   paddingHorizontal: spacing(6),
+  textAlign: "center",
 }));
