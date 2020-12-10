@@ -1,15 +1,13 @@
 import { sstyled, Txt } from "components";
 // import { moderateScale } from "react-native-size-matters";
-import { useSheets, withTheme } from "engines";
+import { useAppContext, useSheets } from "engines";
 import * as React from "react";
 import * as Animatable from "react-native-animatable";
 import { ScrollView } from "react-native";
 import { IPSCR, spacing } from "utils";
 
-export default withTheme((props: IPSCR) => {
-  const {
-    theme: { C },
-  } = props;
+export default (props: IPSCR) => {
+  const { C } = useAppContext();
 
   const { data } = useSheets(0, "About");
 
@@ -22,7 +20,7 @@ export default withTheme((props: IPSCR) => {
       </Animatable.View>
     </CtnrScroll>
   );
-});
+};
 
 const CtnrScroll = sstyled(ScrollView)(({ theme: { C } }) => ({
   flex: 1,

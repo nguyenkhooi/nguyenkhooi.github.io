@@ -1,17 +1,33 @@
 import {
+  DefaultNavigatorOptions,
   NavigationContainerRef,
   NavigationState,
   PartialState,
-  RouteConfig,
   RouteProp,
 } from "@react-navigation/native";
+import { StackNavigationOptions } from "@react-navigation/stack";
 import React, { useEffect, useRef, useState } from "react";
 import { BackHandler } from "react-native";
 // import { enum_HomeStack } from "./home-navigator";
 import { enum_PrimaryStack } from "./primary.navigator";
 import { enum_RootStack } from "./root.navigator";
+import { enum_WelcomeStack } from "./welcome.navigator";
 
 type navigationRoute = enum_PrimaryStack | enum_RootStack;
+
+/**
+ * Type of stacked screen item
+ */
+export type dStackedScreenItem = {
+  component: (props) => JSX.Element;
+  // options: StackNavigationOptions;
+  options?: DefaultNavigatorOptions<StackNavigationOptions>["screenOptions"];
+};
+
+// ScreenOptions | ((props: {
+//   route: RouteProp<ParamListBase, string>;
+//   navigation: any;
+// }) => ScreenOptions)
 
 /**
  * Setup navigation-service
@@ -187,8 +203,12 @@ export const canExit = (routeName: navigationRoute) =>
 
 /**
  * Preset Navigation Config
+ *
+ * ---
+ * @version 0.10.28
+ *  - *update headerTitle*
  */
-export const nConfig = {
+export const presetNavConfig = {
   durationSpec: {
     config: { duration: 1000 },
   },
@@ -200,8 +220,10 @@ export const nConfig = {
   }: {
     route: RouteProp<any, any>;
     param: string;
-    key: string | number;
-  }) => ({ title: route.params[param][key] }),
+    key?: string | number;
+  }) => ({
+    title: !!key ? route.params[param][key] : route.params[param],
+  }),
   // backButtonAsX:
   noTitle: {
     headerTitleStyle: {

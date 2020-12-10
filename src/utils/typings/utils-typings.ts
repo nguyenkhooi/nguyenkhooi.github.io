@@ -36,6 +36,16 @@ export interface dTheme {
  * List of theme index
  */
 export type ENUM_Theme = "themeLight" | "themeDark"; //* Add more theme index here if wanted
+
+/**
+ * List of theme index
+ *
+ */
+export enum THEME {
+  NULL = "null",
+  LIGHT = "themeLight",
+  DARK = "themeDark",
+}
 export interface PROPS_ThemeProvider {
   theme: ENUM_Theme;
   setTheme?(theme: ENUM_Theme): void;

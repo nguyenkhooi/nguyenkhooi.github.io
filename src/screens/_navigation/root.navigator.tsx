@@ -1,23 +1,20 @@
 import {
   NavigationContainer,
-  NavigationContainerRef
+  NavigationContainerRef,
 } from "@react-navigation/native";
 import {
   createStackNavigator,
-
-  TransitionPresets
+  TransitionPresets,
 } from "@react-navigation/stack";
-import {
-  StackNavigationOptions
-} from "@react-navigation/stack/lib/typescript/src/types";
+import { StackNavigationOptions } from "@react-navigation/stack/lib/typescript/src/types";
 import { Text, Toggle } from "@ui-kitten/components";
-import { withTheme } from "engines";
+import { useAppContext } from "engines";
 import * as R from "ramda";
 import * as React from "react";
 import { View } from "react-native";
-import { KeyOf, spacing } from "utils";
+import { KeyOf, spacing, THEME } from "utils";
 // import { HomeScreen } from "../home-screen/HomeScreen";
-import { nConfig } from "./navigation-utils";
+import { presetNavConfig } from "./navigation-utils";
 // import { PrimaryStack } from "./primary-navigator";
 import { PrimaryStack } from "./primary.navigator";
 
@@ -28,16 +25,13 @@ const __ROOT = R.keys(screenProps);
 const Stack = createStackNavigator<typeof screenProps>();
 export type enum_RootStack = KeyOf<typeof screenProps>;
 
-export const RootStack = withTheme((props) => {
-  const {
-    theme: { C, dark },
-    setTheme,
-  } = props;
+export const RootStack = (props) => {
+  const { C, dark, setTheme } = useAppContext();
   const screenOptions: StackNavigationOptions = {
     ...TransitionPresets.FadeFromBottomAndroid,
     transitionSpec: {
-      open: nConfig.durationSpec,
-      close: nConfig.durationSpec,
+      open: presetNavConfig.durationSpec,
+      close: presetNavConfig.durationSpec,
     },
     headerStyle: {
       elevation: 0,
@@ -54,7 +48,7 @@ export const RootStack = withTheme((props) => {
       <View style={{ paddingHorizontal: spacing(3) }}>
         <Toggle
           checked={dark}
-          onChange={() => setTheme(dark ? "themeLight" : "themeDark")}
+          onChange={() => setTheme(dark ? THEME.LIGHT : THEME.DARK)}
         >
           <Text category={"h6"}>{dark ? "🌒" : "🌞"}</Text>
         </Toggle>
@@ -73,7 +67,7 @@ export const RootStack = withTheme((props) => {
       ))}
     </Stack.Navigator>
   );
-});
+};
 
 /**
  * The root navigator is used to switch between major navigation flows of your app.

@@ -1,6 +1,7 @@
 import { Text } from "@ui-kitten/components";
 import { Txt, TouchableWeb, TouchableWebProps } from "components";
 import { useSheets } from "engines/hooks";
+import { useAppContext } from "engines";
 import { type } from "ramda";
 import React from "react";
 import {
@@ -16,9 +17,7 @@ import { Navigation } from "screens/_navigation";
 import { dColors, IPSCR, scale, spacing, useDimension } from "utils";
 
 export function S_ExperimentalGrid(props: IPSCR) {
-  const {
-    theme: { C },
-  } = props;
+  const { C } = useAppContext();
   const { data } = useSheets(0, "Exp");
   // console.log("data: ", data);
 
@@ -65,12 +64,8 @@ interface dGridCtnr extends TouchableWebProps, IPSCR {
   type?: "placeholder";
 }
 const GridCtnr = (props: dGridCtnr) => {
-  const {
-    theme: { C },
-    onPress,
-    item,
-    type,
-  } = props;
+  const { onPress, item, type } = props;
+  const { C } = useAppContext();
   const [_borderWidth, setBorderWidth] = React.useState(0);
   const { WIDTH } = useDimension("window");
   return type != "placeholder" ? (

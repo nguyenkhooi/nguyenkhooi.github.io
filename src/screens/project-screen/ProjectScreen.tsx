@@ -1,6 +1,6 @@
 import { Spinner, Text } from "@ui-kitten/components";
 import { sstyled, SwipeDeck, Txt } from "components";
-import { useSheets, withTheme } from "engines";
+import { useAppContext, useSheets } from "engines";
 import * as R from "ramda";
 import React, { useState } from "react";
 import {
@@ -10,7 +10,7 @@ import {
   ScrollView,
   TextStyle,
   View,
-  ViewStyle
+  ViewStyle,
 } from "react-native";
 import * as Animatable from "react-native-animatable";
 // import { ScrollView } from "react-native-gesture-handler";
@@ -23,11 +23,8 @@ const { createAnimatableComponent } = Animatable;
 const AnimatableView = createAnimatableComponent(View);
 
 function ProjectScreen(props) {
-  const {
-    navigation,
-    theme: { C },
-    route,
-  } = props;
+  const { navigation, route } = props;
+  const { C } = useAppContext();
   const { WIDTH } = useDimension();
 
   // const imageWidth: number = height * 0.4 - 20;
@@ -183,7 +180,7 @@ function ProjectScreen(props) {
   );
 }
 
-export default withTheme(ProjectScreen);
+export default ProjectScreen;
 
 const $_RingadingDeck = (props) => {
   const { visible } = props;

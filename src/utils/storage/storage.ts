@@ -1,16 +1,22 @@
-import AsyncStorage from "@react-native-community/async-storage"
+import AsyncStorage from "@react-native-async-storage/async-storage";
+
+export enum ASS_KEY {
+  THEME = "@KHOOI:THEME",
+  MASTERNAMES = "@KHOOI:MASTERNAME",
+}
 
 /**
  * Loads a string from storage.
  *
  * @param key The key to fetch.
  */
-export async function loadString(key: string): Promise<string | null> {
+async function loadString(key: ASS_KEY): Promise<string | null> {
   try {
-    return await AsyncStorage.getItem(key)
+    console.log("🍑" + key + " string loaded!");
+    return await AsyncStorage.getItem(key);
   } catch {
     // not sure why this would fail... even reading the RN docs I'm unclear
-    return null
+    return null;
   }
 }
 
@@ -20,12 +26,13 @@ export async function loadString(key: string): Promise<string | null> {
  * @param key The key to fetch.
  * @param value The value to store.
  */
-export async function saveString(key: string, value: string): Promise<boolean> {
+async function saveString(key: ASS_KEY, value: string): Promise<boolean> {
   try {
-    await AsyncStorage.setItem(key, value)
-    return true
+    await AsyncStorage.setItem(key, value);
+    console.log("🍑" + key + " string saved!");
+    return true;
   } catch {
-    return false
+    return false;
   }
 }
 
@@ -34,12 +41,13 @@ export async function saveString(key: string, value: string): Promise<boolean> {
  *
  * @param key The key to fetch.
  */
-export async function load(key: string): Promise<any | null> {
+async function load(key: ASS_KEY): Promise<any | null> {
   try {
-    const almostThere = await AsyncStorage.getItem(key)
-    return JSON.parse(almostThere)
+    const almostThere = await AsyncStorage.getItem(key);
+    console.log("🍑" + key + " loaded and parsed!");
+    return JSON.parse(almostThere);
   } catch {
-    return null
+    return null;
   }
 }
 
@@ -49,12 +57,14 @@ export async function load(key: string): Promise<any | null> {
  * @param key The key to fetch.
  * @param value The value to store.
  */
-export async function save(key: string, value: any): Promise<boolean> {
+async function save(key: ASS_KEY, value: object): Promise<boolean> {
   try {
-    await AsyncStorage.setItem(key, JSON.stringify(value))
-    return true
+    await AsyncStorage.setItem(key, JSON.stringify(value));
+    console.log("🍑" + key + " saved!");
+    return true;
   } catch {
-    return false
+    console.log("🍑" + key + " NOT saved!");
+    return false;
   }
 }
 
@@ -63,17 +73,35 @@ export async function save(key: string, value: any): Promise<boolean> {
  *
  * @param key The key to kill.
  */
-export async function remove(key: string): Promise<void> {
+async function remove(key: ASS_KEY): Promise<void> {
   try {
-    await AsyncStorage.removeItem(key)
+    await AsyncStorage.removeItem(key);
+    console.log("🍑" + key + " removed!");
   } catch {}
 }
 
 /**
  * Burn it all to the ground.
  */
-export async function clear(): Promise<void> {
+async function clear(): Promise<void> {
   try {
-    await AsyncStorage.clear()
+    await AsyncStorage.clear();
+    console.log("🍑 ALL ass cleared! Bye bye");
   } catch {}
 }
+
+/**
+ * ### Utils funtions to "CRUD" AsyncStorage
+ * Yep, "ass" that is
+ *
+ * ---
+ * @example
+ * import { ass, ASS_KEY } = "utils"
+ *
+ * let nameC0 = await ass.load(ASS_KEY.MASTERNAMES)
+ * async () => { await ass.saveString(ASS_KEY.THEME, "light")}
+ * ---
+ * @version 0.12.7
+ * @author Nguyenkhooi
+ */
+export const ass = { load, loadString, save, saveString, clear, remove };

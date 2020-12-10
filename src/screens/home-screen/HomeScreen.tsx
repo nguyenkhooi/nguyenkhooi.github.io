@@ -1,17 +1,17 @@
 import { sstyled, Toasty, TouchableWeb, Txt } from "components";
-import { withTheme } from "engines";
+
+import { useAppContext } from "engines";
 import * as React from "react";
 import { ScrollView, View } from "react-native";
 import * as Animatable from "react-native-animatable";
 import { Navigation } from "screens";
-import { IPSCR, spacing, useDimension } from "utils";
+import { IPSCR, spacing, THEME, useDimension } from "utils";
 import { S_ExperimentalGrid } from "./S_ExperimentalGrid";
 import { S_PortfolioGrid } from "./S_PortfolioGrid";
 
-export default withTheme((props: IPSCR) => {
-  const {
-    theme: { C },
-  } = props;
+export default (props: IPSCR) => {
+  const { C } = useAppContext();
+
   const scrollRef = React.useRef<ScrollView>(null);
   // const [C, dark] = useTheme();
   const { HEIGHT } = useDimension("window");
@@ -78,19 +78,15 @@ export default withTheme((props: IPSCR) => {
       ))}
     </ScrollView>
   );
-});
+};
 
 interface d$_Intro extends IPSCR {
   scrollToWork(): void;
   scrollToExp(): void;
 }
 const $_Intro = (props: d$_Intro) => {
-  const {
-    theme: { C, dark },
-    setTheme,
-    scrollToWork,
-    scrollToExp,
-  } = props;
+  const { scrollToWork, scrollToExp } = props;
+  const { C, dark, setTheme } = useAppContext();
   const { HEIGHT, s } = useDimension("window");
   const [_color, setColor] = React.useState(C.text);
   return (
@@ -119,7 +115,7 @@ const $_Intro = (props: d$_Intro) => {
           ></Image>
         )} */}
         <Txt.H6
-          onPress={() => setTheme(dark ? "themeLight" : "themeDark")}
+          onPress={() => setTheme(dark ? THEME.LIGHT : THEME.DARK)}
           // onPress={() => {
           //   const __toast = Toasty.show("Loading...", {
           //     type: "loading",
@@ -137,7 +133,7 @@ const $_Intro = (props: d$_Intro) => {
         >
           Hi, I'm Khoi 👋
         </Txt.H6>
-        <Txt.P1 style={{ color: _color }} adjustsFontSizeToFit={true}>
+        <Txt.S1 style={{ color: _color }} adjustsFontSizeToFit={true}>
           A young mobile developer and UX manager who love doing both
           <TxtLink {...props} onPress={scrollToWork}>
             {" "}
@@ -154,7 +150,7 @@ const $_Intro = (props: d$_Intro) => {
             a bit{" "}
           </TxtLink>
           about me.
-        </Txt.P1>
+        </Txt.S1>
       </TouchableWeb>
     </Animatable.View>
   );
@@ -163,10 +159,8 @@ const $_Intro = (props: d$_Intro) => {
 const $_PortfolioGrid = S_PortfolioGrid;
 const $_ExperimentalGrid = S_ExperimentalGrid;
 
-const TxtLink = sstyled(Txt.P1)({
+const TxtLink = sstyled(Txt.S1)({
   // fontSize: 29,
   fontWeight: "500",
   fontStyle: "italic",
 });
-
-// export default withTheme(HomeScreen);

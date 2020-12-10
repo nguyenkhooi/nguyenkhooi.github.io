@@ -1,25 +1,29 @@
 // import { IPcolors, IPpalette } from "./utils-typings";
 import { ViewStyle } from "react-native";
-import { KeyOf } from "utilities/";
+import { KeyOf } from "utils";
 import { iconOptions } from "./oooh-icon";
 
 /**
  * A list of icon names used in IconOooh for type-check
  */
-export type enum_IconName = KeyOf<typeof iconOptions>;
+export type ICON_NAME = KeyOf<typeof iconOptions>;
 
 /**
  * Props of Icon<>
  */
 export interface dIconOooh {
-  name: enum_IconName;
-  size: number;
-  color: string;
+  name: ICON_NAME;
+  size?: number;
+  color?: string;
+  solid?: boolean;
   containerStyle?: ViewStyle;
   preset?: "default" | "safe" | "circular" | "header";
+  disabled?: boolean;
+  onPress?(): void;
 }
-export type enum_IconPkg =
+export type ICON_PKG =
   | "ion"
+  | "fa"
   | "fa5"
   | "feather"
   | "material"
@@ -29,4 +33,9 @@ export type enum_IconPkg =
   | "simple-line-icon"
   | "antdesign";
 
-export type dIconOptions = { type: enum_IconPkg; icon: string; scale?: number };
+export type dIconOptions = {
+  type: ICON_PKG;
+  icon: string;
+  scale?: number;
+  solid?: boolean;
+};

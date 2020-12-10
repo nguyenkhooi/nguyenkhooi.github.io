@@ -1,6 +1,7 @@
 import { Text } from "@ui-kitten/components";
 import { Txt, TouchableWeb, TouchableWebProps } from "components";
 import { useSheets } from "engines/hooks";
+import { useAppContext } from "engines/providers/app-provider";
 import React from "react";
 import {
   ActivityIndicator,
@@ -21,9 +22,7 @@ import { Navigation } from "screens/_navigation";
 import { dColors, IPSCR, scale, spacing, useDimension } from "utils";
 
 export function S_PortfolioGrid(props: IPSCR) {
-  const {
-    theme: { C },
-  } = props;
+  const { C } = useAppContext();
   const { data } = useSheets(0, "Work");
   // console.log("data: ", data);
   const { WIDTH } = useDimension("window");
@@ -68,12 +67,8 @@ interface dGridCtnr extends TouchableWebProps, IPSCR {
   type?: "placeholder";
 }
 const CtnrGrid = (props: dGridCtnr) => {
-  const {
-    theme: { C },
-    type,
-    onPress,
-    item,
-  } = props;
+  const { type, onPress, item } = props;
+  const { C } = useAppContext();
   const [_borderWidth, setBorderWidth] = React.useState(0);
   const { WIDTH: width } = useDimension("window");
   return type != "placeholder" ? (
