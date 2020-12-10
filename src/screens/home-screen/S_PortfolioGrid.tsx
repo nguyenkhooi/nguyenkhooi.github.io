@@ -32,16 +32,15 @@ import {
   ShineOverlay,
 } from "rn-placeholder";
 import { Navigation } from "screens/_navigation";
-import { dColors, IPSCR, scale, spacing, useDimension } from "utils";
+import { dColors, IPSCR, scale, spacing, tr, useDimension } from "utils";
 import * as Animatable from "react-native-animatable";
 
 export function S_PortfolioGrid(props: IPSCR) {
+  const { onDimChange } = props;
   const { C } = useAppContext();
   const { data } = useSheets(0, "Work");
   // console.log("data: ", data);
   const { WIDTH } = useDimension("window");
-  // if (!!data) {
-
   const ogData = React.useMemo(() => data, [data]);
   const [_data, setData] = React.useState([]);
 
@@ -50,7 +49,9 @@ export function S_PortfolioGrid(props: IPSCR) {
 
   return (
     <View style={{}}>
+      <Txt.$Title>{tr("Work")}</Txt.$Title>
       <SS.CtnrFilter
+        horizontal={true}
         selectedIndex={selectedIndex}
         onSelect={(index) => setSelectedIndex(index)}
       >
@@ -58,6 +59,7 @@ export function S_PortfolioGrid(props: IPSCR) {
           onPress={() => {
             setData(ogData);
             setSelectedIndex(new IndexPath(0));
+            !!onDimChange && onDimChange();
           }}
           title={"All"}
         />
@@ -67,6 +69,7 @@ export function S_PortfolioGrid(props: IPSCR) {
               setData([...ogData.filter((item) => item.cat === cat)]);
               setSelectedIndex(new IndexPath(index + 1));
               refGrid.current.fadeInUp(800);
+              !!onDimChange && onDimChange();
             }}
             title={cat}
           />
@@ -154,8 +157,8 @@ const SS = {
   CtnrFilter: sstyled(Menu)((p) => ({
     flexDirection: "row",
     backgroundColor: p.C.background,
-    alignItems: "center",
-    justifyContent: "center",
+    // alignItems: "center",
+    // justifyContent: "center",
     borderRadius: 5,
     borderBottomWidth: 1,
     alignSelf: "center",

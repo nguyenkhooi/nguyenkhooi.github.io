@@ -4,7 +4,7 @@ import { useAppContext, useSheets } from "engines";
 import * as React from "react";
 import * as Animatable from "react-native-animatable";
 import { ScrollView } from "react-native";
-import { IPSCR, spacing } from "utils";
+import { IPSCR, spacing, tr } from "utils";
 
 export default (props: IPSCR) => {
   const { C } = useAppContext();
@@ -15,7 +15,7 @@ export default (props: IPSCR) => {
     <Sctnr {...props}>
       <Animatable.View animation="fadeInUp" delay={100}>
         <TxtBody {...props} category={"s2"} adjustsFontSizeToFit>
-          {!!data[0] && data[0].body}
+          {tr("bio-long")}
         </TxtBody>
       </Animatable.View>
     </Sctnr>

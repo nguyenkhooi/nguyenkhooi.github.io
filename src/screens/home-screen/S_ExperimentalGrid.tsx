@@ -14,13 +14,14 @@ import {
 import { FlatGrid } from "react-native-super-grid";
 import { Placeholder, ShineOverlay, PlaceholderMedia } from "rn-placeholder";
 import { Navigation } from "screens/_navigation";
-import { dColors, IPSCR, scale, spacing, useDimension } from "utils";
+import { dColors, IPSCR, scale, spacing, tr, useDimension } from "utils";
 import * as Animatable from "react-native-animatable";
 
 export function S_ExperimentalGrid(props: IPSCR) {
+  const { onDimChange } = props;
   const { C } = useAppContext();
   const { data } = useSheets(0, "Exp");
-  console.log("data: ", data);
+  // console.log("data: ", data);
   const { WIDTH } = useDimension("window");
 
   const ogData = React.useMemo(() => data, [data]);
@@ -32,7 +33,9 @@ export function S_ExperimentalGrid(props: IPSCR) {
   return (
     <View style={{}}>
       {/* <Text>{JSON.stringify(keys)}</Text> */}
+      <Txt.$Title>{tr("Experiments")}</Txt.$Title>
       <SS.CtnrFilter
+        horizontal={true}
         selectedIndex={selectedIndex}
         onSelect={(index) => setSelectedIndex(index)}
       >
@@ -41,7 +44,7 @@ export function S_ExperimentalGrid(props: IPSCR) {
             setData(ogData);
             setSelectedIndex(new IndexPath(0));
           }}
-          title="All"
+          title={tr("All")}
         />
         {[...new Set(R.pluck("cat", ogData))].map((cat, index) => (
           <MenuItem
@@ -49,6 +52,7 @@ export function S_ExperimentalGrid(props: IPSCR) {
               setData([...ogData.filter((item) => item.cat === cat)]);
               setSelectedIndex(new IndexPath(index + 1));
               refGrid.current.fadeInUp(800);
+              !!onDimChange && onDimChange();
             }}
             title={cat}
           />
@@ -59,7 +63,8 @@ export function S_ExperimentalGrid(props: IPSCR) {
           <FlatGrid
             itemDimension={WIDTH <= 1000 ? WIDTH * 0.9 : WIDTH * 0.3}
             data={R.isEmpty(_data) ? data : _data}
-            style={SSS().GRID_CTNR}
+            keyExtractor={(item, index) => `${item._id} - ${index}`}
+            style={[SSS().GRID_CTNR]}
             // staticDimension={300}
             // fixed
             spacing={10}
@@ -138,8 +143,8 @@ const SS = {
   CtnrFilter: sstyled(Menu)((p) => ({
     flexDirection: "row",
     backgroundColor: p.C.background,
-    alignItems: "center",
-    justifyContent: "center",
+    // alignItems: "center",
+    // justifyContent: "center",
     borderRadius: 5,
     borderBottomWidth: 1,
     alignSelf: "center",

@@ -12,8 +12,10 @@ import {
   useBackButtonHandler,
   useNavigationPersistence,
 } from "screens";
+import { fetchi18n } from "utils";
 
 function App() {
+  const [_isReady, shouldReady] = React.useState(true);
   //* ----RNAV-SECTION -------------------------------
   const navigationRef = React.useRef<NavigationContainerRef>(null);
   setRootNavigation(navigationRef);
@@ -22,15 +24,28 @@ function App() {
     initialNavigationState,
     onNavigationStateChange,
   } = useNavigationPersistence();
+
+  //* ----I18N-SECTION -------------------------------
+  React.useEffect(function getI18n() {
+    fetchi18n().then(
+      (r) =>
+        r.code == "I18N_DONE" &&
+        setTimeout(() => {
+          shouldReady(true);
+        }, 1000)
+    );
+  }, []);
   return (
-    <AppProvider>
-      <AppNavigator
-        ref={navigationRef}
-        initialState={initialNavigationState}
-        onStateChange={onNavigationStateChange}
-      />
-      <Toasty ref={(ref) => Toasty.setRef(ref)} />
-    </AppProvider>
+    !!_isReady && (
+      <AppProvider>
+        <AppNavigator
+          ref={navigationRef}
+          initialState={initialNavigationState}
+          onStateChange={onNavigationStateChange}
+        />
+        <Toasty ref={(ref) => Toasty.setRef(ref)} />
+      </AppProvider>
+    )
   );
 }
 
