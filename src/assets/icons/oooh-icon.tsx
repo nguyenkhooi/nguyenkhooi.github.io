@@ -159,7 +159,7 @@ export default function IconOooh(props: dIconOooh) {
     const { size, color } = _iconStyle;
     const BrandedIcon = getType(type);
     return (
-      <TouchableOpacity
+      <View
         activeOpacity={!!onPress ? 0.87 : 1}
         disabled={true}
         style={_containerStyle}
@@ -170,8 +170,9 @@ export default function IconOooh(props: dIconOooh) {
           solid={solid}
           size={size * scale}
           color={color}
+          onPress={onPress}
         />
-      </TouchableOpacity>
+      </View>
     );
   }
 }

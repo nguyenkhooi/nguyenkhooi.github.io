@@ -1,6 +1,5 @@
 import { Text, TextProps } from "@ui-kitten/components";
 import { spacing } from "utils";
-// import { scale } from "utils";
 import { sstyled } from "../sstyled/sstyled";
 
 const H1 = sstyled(Text)((p) => ({
@@ -36,12 +35,14 @@ const S2 = sstyled(Text)((p) => ({
   fontWeight: "600",
 }));
 const P1 = sstyled(Text)((p) => ({
-  fontSize: p.ms(15),
+  fontSize: p.ms(14),
   fontWeight: "400",
+  letterSpacing: 1,
 }));
 const P2 = sstyled(Text)((p) => ({
-  fontSize: p.ms(13),
+  fontSize: p.ms(12),
   fontWeight: "400",
+  letterSpacing: 1,
 }));
 const C1 = sstyled(Text)((p) => ({
   fontSize: p.ms(12),

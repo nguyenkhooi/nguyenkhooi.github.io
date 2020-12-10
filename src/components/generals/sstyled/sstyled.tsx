@@ -36,7 +36,7 @@ export function sstyled<C extends React.ElementType>(GivenComp: C) {
    * to create finalStyle
    */
   return (
-    customStyle: dCustomStyle<C, {}>
+    customStyle: dCustomStyle<C, dDime & { C: dColors }>
   ): React.FC<React.ComponentProps<C>> => {
     return (externalProps) => {
       //*----Dimension & Colors-------

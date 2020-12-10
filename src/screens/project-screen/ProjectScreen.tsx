@@ -18,25 +18,13 @@ import RNMasonryScroll from "react-native-masonry-scrollview";
 import Image from "react-native-scalable-image";
 import { dColors, scale, spacing, useDimension } from "utils";
 
-const { createAnimatableComponent } = Animatable;
-
-const AnimatableView = createAnimatableComponent(View);
-
 function ProjectScreen(props) {
   const { navigation, route } = props;
   const { C } = useAppContext();
   const { WIDTH } = useDimension();
-
-  // const imageWidth: number = height * 0.4 - 20;
-  const imageWidth: number = WIDTH < 1000 ? WIDTH * 0.8 : WIDTH * 0.3;
   const [screenShown, showScreen] = useState(false);
   const [isHorizontal, setIsHorizontal] = useState(false);
 
-  const toggleHorizontal = () => setIsHorizontal(!isHorizontal);
-
-  const imageProp = isHorizontal
-    ? { height: imageWidth }
-    : { width: imageWidth };
   const {
     project: { color: projectColor, headline },
   } = route.params;
@@ -78,93 +66,28 @@ function ProjectScreen(props) {
 
   const refBody = React.useRef<FlatList>(null);
 
-  const RenderContent = (props: { text: string; imageIndex: number }) => {
-    const { text, imageIndex } = props;
-    const startsWith = R.invoker(1, "startsWith");
-    // const isContentImg = startsWith("https://", text);
-    const isContentImg = text.includes("https");
-    switch (isContentImg) {
-      case true:
-        return imageIndex == 0 ? (
-          <Image
-            source={{ uri: text }}
-            {...imageProp}
-            key={imageIndex}
-            style={SS(C).IMG_CTNR}
-          />
-        ) : (
-          <AnimatableView
-            animation={isHorizontal ? "fadeInRight" : "fadeInUp"}
-            delay={100 * imageIndex}
-            style={SS(C).IMG_CTNR}
-          >
-            <Image source={{ uri: text }} {...imageProp} key={imageIndex} />
-          </AnimatableView>
-        );
-        break;
-      case false:
-        return (
-          <AnimatableView
-            animation={isHorizontal ? "fadeInRight" : "fadeInUp"}
-            delay={100 * imageIndex}
-            style={[
-              SS(C).IMG_CTNR,
-              {
-                backgroundColor: "transparent",
-                alignItems: "center",
-                justifyContent: "center",
-              },
-            ]}
-          >
-            <Text
-              category={"s1"}
-              style={{
-                fontSize: 25,
-                color: "white",
-                width: imageWidth,
-                textAlign: "center",
-              }}
-              adjustsFontSizeToFit
-              key={imageIndex}
-              // numberOfLines={20}
-              // ellipsizeMode={"head"}
-            >
-              {text}
-            </Text>
-          </AnimatableView>
-        );
-        break;
-    }
-  };
-
   return screenShown ? (
-    <ScrollView
-      style={{
-        backgroundColor: C.background01,
-        paddingTop: spacing(5),
-      }}
+    <SS.Sctnr
       contentContainerStyle={{ justifyContent: "center", alignItems: "center" }}
     >
-      <HeadlineTxt {...props} category={"h1"} adjustFontSizeToFit>
-        {headline}
-      </HeadlineTxt>
+      <SS.Headline {...props}>{headline}</SS.Headline>
 
       <View style={{ justifyContent: "center", alignItems: "center" }}>
         <RNMasonryScroll
           showsHorizontalScrollIndicator={false}
           showsVerticalScrollIndicator={false}
           removeClippedSubviews={true}
-          columns={WIDTH < 1000 ? 1 : 2}
-          evenColumnStyle={SS(C).evenColumnStyle}
+          columns={WIDTH < 1000 ? 1 : 3}
+          evenColumnStyle={SSS(C).evenColumnStyle}
           oddColumnStyle={
             isHorizontal
-              ? SS(C).oddColumnStyleHorizontal
-              : SS(C).oddColumnStyleVertical
+              ? SSS(C).oddColumnStyleHorizontal
+              : SSS(C).oddColumnStyleVertical
           }
           horizontal={isHorizontal}
         >
           {_contents.map((image, imageIndex) => {
-            return <RenderContent text={image} imageIndex={imageIndex} />;
+            return <C_ContentCard text={image} imageIndex={imageIndex} />;
           })}
         </RNMasonryScroll>
       </View>
@@ -172,15 +95,71 @@ function ProjectScreen(props) {
         {...props}
         visible={route.params["project"]["title"] == "Ringading"}
       />
-    </ScrollView>
+    </SS.Sctnr>
   ) : (
-    <View style={{ ...SS(C).LOADING_CTNR, backgroundColor: projectColor }}>
+    <SS.CtnrLoading projectColor={projectColor}>
       <Spinner size="giant" />
-    </View>
+    </SS.CtnrLoading>
   );
 }
 
 export default ProjectScreen;
+
+const C_ContentCard = (props: { text: string; imageIndex: number }) => {
+  const { text, imageIndex } = props;
+  const { C } = useAppContext();
+  const { WIDTH } = useDimension();
+
+  // const imageWidth: number = height * 0.4 - 20;
+  const imageWidth: number = WIDTH < 1000 ? WIDTH * 0.8 : WIDTH * 0.3;
+  const [isHorizontal, setIsHorizontal] = useState(false);
+
+  const toggleHorizontal = () => setIsHorizontal(!isHorizontal);
+
+  const imageProp = isHorizontal
+    ? { height: imageWidth }
+    : { width: imageWidth };
+  const startsWith = R.invoker(1, "startsWith");
+  // const isContentImg = startsWith("https://", text);
+  const isContentImg = text.includes("https");
+  switch (isContentImg) {
+    case true:
+      return imageIndex == 0 ? (
+        <Image
+          source={{ uri: text }}
+          {...imageProp}
+          key={imageIndex}
+          style={SSS(C).IMG_CTNR}
+        />
+      ) : (
+        <SS.CtnrImg
+          animation={isHorizontal ? "fadeInRight" : "fadeInUp"}
+          delay={100 * imageIndex}
+        >
+          <Image source={{ uri: text }} {...imageProp} key={imageIndex} />
+        </SS.CtnrImg>
+      );
+      break;
+    case false:
+      return (
+        <SS.CtnrLabel
+          animation={isHorizontal ? "fadeInRight" : "fadeInUp"}
+          delay={100 * imageIndex}
+        >
+          <SS.Label
+            chieuRong={imageWidth}
+            adjustsFontSizeToFit
+            key={imageIndex}
+            // numberOfLines={20}
+            // ellipsizeMode={"head"}
+          >
+            {text}
+          </SS.Label>
+        </SS.CtnrLabel>
+      );
+      break;
+  }
+};
 
 const $_RingadingDeck = (props) => {
   const { visible } = props;
@@ -258,16 +237,44 @@ const $_RingadingDeck = (props) => {
   );
 };
 
-const HeadlineTxt = sstyled(Txt.H6)(({ theme: { C } }) => ({
-  // fontSize: 26,
-  color: C.text01,
-  textAlign: "center",
-  justifyContent: "center",
-  marginBottom: spacing(2),
-  paddingHorizontal: spacing(6),
-}));
+const SS = {
+  Sctnr: sstyled(ScrollView)((p) => ({
+    backgroundColor: p.C.background01,
+    paddingTop: spacing(5),
+  })),
+  CtnrImg: sstyled(Animatable.View)((p) => ({
+    margin: 10,
+    borderRadius: 10,
+    overflow: "hidden",
+    backgroundColor: p.C.surface01,
+  })),
+  CtnrLabel: sstyled(Animatable.View)((p) => ({
+    margin: 10,
+    borderRadius: 10,
+    overflow: "hidden",
+    backgroundColor: "transparent",
+    alignItems: "center",
+    justifyContent: "center",
+  })),
+  CtnrLoading: sstyled(View)((p) => ({
+    justifyContent: "center",
+    alignItems: "center",
+    flex: 1,
+    backgroundColor: p.projectColor,
+  })),
+  //*----Txt-SECTION ----------
+  Headline: sstyled(Txt.H6)((p) => ({
+    // fontSize: 26,
+    color: p.C.text01,
+    textAlign: "center",
+    justifyContent: "center",
+    marginBottom: spacing(2),
+    paddingHorizontal: spacing(6),
+  })),
+  Label: sstyled(Txt.P2)((p) => ({ width: p.chieuRong, textAlign: "center" })),
+};
 
-const SS = (C?: dColors) => {
+const SSS = (C?: dColors) => {
   return {
     LOADING_CTNR: {
       justifyContent: "center",

@@ -22,14 +22,14 @@ export default (props: IPSCR) => {
   );
 };
 
-const CtnrScroll = sstyled(ScrollView)(({ theme: { C } }) => ({
+const CtnrScroll = sstyled(ScrollView)((p) => ({
   flex: 1,
   // paddingHorizontal: spacing(6),
   paddingTop: spacing(5),
-  backgroundColor: C.background01,
+  backgroundColor: p.C.background01,
 }));
 
-const TxtBody = sstyled(Txt.P1)(({ theme: { C } }) => ({
-  color: C.text01,
+const TxtBody = sstyled(Txt.P1)((p) => ({
+  color: p.C.text01,
   paddingHorizontal: spacing(6),
 }));

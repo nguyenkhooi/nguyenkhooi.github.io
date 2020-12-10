@@ -47,7 +47,13 @@ export const PrimaryStack = (props: IPSCR) => {
     headerTitleStyle: {
       color: C.text01,
     } as TextStyle,
-    headerBackImage: (props) => <IconOooh name="x" color={C.primary} />,
+    headerBackImage: (props) => (
+      <IconOooh
+        name="x"
+        color={C.primary}
+        containerStyle={{ marginLeft: spacing(4) }}
+      />
+    ),
   };
 
   return (

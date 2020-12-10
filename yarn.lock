@@ -9659,11 +9659,6 @@ react-addons-shallow-compare@15.6.2:
     fbjs "^0.8.4"
     object-assign "^4.1.0"
 
-react-blurhash@^0.1.3:
-  version "0.1.3"
-  resolved "https://registry.yarnpkg.com/react-blurhash/-/react-blurhash-0.1.3.tgz#735f28f8f07fb358d7efe7e7e6dc65a7272bf89e"
-  integrity sha512-Q9lqbXg92NU6/2DoIl/cBM8YWL+Z4X66OiG4aT9ozOgjBwx104LHFCH5stf6aF+s0Q9Wf310Ul+dG+VXJltmPg==
-
 react-dev-utils@~11.0.1:
   version "11.0.1"
   resolved "https://registry.yarnpkg.com/react-dev-utils/-/react-dev-utils-11.0.1.tgz#30106c2055acfd6b047d2dc478a85c356e66fe45"
@@ -9728,6 +9723,11 @@ react-native-animatable@^1.3.3:
   integrity sha512-2ckIxZQAsvWn25Ho+DK3d1mXIgj7tITkrS4pYDvx96WyOttSvzzFeQnM2od0+FUMzILbdHDsDEqZvnz1DYNQ1w==
   dependencies:
     prop-types "^15.7.2"
+
+react-native-blurhash@^1.0.27:
+  version "1.0.27"
+  resolved "https://registry.yarnpkg.com/react-native-blurhash/-/react-native-blurhash-1.0.27.tgz#da9c2c9221db207ce31b779bb83906b401a7dfc2"
+  integrity sha512-x6DukbVyBiqe/evaLSGt4QFK5PQPqtAtzjORRMIVyBi/ESeXxWX/PFQ0mMWnSgz4S1Ol9WyiXTJ943skcYVmUw==
 
 react-native-gesture-handler@~1.7.0:
   version "1.7.0"
