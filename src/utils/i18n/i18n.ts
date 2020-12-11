@@ -5,7 +5,7 @@ import i18n from "i18n-js";
 import { useSheets } from "engines";
 import * as R from "ramda";
 import Tabletop from "tabletop";
-type i18nResolve = { code: "I18N_DONE" };
+type i18nResolve = { code: "I18N_DONE"; lang: { en: object; vi: object } };
 
 /**
  * Fetch i18n tr() from sheets
@@ -31,7 +31,7 @@ export async function fetchi18n() {
         let en = R.zipObj(i18nCodes, i18nEns);
         let vi = R.zipObj(i18nCodes, i18nVis);
         i18n.translations = { en, vi };
-        resolve({ code: "I18N_DONE" });
+        resolve({ code: "I18N_DONE", lang: { en, vi } });
       }
     } catch (error) {
       console.warn("err useSheets: ", error);
@@ -51,4 +51,4 @@ i18n.missingTranslation = function (keyword) {
 //   RNLocalize.findBestAvailableLanguage(Object.keys(i18n.translations)) ||
 //   fallback;
 // i18n.locale = languageTag;
-i18n.locale = "vi";
+// i18n.locale = "vi";

@@ -93,6 +93,7 @@ export const iconOptions = {
   sms: { type: "fa5", icon: "sms" } as dIconOptions,
   tools: { type: "fa5", icon: "tools" } as dIconOptions,
   send: { type: "fa", icon: "send" } as dIconOptions,
+  star: { type: "fa5", icon: "star" } as dIconOptions,
   trash: { type: "fa5", icon: "trash" } as dIconOptions,
   tv: { type: "fa5", icon: "tv" } as dIconOptions,
   videocam: { type: "ion", icon: "videocam" } as dIconOptions,

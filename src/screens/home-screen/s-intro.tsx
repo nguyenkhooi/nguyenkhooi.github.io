@@ -1,12 +1,21 @@
 import { Avatar, Layout, Tooltip } from "@ui-kitten/components";
-import { img } from "assets";
+import { IconOooh, img } from "assets";
 import { Buttoon, sstyled, TouchableWeb, Txt } from "components";
 import { useAppContext } from "engines";
 import * as React from "react";
-import { Image, View } from "react-native";
+import {
+  Animated,
+  View,
+  StyleSheet,
+  createA,
+  ViewStyle,
+  ImageStyle,
+} from "react-native";
 import * as Animatable from "react-native-animatable";
+import { TouchableOpacity } from "react-native-gesture-handler";
+import FontAwesome5Icon from "react-native-vector-icons/FontAwesome5";
 import { Navigation } from "screens";
-import { IPSCR, moderateScale, spacing, THEME, tr, useDimension } from "utils";
+import { IPSCR, moderateScale, spacing, THEME, use18, useDimension } from "utils";
 
 interface d$_Intro extends IPSCR {
   scrollToWork(): void;
@@ -52,42 +61,42 @@ export function S_Intro(props: d$_Intro) {
               setTheme(dark ? THEME.LIGHT : THEME.DARK);
             }}
           >
-            {tr("intro-1")} {dark ? "🕶️" : "👋"}{" "}
+            {use18("intro-1")} {dark ? "🕶️" : "👋"}{" "}
           </Txt.H6>
 
           <Txt.S1 style={{ color: _color }} adjustsFontSizeToFit={true}>
-            {tr("intro-2")}
+            {use18("intro-2")}
             <TxtLink
               style={{ textDecorationLine: _underline }}
               onPress={scrollToWork}
             >
               {" "}
-              {tr("intro-3")}{" "}
+              {use18("intro-3")}{" "}
             </TxtLink>
-            {tr("intro-4")}
+            {use18("intro-4")}
             <TxtLink
               style={{ textDecorationLine: _underline }}
               onPress={scrollToExp}
             >
               {" "}
-              {tr("intro-5")}{" "}
+              {use18("intro-5")}{" "}
             </TxtLink>
             {"\n"}
-            {tr("intro-6")}
+            {use18("intro-6")}
             <TxtLink
               style={{ textDecorationLine: _underline }}
               onPress={() => Navigation.navigate("About")}
             >
               {" "}
-              {tr("intro-7")}
+              {use18("intro-7")}
             </TxtLink>{" "}
-            {tr("intro-8")}
+            {use18("intro-8")}
             <TxtLink
               style={{ textDecorationLine: _underline }}
               onPress={() => Navigation.navigate("About")}
             >
               {" "}
-              {tr("intro-9")}
+              {use18("intro-9")}
             </TxtLink>
           </Txt.S1>
         </TouchableWeb>
@@ -104,7 +113,7 @@ const TxtLink = sstyled(Txt.S1)({
 
 const NiAvatar = (props) => {
   const { WIDTH } = useDimension();
-  const { dark, setTheme } = useAppContext();
+  const { dark, C, setI18N } = useAppContext();
   const refShades = React.useRef<Animatable.View>();
   React.useEffect(
     function movingShades() {
@@ -117,69 +126,140 @@ const NiAvatar = (props) => {
     "Let's hi-five!"
   );
   return (
-    <View
-      style={{
-        width: moderateScale(100),
-        height: moderateScale(100),
-        // borderWidth: 1,
-        paddingHorizontal: spacing(6),
-      }}
-    >
-      {/* <TouchableOpacity
-        onPress={() => {
-          setTheme(dark ? THEME.LIGHT : THEME.DARK);
-        }}
-      > */}
-      <Avatar
-        style={{
-          width: moderateScale(100),
-          height: moderateScale(100),
-          // transform: [{ rotate: "-10deg" }],
-        }}
-        source={img.khoi}
-      />
-      {/* </TouchableOpacity> */}
-      <Animatable.Image
-        ref={refShades}
-        useNativeDriver={true}
-        easing={"ease-out-cubic"}
-        style={{
-          position: "absolute",
-          top: moderateScale(22.5),
-          left: moderateScale(65), //118
-          width: moderateScale(40),
-          height: moderateScale(40),
-        }}
-        source={img.shades}
-      />
-
-      {/* <SS.CtnrHiFive
-        onPress={() => {
-          setTooltip(tooltip == "Noice" ? "Let's hi-five!" : "Noice");
-          setTheme(dark ? THEME.LIGHT : THEME.DARK);
-        }}
-        onMouseEnter={() => {
-          setVisible(true);
-          //   setColor(C.dim);
-          //   setUnderline("underline");
-        }}
-        onMouseLeave={() => {
-          setVisible(false);
-          //   setColor(C.text);
-          //   setUnderline("none");
-        }}
-      ></SS.CtnrHiFive> */}
-    </View>
+    <SS.Ctnr>
+      <SS.Avatar style={{}} source={img.khoi} />
+      <$_FlagRing />
+      {WIDTH > 600 && (
+        <Animatable.Image
+          ref={refShades}
+          useNativeDriver={true}
+          easing={"ease-out-cubic"}
+          style={{
+            position: "absolute",
+            ...SS.S.CTNR_SHADES,
+          }}
+          source={img.shades}
+        />
+      )}
+    </SS.Ctnr>
   );
 };
 
+/**
+ * Can't use IconOooh here as createAnimatedComponent(_) requires class <_>
+ */
+const NiStar = Animated.createAnimatedComponent(FontAwesome5Icon);
+
+const $_FlagRing = (props) => {
+  const { C, setI18N } = useAppContext();
+  const animated = React.useRef(new Animated.Value(0)).current;
+  const rotate = animated.interpolate({
+    inputRange: [0, 1],
+    outputRange: ["0deg", "-180deg"],
+  });
+
+  const starColor = animated.interpolate({
+    inputRange: [0, 1],
+    outputRange: [C.hazardYellow, C.text01],
+  });
+
+  const starSize = animated.interpolate({
+    inputRange: [0, 1],
+    outputRange: [moderateScale(10), moderateScale(10) * 0.6],
+  });
+
+  const flagColor = animated.interpolate({
+    inputRange: [0, 1],
+    outputRange: [C.errorRed, C.infoBlue],
+  });
+
+  const rotateOpposit = animated.interpolate({
+    inputRange: [0, 1],
+    outputRange: ["0deg", "180deg"],
+  });
+
+  function rotatee() {
+    animated._value == 1 &&
+      Animated.spring(animated, {
+        toValue: 0,
+        tension: 2,
+        friction: 10,
+        useNativeDriver: true,
+      }).start(() => setI18N("vi"));
+
+    animated._value == 0 &&
+      Animated.spring(animated, {
+        toValue: 1,
+        tension: 2,
+        friction: 10,
+        useNativeDriver: true,
+      }).start(()=> setI18N("en"));
+  }
+
+  const transform = [{ rotate: rotate }];
+  const transform1 = [{ rotate: rotateOpposit }];
+  return (
+    <Animated.View style={[SS.S.CTNR_FLAG, { transform }]}>
+      <Animated.View
+        style={[
+          {
+            transform: transform1,
+            backgroundColor: flagColor,
+            ...SS.S.FLAG_BCKGRD,
+          },
+        ]}
+      >
+        <NiStar
+          name="star"
+          color={starColor}
+          size={starSize}
+          onPress={() => rotatee()}
+          solid
+        />
+      </Animated.View>
+    </Animated.View>
+  );
+};
+
+const styles = StyleSheet.create({
+  ctnrFlag: {},
+});
+
 const SS = {
-  CtnrHiFive: sstyled(TouchableWeb)((p) => ({
-    position: "absolute",
-    bottom: 0,
-    right: 0,
-    width: 50,
-    height: 50,
-    flexDirection: "row",
+  Ctnr: sstyled(View)((p) => ({
+    width: moderateScale(100),
+    height: moderateScale(100),
+    paddingHorizontal: spacing(6),
   })),
+  Avatar: sstyled(Avatar)((p) => ({
+    width: moderateScale(100),
+    height: moderateScale(100),
+    // transform: [{ rotate: "-10deg" }],
+  })),
+
+  S: {
+    CTNR_FLAG: {
+      // borderWidth: 1,
+      marginLeft: spacing(6),
+      position: "absolute",
+      padding: moderateScale(5),
+      top: moderateScale(0),
+      left: moderateScale(0),
+      width: moderateScale(100),
+      height: moderateScale(100), // this is the diameter of circle
+    } as ViewStyle,
+    FLAG_BCKGRD: {
+      width: moderateScale(20),
+      height: moderateScale(20),
+      justifyContent: "center",
+      alignItems: "center",
+      borderRadius: 100,
+    } as ViewStyle,
+    CTNR_SHADES: {
+      top: moderateScale(22.5),
+      left: moderateScale(65.3), //118
+      width: moderateScale(40),
+      height: moderateScale(40),
+    } as ImageStyle,
+  },
 };

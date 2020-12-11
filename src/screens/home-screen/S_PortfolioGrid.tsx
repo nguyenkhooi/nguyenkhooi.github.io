@@ -32,7 +32,7 @@ import {
   ShineOverlay,
 } from "rn-placeholder";
 import { Navigation } from "screens/_navigation";
-import { dColors, IPSCR, scale, spacing, tr, useDimension } from "utils";
+import { dColors, IPSCR, scale, spacing, use18, useDimension } from "utils";
 import * as Animatable from "react-native-animatable";
 
 export function S_PortfolioGrid(props: IPSCR) {
@@ -48,7 +48,7 @@ export function S_PortfolioGrid(props: IPSCR) {
 
   return (
     <View style={{}}>
-      <Txt.$Title>{tr("Work")}</Txt.$Title>
+      <Txt.$Title>{use18("Work")}</Txt.$Title>
       <SS.CtnrFilter
         horizontal={true}
         selectedIndex={selectedIndex}
@@ -59,7 +59,7 @@ export function S_PortfolioGrid(props: IPSCR) {
             setData(ogData);
             setSelectedIndex(new IndexPath(0));
           }}
-          title={"All"}
+          title={use18("All")}
         />
         {[...new Set(R.pluck("cat", ogData))].map((cat, index) => (
           <MenuItem

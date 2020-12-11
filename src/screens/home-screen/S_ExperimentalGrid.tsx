@@ -14,7 +14,7 @@ import {
 import { FlatGrid } from "react-native-super-grid";
 import { Placeholder, ShineOverlay, PlaceholderMedia } from "rn-placeholder";
 import { Navigation } from "screens/_navigation";
-import { dColors, IPSCR, scale, spacing, tr, useDimension } from "utils";
+import { dColors, IPSCR, scale, spacing, use18, useDimension } from "utils";
 import * as Animatable from "react-native-animatable";
 
 export function S_ExperimentalGrid(props: IPSCR) {
@@ -32,7 +32,7 @@ export function S_ExperimentalGrid(props: IPSCR) {
   return (
     <View style={{}}>
       {/* <Text>{JSON.stringify(keys)}</Text> */}
-      <Txt.$Title>{tr("Experiments")}</Txt.$Title>
+      <Txt.$Title>{use18("Experiments")}</Txt.$Title>
       <SS.CtnrFilter
         horizontal={true}
         selectedIndex={selectedIndex}
@@ -43,7 +43,7 @@ export function S_ExperimentalGrid(props: IPSCR) {
             setData(ogData);
             setSelectedIndex(new IndexPath(0));
           }}
-          title={tr("All")}
+          title={use18("All")}
         />
         {[...new Set(R.pluck("cat", ogData))].map((cat, index) => (
           <MenuItem

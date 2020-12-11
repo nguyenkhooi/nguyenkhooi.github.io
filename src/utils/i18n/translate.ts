@@ -1,3 +1,4 @@
+import { useAppContext } from "engines";
 import i18n from "i18n-js";
 
 /**
@@ -14,8 +15,14 @@ import i18n from "i18n-js";
  * - *(reduce function name for cleaner code)*
  * @author nguyenkhooi
  */
-export function tr(key: enumKey | string, options?: object) {
-  return key ? i18n.t(key, options) : key;
+export function use18(key: enumKey | string, options?: i18n.TranslateOptions) {
+  const { lang, setLang } = useAppContext();
+  return lang[key] ? lang[key] : key;
 }
 
 type enumKey = "tba";
+
+export enum LANG {
+  EN = "en",
+  VI = "vi",
+}
