@@ -1,19 +1,18 @@
-import { Avatar } from "@ui-kitten/components";
 import { img } from "assets";
 import { sstyled, TouchableWeb, Txt } from "components";
 import { useAppContext } from "engines";
 import * as React from "react";
-import { Animated, View, ViewStyle, ImageStyle } from "react-native";
+import { Animated, ImageStyle, View, ViewStyle } from "react-native";
 import * as Animatable from "react-native-animatable";
 import FA5 from "react-native-vector-icons/FontAwesome5";
 import { Navigation } from "screens";
 import {
-  IPSCR,
-  moderateScale,
-  spacing,
-  THEME,
-  use18,
-  useDimension,
+    IPSCR,
+    moderateScale,
+    spacing,
+    THEME,
+    use18,
+    useDimension
 } from "utils";
 
 interface d$_Intro extends IPSCR {
@@ -53,7 +52,7 @@ export function S_Intro(props: d$_Intro) {
               setTheme(dark ? THEME.LIGHT : THEME.DARK);
             }}
           >
-            {use18("intro-1")} {dark ? "🕶️" : "👋"}{" "}
+            {use18("intro-1")} {"👋"}{" "}
           </Txt.H6>
 
           <Txt.S1 style={{ color: _color }} adjustsFontSizeToFit={true}>
@@ -219,7 +218,7 @@ const SS = {
     width: moderateScale(100),
     height: moderateScale(100),
     borderRadius: 200,
-    // transform: [{ rotate: "-10deg" }],
+    transform: [{ rotate: "-10deg" }],
   })),
   TxtLink: sstyled(Txt.S1)({
     // fontSize: 29,
@@ -250,6 +249,7 @@ const SS = {
       left: moderateScale(65.3), //118
       width: moderateScale(40),
       height: moderateScale(40),
+      transform: [{ rotate: "-10deg" }],
     } as ImageStyle,
   },
 };
