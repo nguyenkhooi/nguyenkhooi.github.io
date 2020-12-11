@@ -143,9 +143,6 @@ export const AppContext = React.createContext<dAppContext>({
   C: colors,
   dark: false,
   setTheme: () => {},
-  i18n: LANG.VI,
-  lang: {},
-  isReady: false,
 });
 
 /**

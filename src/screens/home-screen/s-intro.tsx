@@ -1,21 +1,20 @@
-import { Avatar, Layout, Tooltip } from "@ui-kitten/components";
-import { IconOooh, img } from "assets";
-import { Buttoon, sstyled, TouchableWeb, Txt } from "components";
+import { Avatar } from "@ui-kitten/components";
+import { img } from "assets";
+import { sstyled, TouchableWeb, Txt } from "components";
 import { useAppContext } from "engines";
 import * as React from "react";
-import {
-  Animated,
-  View,
-  StyleSheet,
-  createA,
-  ViewStyle,
-  ImageStyle,
-} from "react-native";
+import { Animated, View, ViewStyle, ImageStyle } from "react-native";
 import * as Animatable from "react-native-animatable";
-import { TouchableOpacity } from "react-native-gesture-handler";
-import FontAwesome5Icon from "react-native-vector-icons/FontAwesome5";
+import FA5 from "react-native-vector-icons/FontAwesome5";
 import { Navigation } from "screens";
-import { IPSCR, moderateScale, spacing, THEME, use18, useDimension } from "utils";
+import {
+  IPSCR,
+  moderateScale,
+  spacing,
+  THEME,
+  use18,
+  useDimension,
+} from "utils";
 
 interface d$_Intro extends IPSCR {
   scrollToWork(): void;
@@ -24,7 +23,7 @@ interface d$_Intro extends IPSCR {
 export function S_Intro(props: d$_Intro) {
   const { scrollToWork, scrollToExp } = props;
   const { C, dark, setTheme } = useAppContext();
-  const { HEIGHT, WIDTH } = useDimension("window");
+  const { HEIGHT } = useDimension("window");
   const [_color, setColor] = React.useState(C.text);
   const [_underline, setUnderline] = React.useState<"none" | "underline">(
     "none"
@@ -38,14 +37,7 @@ export function S_Intro(props: d$_Intro) {
       }}
     >
       <NiAvatar />
-      <Animatable.View
-        animation="fadeIn"
-        delay={1000}
-        style={{
-          paddingHorizontal: spacing(6),
-          paddingRight: WIDTH < 1000 ? spacing(6) : spacing(9),
-        }}
-      >
+      <SS.CtnrIntro animation="fadeIn" delay={1000}>
         <TouchableWeb
           onMouseEnter={() => {
             setColor(C.dim);
@@ -66,68 +58,60 @@ export function S_Intro(props: d$_Intro) {
 
           <Txt.S1 style={{ color: _color }} adjustsFontSizeToFit={true}>
             {use18("intro-2")}
-            <TxtLink
+            <SS.TxtLink
               style={{ textDecorationLine: _underline }}
               onPress={scrollToWork}
             >
               {" "}
               {use18("intro-3")}{" "}
-            </TxtLink>
+            </SS.TxtLink>
             {use18("intro-4")}
-            <TxtLink
+            <SS.TxtLink
               style={{ textDecorationLine: _underline }}
               onPress={scrollToExp}
             >
               {" "}
               {use18("intro-5")}{" "}
-            </TxtLink>
+            </SS.TxtLink>
             {"\n"}
             {use18("intro-6")}
-            <TxtLink
+            <SS.TxtLink
               style={{ textDecorationLine: _underline }}
               onPress={() => Navigation.navigate("About")}
             >
               {" "}
               {use18("intro-7")}
-            </TxtLink>{" "}
+            </SS.TxtLink>{" "}
             {use18("intro-8")}
-            <TxtLink
+            <SS.TxtLink
               style={{ textDecorationLine: _underline }}
               onPress={() => Navigation.navigate("About")}
             >
               {" "}
               {use18("intro-9")}
-            </TxtLink>
+            </SS.TxtLink>
           </Txt.S1>
         </TouchableWeb>
-      </Animatable.View>
+      </SS.CtnrIntro>
     </View>
   );
 }
 
-const TxtLink = sstyled(Txt.S1)({
-  // fontSize: 29,
-  fontWeight: "500",
-  fontStyle: "italic",
-});
-
-const NiAvatar = (props) => {
+const NiAvatar = () => {
   const { WIDTH } = useDimension();
-  const { dark, C, setI18N } = useAppContext();
+  const { dark } = useAppContext();
   const refShades = React.useRef<Animatable.View>();
   React.useEffect(
     function movingShades() {
-      dark ? refShades.current.bounce(500) : refShades.current.bounceOutUp(500);
+      dark ? refShades.current.bounce(500) : refShades.current.fadeOut(500);
     },
     [dark]
   );
 
-  const [tooltip, setTooltip] = React.useState<"Let's hi-five!" | "Noice">(
-    "Let's hi-five!"
-  );
+  const [] = React.useState<"Let's hi-five!" | "Noice">("Let's hi-five!");
   return (
     <SS.Ctnr>
-      <SS.Avatar style={{}} source={img.khoi} />
+      <SS.Avatar animation={"fadeIn"} source={img.khoi} />
       <$_FlagRing />
       {WIDTH > 600 && (
         <Animatable.Image
@@ -148,9 +132,9 @@ const NiAvatar = (props) => {
 /**
  * Can't use IconOooh here as createAnimatedComponent(_) requires class <_>
  */
-const NiStar = Animated.createAnimatedComponent(FontAwesome5Icon);
+const NiStar = Animated.createAnimatedComponent(FA5);
 
-const $_FlagRing = (props) => {
+const $_FlagRing = () => {
   const { C, setI18N } = useAppContext();
   const animated = React.useRef(new Animated.Value(0)).current;
   const rotate = animated.interpolate({
@@ -193,7 +177,7 @@ const $_FlagRing = (props) => {
         tension: 2,
         friction: 10,
         useNativeDriver: true,
-      }).start(()=> setI18N("en"));
+      }).start(() => setI18N("en"));
   }
 
   const transform = [{ rotate: rotate }];
@@ -221,21 +205,27 @@ const $_FlagRing = (props) => {
   );
 };
 
-const styles = StyleSheet.create({
-  ctnrFlag: {},
-});
-
 const SS = {
-  Ctnr: sstyled(View)((p) => ({
+  Ctnr: sstyled(View)(() => ({
     width: moderateScale(100),
     height: moderateScale(100),
     paddingHorizontal: spacing(6),
   })),
-  Avatar: sstyled(Avatar)((p) => ({
+  CtnrIntro: sstyled(Animatable.View)((p) => ({
+    paddingHorizontal: spacing(6),
+    paddingRight: p.WIDTH < 1000 ? spacing(6) : spacing(9),
+  })),
+  Avatar: sstyled(Animatable.Image)(() => ({
     width: moderateScale(100),
     height: moderateScale(100),
+    borderRadius: 200,
     // transform: [{ rotate: "-10deg" }],
   })),
+  TxtLink: sstyled(Txt.S1)({
+    // fontSize: 29,
+    fontWeight: "500",
+    fontStyle: "italic",
+  }),
 
   S: {
     CTNR_FLAG: {
