@@ -1,14 +1,8 @@
-import { Avatar } from "@ui-kitten/components";
-import { img } from "assets";
-import { sstyled, TouchableWeb, Txt } from "components";
-
 import { useAppContext } from "engines";
 import * as React from "react";
-import { LayoutChangeEvent, ScrollView, SectionList, View } from "react-native";
-import * as Animatable from "react-native-animatable";
-import { TouchableOpacity } from "react-native-gesture-handler";
-import { Navigation } from "screens";
-import { IPSCR, spacing, THEME, tr, useDimension } from "utils";
+import { LayoutChangeEvent, ScrollView, View } from "react-native";
+import { IPSCR, useDimension } from "utils";
+import { S_Intro } from "./s-intro";
 import { S_ExperimentalGrid } from "./S_ExperimentalGrid";
 import { S_PortfolioGrid } from "./S_PortfolioGrid";
 
@@ -48,122 +42,144 @@ export default (props: IPSCR) => {
       </View>
     </ScrollView>
   );
-  // return (
-  //   <SectionList
-  //     style={{ backgroundColor: C.background, flex: 1 }}
-  //     ref={refList}
-  //     sections={S_Home}
-  //     keyExtractor={(item, index) => item.title + index}
-  //     renderItem={({ item }) => item}
-  //     extraData={WIDTH < 1000}
-  //     // renderSectionHeader={({ section: { title } }) => (
-  //     //   <Txt.$Title>{title}</Txt.$Title>
-  //     // )}
-  //     ListFooterComponent={
-  //       <Txt.C1 style={{ color: C.dim, textAlign: "center", width: "100%" }}>
-  //         © 2020 Khoi Tran.
-  //       </Txt.C1>
-  //     }
-  //   />
-  // );
-};
-
-interface d$_Intro extends IPSCR {
-  scrollToWork(): void;
-  scrollToExp(): void;
-}
-const $_Intro = (props: d$_Intro) => {
-  const { scrollToWork, scrollToExp } = props;
-  const { C, dark, setTheme } = useAppContext();
-  const { HEIGHT, WIDTH } = useDimension("window");
-  const [_color, setColor] = React.useState(C.text);
-  const [_underline, setUnderline] = React.useState<"none" | "underline">(
-    "none"
-  );
-  return (
-    <View
-      style={{
-        height: HEIGHT,
-        justifyContent: "center",
-      }}
-    >
-      <Animatable.View
-        animation="fadeIn"
-        delay={1000}
-        style={{
-          paddingHorizontal: spacing(6),
-          paddingRight: WIDTH < 1000 ? spacing(6) : spacing(9),
-          // paddingTop: spacing(7, "v"),
-        }}
-      >
-        <TouchableWeb
-          onMouseEnter={() => {
-            setColor(C.dim);
-            setUnderline("underline");
-          }}
-          onMouseLeave={() => {
-            setColor(C.text);
-            setUnderline("none");
-          }}
-        >
-          <Avatar
-            style={{
-              width: 200,
-              height: 200,
-              transform: [{ rotate: "-10deg" }],
-            }}
-            source={dark ? img.khoiShades : img.khoi}
-          />
-
-          <Txt.H6 onPress={() => setTheme(dark ? THEME.LIGHT : THEME.DARK)}>
-            {tr("intro-1")}
-          </Txt.H6>
-          <Txt.S1 style={{ color: _color }} adjustsFontSizeToFit={true}>
-            {tr("intro-2")}
-            <TxtLink
-              style={{ textDecorationLine: _underline }}
-              onPress={scrollToWork}
-            >
-              {" "}
-              {tr("intro-3")}{" "}
-            </TxtLink>
-            {tr("intro-4")}
-            <TxtLink
-              style={{ textDecorationLine: _underline }}
-              onPress={scrollToExp}
-            >
-              {" "}
-              {tr("intro-5")}{" "}
-            </TxtLink>
-            {"\n"}
-            {tr("intro-6")}
-            <TxtLink
-              style={{ textDecorationLine: _underline }}
-              onPress={() => Navigation.navigate("About")}
-            >
-              {" "}
-              {tr("intro-7")}
-            </TxtLink>{" "}
-            {tr("intro-8")}
-            <TxtLink
-              style={{ textDecorationLine: _underline }}
-              onPress={() => Navigation.navigate("About")}
-            >
-              {" "}
-              {tr("intro-9")}
-            </TxtLink>
-          </Txt.S1>
-        </TouchableWeb>
-      </Animatable.View>
-    </View>
-  );
 };
 
 const $_PortfolioGrid = S_PortfolioGrid;
 const $_ExperimentalGrid = S_ExperimentalGrid;
+const $_Intro = S_Intro;
 
-const TxtLink = sstyled(Txt.S1)({
-  // fontSize: 29,
-  fontWeight: "500",
-  fontStyle: "italic",
-});
+// import React from "react";
+// import {
+//   Animated,
+//   Dimensions,
+//   NativeSyntheticEvent,
+//   PanResponder,
+//   StyleSheet,
+//   View
+// } from "react-native";
+
+// export default function Drag() {
+//   const dropZoneValues = React.useRef(null);
+//   const pan = React.useRef(new Animated.ValueXY());
+//   const [bgColor, setBgColor] = React.useState("#2c3e50");
+
+//   const isDropZone = React.useCallback(
+//     (evt) => {
+//       const dz = dropZoneValues.current;
+//       return evt.pageY > dz.y && evt.pageY < dz.y + dz.height;
+//     },
+//     []
+//   );
+
+//   const onMove = React.useCallback(
+//     (event: NativeSyntheticEvent<unknown>) => {
+//       // console.log(
+//       //   "locXY: ",
+//       //   event.nativeEvent.locationX + " - " + event.nativeEvent.locationY
+//       // );
+//       // console.log(
+//       //   "pageXY: ",
+//       //   event.nativeEvent.pageX + " - " + event.nativeEvent.pageY
+//       // );
+//       if (isDropZone(event.nativeEvent)) setBgColor("red");
+//       else setBgColor("#2c3e50");
+//     },
+//     [isDropZone]
+//   );
+
+//   const setDropZoneValues = React.useCallback((event) => {
+//     dropZoneValues.current = event.nativeEvent.layout;
+//   }, []);
+
+//   const panResponder = React.useMemo(
+//     () =>
+//       PanResponder.create({
+//         onStartShouldSetPanResponder: () => true,
+//         onMoveShouldSetPanResponderCapture: () => true,
+
+//         onPanResponderGrant: (evt, gestureState) => {
+//           pan.current.setOffset({
+//             x: pan.current.x._value,
+//             y: pan.current.y._value,
+//           });
+//           pan.current.setValue({ x: 0, y: 0 });
+//         },
+
+//         onPanResponderMove: Animated.event(
+//           [
+//             null,
+//             {
+//               dx: pan.current.x,
+//               dy: pan.current.y,
+//             },
+//           ],
+//           {
+//             listener: onMove,
+//             useNativeDriver: true,
+//           }
+//         ),
+//         onPanResponderRelease: (e, gesture) => {
+//           if (!isDropZone(gesture)) {
+//             Animated.spring(pan.current, {
+//               toValue: {
+//                 x: 0 - pan.current.x._offset,
+//                 y: 0 - pan.current.y._offset,
+//               },
+//               useNativeDriver: true,
+//             }).start(() => {
+//               // pan.current.setValue({ x: 0, y: 0 });
+//               pan.current.setOffset({ x: 0, y: 0 });
+//             });
+//           } else {
+//             pan.current.flattenOffset();
+//           }
+//         },
+//       }),
+//     []
+//   );
+
+//   return (
+//     <View style={styles.mainContainer}>
+//       <View
+//         onLayout={setDropZoneValues}
+//         style={[styles.dropZone, { backgroundColor: bgColor }]}
+//       ></View>
+//       <View style={styles.draggableContainer}>
+//         <Animated.View
+//           {...panResponder.panHandlers}
+//           style={[pan.current.getLayout(), styles.circle]}
+//         ></Animated.View>
+//       </View>
+//     </View>
+//   );
+// }
+
+// let CIRCLE_RADIUS = 36;
+// let Window = Dimensions.get("window");
+// let styles = StyleSheet.create({
+//   mainContainer: {
+//     flex: 1,
+//   },
+//   dropZone: {
+//     height: 100,
+//     backgroundColor: "#2c3e50",
+//   },
+//   text: {
+//     marginTop: 25,
+//     marginLeft: 5,
+//     marginRight: 5,
+//     textAlign: "center",
+//     color: "#fff",
+//   },
+//   draggableContainer: {
+//     position: "absolute",
+//     top: Window.height / 2 - CIRCLE_RADIUS,
+//     left: Window.width / 2 - CIRCLE_RADIUS,
+//   },
+//   circle: {
+//     backgroundColor: "#1abc9c",
+//     width: CIRCLE_RADIUS * 2,
+//     height: CIRCLE_RADIUS * 2,
+//     borderRadius: CIRCLE_RADIUS,
+//   },
+// });

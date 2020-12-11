@@ -1,7 +1,7 @@
 import * as eva from "@eva-design/eva";
 import { ApplicationProvider } from "@ui-kitten/components";
-import React, { useContext, useEffect, useState } from "react";
-import { colors, dColors, KeyOf, THEME, themeDark, themeLight } from "utils";
+import React, { useContext, useState } from "react";
+import { colors, dColors, THEME, themeDark, themeLight } from "utils";
 
 /** 
  * App Provider,
@@ -38,7 +38,7 @@ import { colors, dColors, KeyOf, THEME, themeDark, themeLight } from "utils";
 export function AppProvider({ children }) {
   //*----THEME-SECTION --------------------
 
-  const [_theme, setTheme] = useState<THEME>(THEME.DARK);
+  const [_theme, setTheme] = useState<THEME>(THEME.LIGHT);
   const [_colors, setColors] = React.useState(
     _theme == THEME.DARK ? themeDark : themeLight
   );

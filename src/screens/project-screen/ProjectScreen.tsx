@@ -1,4 +1,4 @@
-import { Spinner, Text } from "@ui-kitten/components";
+import { Spinner } from "@ui-kitten/components";
 import { sstyled, SwipeDeck, Txt } from "components";
 import { useAppContext, useSheets } from "engines";
 import * as R from "ramda";
@@ -10,7 +10,7 @@ import {
   ScrollView,
   TextStyle,
   View,
-  ViewStyle,
+  ViewStyle
 } from "react-native";
 import * as Animatable from "react-native-animatable";
 // import { ScrollView } from "react-native-gesture-handler";
@@ -170,7 +170,7 @@ const C_ContentCard = (props: { text: string; imageIndex: number }) => {
 const $_RingadingDeck = (props) => {
   const { visible } = props;
   const { data } = useSheets(0, "Ringading_Exp");
-  const { WIDTH: width } = useDimension();
+  const { WIDTH } = useDimension();
   React.useEffect(
     function fetchData() {
       setDeckData(data);
@@ -186,7 +186,7 @@ const $_RingadingDeck = (props) => {
         delay={1000}
         style={{
           // padding: spacing(5),
-          flexDirection: width < 1000 ? "column" : "row",
+          flexDirection: WIDTH < 1000 ? "column" : "row",
           alignItems: "center",
           alignContent: "center",
         }}
@@ -229,12 +229,12 @@ const $_RingadingDeck = (props) => {
         <SwipeDeck
           {...props}
           containerStyle={{
-            width: width < 1000 ? width * 0.8 : width * 0.4,
-            height: width < 1000 ? width * 0.8 : width * 0.4,
+            width: WIDTH < 1000 ? WIDTH * 0.8 : WIDTH * 0.4,
+            height: WIDTH < 1000 ? WIDTH * 0.8 : WIDTH * 0.4,
           }}
           cardStyle={{
-            width: width < 1000 ? width * 0.6 : width * 0.2,
-            height: width < 1000 ? width * 0.8 : width * 0.4,
+            width: WIDTH < 1000 ? WIDTH * 0.6 : WIDTH * 0.2,
+            height: WIDTH < 1000 ? WIDTH * 0.8 : WIDTH * 0.4,
           }}
           data={deckData}
         />
