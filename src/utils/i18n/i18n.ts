@@ -31,7 +31,10 @@ export async function fetchi18n() {
         let en = R.zipObj(i18nCodes, i18nEns);
         let vi = R.zipObj(i18nCodes, i18nVis);
         i18n.translations = { en, vi };
-        resolve({ code: "I18N_DONE" });
+        setTimeout(() => {
+          console.log("here!!!!");
+          resolve({ code: "I18N_DONE" });
+        }, 3000);
       }
     } catch (error) {
       console.warn("err useSheets: ", error);

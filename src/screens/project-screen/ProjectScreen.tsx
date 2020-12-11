@@ -87,7 +87,13 @@ function ProjectScreen(props) {
           horizontal={isHorizontal}
         >
           {_contents.map((image, imageIndex) => {
-            return <C_ContentCard text={image} imageIndex={imageIndex} />;
+            return (
+              <C_ContentCard
+                key={imageIndex}
+                text={image}
+                imageIndex={imageIndex}
+              />
+            );
           })}
         </RNMasonryScroll>
       </View>

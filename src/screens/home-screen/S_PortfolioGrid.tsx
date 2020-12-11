@@ -36,7 +36,6 @@ import { dColors, IPSCR, scale, spacing, tr, useDimension } from "utils";
 import * as Animatable from "react-native-animatable";
 
 export function S_PortfolioGrid(props: IPSCR) {
-  const { onDimChange } = props;
   const { C } = useAppContext();
   const { data } = useSheets(0, "Work");
   // console.log("data: ", data);
@@ -59,17 +58,16 @@ export function S_PortfolioGrid(props: IPSCR) {
           onPress={() => {
             setData(ogData);
             setSelectedIndex(new IndexPath(0));
-            !!onDimChange && onDimChange();
           }}
           title={"All"}
         />
         {[...new Set(R.pluck("cat", ogData))].map((cat, index) => (
           <MenuItem
+            key={cat + index}
             onPress={() => {
               setData([...ogData.filter((item) => item.cat === cat)]);
               setSelectedIndex(new IndexPath(index + 1));
               refGrid.current.fadeInUp(800);
-              !!onDimChange && onDimChange();
             }}
             title={cat}
           />
@@ -156,10 +154,9 @@ const CtnrGrid = (props: dGridCtnr) => {
 const SS = {
   CtnrFilter: sstyled(Menu)((p) => ({
     flexDirection: "row",
-    backgroundColor: p.C.background,
-    // alignItems: "center",
-    // justifyContent: "center",
+    marginVertical: spacing(5),
     borderRadius: 5,
+    borderWidth: 0,
     borderBottomWidth: 1,
     alignSelf: "center",
     overflow: "hidden",
