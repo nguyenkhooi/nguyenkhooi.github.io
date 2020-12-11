@@ -15,7 +15,7 @@ import {
 import { fetchi18n } from "utils";
 
 function App() {
-  const [_isReady, shouldReady] = React.useState(true);
+  const [_isReady, shouldReady] = React.useState(false);
   //* ----RNAV-SECTION -------------------------------
   const navigationRef = React.useRef<NavigationContainerRef>(null);
   setRootNavigation(navigationRef);
@@ -27,13 +27,7 @@ function App() {
 
   //* ----I18N-SECTION -------------------------------
   React.useEffect(function getI18n() {
-    fetchi18n().then(
-      (r) =>
-        r.code == "I18N_DONE" &&
-        setTimeout(() => {
-          shouldReady(true);
-        }, 1000)
-    );
+    fetchi18n().then((r) => r.code == "I18N_DONE" && shouldReady(true));
   }, []);
   return (
     !!_isReady && (

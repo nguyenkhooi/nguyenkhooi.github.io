@@ -3,4 +3,6 @@
 // @ts-ignore
 export const img = {
   x: require("./x-icon.png"),
+  khoi: require("./khoi.jpg"),
+  khoiShades: require("./khoi-shades.jpg")
 };

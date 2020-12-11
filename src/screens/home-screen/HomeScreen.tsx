@@ -1,9 +1,12 @@
+import { Avatar } from "@ui-kitten/components";
+import { img } from "assets";
 import { sstyled, TouchableWeb, Txt } from "components";
 
 import { useAppContext } from "engines";
 import * as React from "react";
 import { LayoutChangeEvent, ScrollView, SectionList, View } from "react-native";
 import * as Animatable from "react-native-animatable";
+import { TouchableOpacity } from "react-native-gesture-handler";
 import { Navigation } from "screens";
 import { IPSCR, spacing, THEME, tr, useDimension } from "utils";
 import { S_ExperimentalGrid } from "./S_ExperimentalGrid";
@@ -103,6 +106,15 @@ const $_Intro = (props: d$_Intro) => {
             setUnderline("none");
           }}
         >
+          <Avatar
+            style={{
+              width: 200,
+              height: 200,
+              transform: [{ rotate: "-10deg" }],
+            }}
+            source={dark ? img.khoiShades : img.khoi}
+          />
+
           <Txt.H6 onPress={() => setTheme(dark ? THEME.LIGHT : THEME.DARK)}>
             {tr("intro-1")}
           </Txt.H6>

@@ -31,10 +31,7 @@ export async function fetchi18n() {
         let en = R.zipObj(i18nCodes, i18nEns);
         let vi = R.zipObj(i18nCodes, i18nVis);
         i18n.translations = { en, vi };
-        setTimeout(() => {
-          console.log("here!!!!");
-          resolve({ code: "I18N_DONE" });
-        }, 3000);
+        resolve({ code: "I18N_DONE" });
       }
     } catch (error) {
       console.warn("err useSheets: ", error);
@@ -54,4 +51,4 @@ i18n.missingTranslation = function (keyword) {
 //   RNLocalize.findBestAvailableLanguage(Object.keys(i18n.translations)) ||
 //   fallback;
 // i18n.locale = languageTag;
-i18n.locale = "en";
+i18n.locale = "vi";

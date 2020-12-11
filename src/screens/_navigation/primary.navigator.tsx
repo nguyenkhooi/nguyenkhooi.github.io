@@ -17,7 +17,7 @@ import { Navigation, presetNavConfig } from "./navigation-utils";
 const screenProps = {
   Home: {
     component: HomeScreen,
-    options: presetNavConfig.noHeader,
+    options: { ...presetNavConfig.noHeader, title: "Khoi Tran" },
   },
   About: { component: AboutScreen },
   Project: {
