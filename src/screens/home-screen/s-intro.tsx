@@ -99,31 +99,19 @@ export function S_Intro(props: d$_Intro) {
 const NiAvatar = () => {
   const { WIDTH } = useDimension();
   const { dark } = useAppContext();
-  const refShades = React.useRef<Animatable.View>();
-  React.useEffect(
-    function movingShades() {
-      dark ? refShades.current.bounce(500) : refShades.current.fadeOut(500);
-    },
-    [dark]
-  );
+  //   const refShades = React.useRef<Animatable.View>();
+  //   React.useEffect(
+  //     function movingShades() {
+  //       dark ? refShades.current.bounce(500) : refShades.current.fadeOut(500);
+  //     },
+  //     [dark]
+  //   );
 
   const [] = React.useState<"Let's hi-five!" | "Noice">("Let's hi-five!");
   return (
     <SS.Ctnr>
       <SS.Avatar animation={"fadeIn"} source={img.khoi} />
       <$_FlagRing />
-      {WIDTH > 600 && (
-        <Animatable.Image
-          ref={refShades}
-          useNativeDriver={true}
-          easing={"ease-out-cubic"}
-          style={{
-            position: "absolute",
-            ...SS.S.CTNR_SHADES,
-          }}
-          source={img.shades}
-        />
-      )}
     </SS.Ctnr>
   );
 };
@@ -148,7 +136,11 @@ const $_FlagRing = () => {
 
   const starSize = animated.interpolate({
     inputRange: [0, 1],
-    outputRange: [moderateScale(10), moderateScale(10) * 0.6],
+    outputRange: [moderateScale(10), moderateScale(10) * 0.9],
+  });
+  const shieldSize = animated.interpolate({
+    inputRange: [0, 1],
+    outputRange: [1, 1 * 0.8],
   });
 
   const flagColor = animated.interpolate({
@@ -180,25 +172,35 @@ const $_FlagRing = () => {
   }
 
   const transform = [{ rotate: rotate }];
-  const transform1 = [{ rotate: rotateOpposit }];
+  const transform1 = [{ rotate: rotateOpposit, scale: starSize }];
   return (
     <Animated.View style={[SS.S.CTNR_FLAG, { transform }]}>
       <Animated.View
         style={[
           {
-            transform: transform1,
-            backgroundColor: flagColor,
+            transform: [{ rotate: rotateOpposit }],
+            backgroundColor: C.errorRed,
             ...SS.S.FLAG_BCKGRD,
           },
         ]}
       >
-        <NiStar
-          name="star"
-          color={starColor}
-          size={starSize}
-          onPress={() => rotatee()}
-          solid
-        />
+        <Animated.View
+          style={[
+            {
+              transform: [{ scale: shieldSize }],
+              backgroundColor: flagColor,
+              ...SS.S.FLAG_BCKGRD,
+            },
+          ]}
+        >
+          <NiStar
+            name="star"
+            color={starColor}
+            size={starSize}
+            onPress={() => rotatee()}
+            solid
+          />
+        </Animated.View>
       </Animated.View>
     </Animated.View>
   );
