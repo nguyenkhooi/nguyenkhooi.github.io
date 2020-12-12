@@ -7,12 +7,12 @@ import * as Animatable from "react-native-animatable";
 import FA5 from "react-native-vector-icons/FontAwesome5";
 import { Navigation } from "screens";
 import {
-    IPSCR,
-    moderateScale,
-    spacing,
-    THEME,
-    use18,
-    useDimension
+  IPSCR,
+  moderateScale,
+  spacing,
+  THEME,
+  use18,
+  useDimension,
 } from "utils";
 
 interface d$_Intro extends IPSCR {
@@ -123,7 +123,7 @@ const NiStar = Animated.createAnimatedComponent(FA5);
 
 const $_FlagRing = () => {
   const { C, setI18N } = useAppContext();
-  const animated = React.useRef(new Animated.Value(0)).current;
+  const animated = React.useRef(new Animated.Value(1)).current;
   const rotate = animated.interpolate({
     inputRange: [0, 1],
     outputRange: ["0deg", "-180deg"],
@@ -196,7 +196,7 @@ const $_FlagRing = () => {
           <NiStar
             name="star"
             color={starColor}
-            size={starSize}
+            size={moderateScale(10)}
             onPress={() => rotatee()}
             solid
           />

@@ -92,7 +92,7 @@ export function AppProvider({ children }) {
   );
 
   //*---- I18N-SECTION ---------------
-  const [i18n, setI18N] = React.useState<LANG>(LANG.VI);
+  const [i18n, setI18N] = React.useState<LANG>(LANG.EN);
   const [lang, setLang] = React.useState({});
   const vi = React.useRef({});
   const en = React.useRef({});
@@ -103,7 +103,7 @@ export function AppProvider({ children }) {
         const _en = r.lang.en;
         vi.current = _vi;
         en.current = _en;
-        setLang(_vi);
+        setLang(_en);
         shouldReady(true);
       }
     });
