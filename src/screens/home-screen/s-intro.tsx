@@ -1,7 +1,7 @@
 import { img } from "assets";
-import { sstyled, TouchableWeb, Txt } from "components";
+import { sstyled, Toasty, TouchableWeb, Txt } from "components";
 import { useAppContext } from "engines";
-import React, { createElement } from "react";
+import React from "react";
 import { Animated, ImageStyle, View, ViewStyle } from "react-native";
 import * as Animatable from "react-native-animatable";
 import FA5 from "react-native-vector-icons/FontAwesome5";
@@ -13,7 +13,7 @@ import {
   spacing,
   THEME,
   use18,
-  useDimension,
+  useDimension
 } from "utils";
 
 interface d$_Intro extends IPSCR {
@@ -57,37 +57,33 @@ export function S_Intro(props: d$_Intro) {
           </Txt.H6>
 
           <Txt.S1 style={{ color: _color }} adjustsFontSizeToFit={true}>
-            {use18("intro-2")}
+            {use18("intro-2")}{" "}
             <SS.TxtLink
               style={{ textDecorationLine: _underline }}
               onPress={scrollToWork}
             >
-              {" "}
-              {use18("intro-3")}{" "}
-            </SS.TxtLink>
-            {use18("intro-4")}
+              {use18("intro-3")}
+            </SS.TxtLink>{" "}
+            {use18("intro-4")}{" "}
             <SS.TxtLink
               style={{ textDecorationLine: _underline }}
               onPress={scrollToExp}
             >
-              {" "}
-              {use18("intro-5")}{" "}
-            </SS.TxtLink>
+              {use18("intro-5")}
+            </SS.TxtLink>{" "}
             {"\n"}
-            {use18("intro-6")}
+            {use18("intro-6")}{" "}
             <SS.TxtLink
               style={{ textDecorationLine: _underline }}
               onPress={() => Navigation.navigate("About")}
             >
-              {" "}
               {use18("intro-7")}
             </SS.TxtLink>{" "}
-            {use18("intro-8")}
+            {use18("intro-8")}{" "}
             <SS.TxtLink
               style={{ textDecorationLine: _underline }}
               onPress={() => Navigation.navigate("About")}
             >
-              {" "}
               {use18("intro-9")}
             </SS.TxtLink>
           </Txt.S1>
@@ -156,30 +152,41 @@ const $_FlagRing = () => {
 
   function rotatee() {
     animated._value == 1 &&
+      (Toasty.show("Chuyển sang tiếng Việt...", {
+        type: "loading",
+        duration: 1000,
+      }),
       Animated.spring(animated, {
         toValue: 0,
         tension: 2,
         friction: 10,
         useNativeDriver: true,
-      }).start(() => setI18N(LANG.VI));
+      }).start(() => {
+        setI18N(LANG.VI);
+      }));
 
     animated._value == 0 &&
+      (Toasty.show("Change to English...", { type: "loading", duration: 1000 }),
       Animated.spring(animated, {
         toValue: 1,
         tension: 2,
         friction: 10,
         useNativeDriver: true,
-      }).start(() => setI18N(LANG.EN));
+      }).start(() => {
+        setI18N(LANG.EN);
+      }));
   }
 
   const transform = [{ rotate: rotate }];
   const transform1 = [{ rotate: rotateOpposit, scale: starSize }];
   return (
-    <Animated.View style={[SS.S.CTNR_FLAG, { transform }]}>
+    <Animated.View
+      style={[SS.S.CTNR_FLAG, { transform: [{ rotate: "-90deg" }] }]}
+    >
       <Animated.View
         style={[
           {
-            transform: [{ rotate: rotateOpposit }],
+            transform: [{ rotate: "90deg" }],
             backgroundColor: C.errorRed,
             ...SS.S.FLAG_BCKGRD,
           },
