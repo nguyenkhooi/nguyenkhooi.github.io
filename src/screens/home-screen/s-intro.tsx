@@ -175,15 +175,20 @@ const $_FlagRing = () => {
   const transform = [{ rotate: rotate }];
   const transform1 = [{ rotate: rotateOpposit, scale: starSize }];
   return (
-    <Animated.View style={[SS.S.CTNR_FLAG, { transform }]}>
+    <Animated.View
+      style={[
+        SS.S.CTNR_FLAG,
+        // { transform }
+      ]}
+    >
       <Animated.View
         style={[
           {
-            transform: [{ rotate: rotateOpposit }],
+            // transform: [{ rotate: rotateOpposit }],
             backgroundColor: C.errorRed,
             ...SS.S.FLAG_BCKGRD,
           },
-        ]}
+        ]}ink
       >
         <Animated.View
           style={[
