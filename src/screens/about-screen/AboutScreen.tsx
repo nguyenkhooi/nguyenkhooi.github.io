@@ -33,7 +33,7 @@ export default (props: IPSCR) => {
             <Image
               key={img + "_" + index}
               source={{ uri: img }}
-              style={{ width: WIDTH * 0.3, height: 100 }}
+              style={{ width: WIDTH * 0.3, height: 500 }}
             />
           ))}
         </RNMasonryScroll>

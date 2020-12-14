@@ -1,13 +1,14 @@
 import { img } from "assets";
 import { sstyled, TouchableWeb, Txt } from "components";
 import { useAppContext } from "engines";
-import * as React from "react";
+import React, { createElement } from "react";
 import { Animated, ImageStyle, View, ViewStyle } from "react-native";
 import * as Animatable from "react-native-animatable";
 import FA5 from "react-native-vector-icons/FontAwesome5";
 import { Navigation } from "screens";
 import {
   IPSCR,
+  LANG,
   moderateScale,
   spacing,
   THEME,
@@ -160,7 +161,7 @@ const $_FlagRing = () => {
         tension: 2,
         friction: 10,
         useNativeDriver: true,
-      }).start(() => setI18N("vi"));
+      }).start(() => setI18N(LANG.VI));
 
     animated._value == 0 &&
       Animated.spring(animated, {
@@ -168,7 +169,7 @@ const $_FlagRing = () => {
         tension: 2,
         friction: 10,
         useNativeDriver: true,
-      }).start(() => setI18N("en"));
+      }).start(() => setI18N(LANG.EN));
   }
 
   const transform = [{ rotate: rotate }];
