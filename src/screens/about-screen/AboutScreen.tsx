@@ -1,145 +1,180 @@
 import { sstyled, Txt } from "components";
-// import { moderateScale } from "react-native-size-matters";
 import { useAppContext, useSheets } from "engines";
-import * as React from "react";
+import * as R from "ramda";
+import React, { useState } from "react";
+import { ActivityIndicator, ImageStyle, ScrollView, View } from "react-native";
 import * as Animatable from "react-native-animatable";
-import { ScrollView, View, ViewStyle, Image } from "react-native";
-import { IPSCR, spacing, use18, useDimension } from "utils";
+// import { ScrollView } from "react-native-gesture-handler";
 import RNMasonryScroll from "react-native-masonry-scrollview";
+import Image from "react-native-scalable-image";
+import { spacing, useDimension } from "utils";
 
-export default (props: IPSCR) => {
+export default function AboutScreen(props) {
   const { C } = useAppContext();
-
-  const { data } = useSheets(0, "About");
   const { WIDTH } = useDimension();
-  return (
-    <Sctnr {...props}>
-      <Animatable.View animation="fadeInUp" delay={100}>
-        <TxtBody {...props} category={"s2"} adjustsFontSizeToFit>
-          {use18("bio-long")}
-        </TxtBody>
-      </Animatable.View>
+  const [screenShown, showScreen] = useState(false);
+  const { data } = useSheets(0, "About");
+  const headline = data[0]?.headline;
+  const [_contents, setContents] = React.useState([""]);
+
+  React.useEffect(
+    function sortContents() {
+      const dbContents = [
+        data[0]?.body00,
+        data[0]?.image00,
+        data[0]?.body01,
+        data[0]?.image01,
+        data[0]?.body02,
+        data[0]?.image02,
+        data[0]?.body03,
+        data[0]?.image03,
+        data[0]?.body04,
+        data[0]?.image04,
+        data[0]?.body05,
+        data[0]?.image05,
+        data[0]?.body06,
+        data[0]?.image06,
+        data[0]?.body07,
+        data[0]?.image07,
+        data[0]?.body08,
+        data[0]?.image08,
+        data[0]?.body09,
+        data[0]?.image09,
+        data[0]?.body10,
+        data[0]?.image10,
+      ];
+      const newContents = R.reject(
+        (content) => !content || content == "",
+        dbContents
+      );
+      setContents(newContents);
+      global.setTimeout(() => {
+        showScreen(true);
+        console.log("data: ", _contents);
+      }, 1000);
+    },
+    [data]
+  );
+
+  return screenShown ? (
+    <SS.Sctnr
+      horizontal
+      contentContainerStyle={{ justifyContent: "center", alignItems: "center" }}
+    >
+      <SS.Headline {...props}>{headline}</SS.Headline>
+
       <View style={{ justifyContent: "center", alignItems: "center" }}>
         <RNMasonryScroll
           showsHorizontalScrollIndicator={false}
           showsVerticalScrollIndicator={false}
           removeClippedSubviews={true}
           columns={WIDTH < 1000 ? 1 : 3}
-          evenColumnStyle={SS.S.evenColumnStyle}
-          oddColumnStyle={SS.S.oddColumnStyleHorizontal}
+          evenColumnStyle={{}}
+          oddColumnStyle={{ marginLeft: 60 }}
           horizontal={true}
         >
-          {images.map((img, index) => (
-            <Image
-              key={img + "_" + index}
-              source={{ uri: img }}
-              style={{ width: WIDTH * 0.3, height: 500 }}
-            />
-          ))}
+          {_contents.map((image, imageIndex) => {
+            return (
+              <C_ContentCard
+                key={imageIndex}
+                text={image}
+                imageIndex={imageIndex}
+              />
+            );
+          })}
         </RNMasonryScroll>
       </View>
-    </Sctnr>
+    </SS.Sctnr>
+  ) : (
+    <SS.CtnrLoading>
+      <ActivityIndicator size="large" color={C.primary} />
+    </SS.CtnrLoading>
   );
+}
+
+const C_ContentCard = (props: { text: string; imageIndex: number }) => {
+  const { text, imageIndex } = props;
+  const { WIDTH } = useDimension();
+
+  // const imageWidth: number = height * 0.4 - 20;
+  const imageWidth: number = WIDTH < 1000 ? WIDTH * 0.8 : WIDTH * 0.3;
+
+  const imageProp = { height: imageWidth };
+  // const isContentImg = startsWith("https://", text);
+  const isContentImg = text.includes("https");
+  switch (isContentImg) {
+    case true:
+      return imageIndex == 0 ? (
+        <Image
+          source={{ uri: text }}
+          {...imageProp}
+          key={imageIndex}
+          style={SS.S.IMG_CTNR}
+        />
+      ) : (
+        <SS.CtnrImg animation={"fadeInUp"} delay={100 * imageIndex}>
+          <Image source={{ uri: text }} {...imageProp} key={imageIndex} />
+        </SS.CtnrImg>
+      );
+      break;
+    case false:
+      return (
+        <SS.CtnrLabel animation={"fadeInUp"} delay={100 * imageIndex}>
+          <SS.Label
+            chieuRong={imageWidth}
+            adjustsFontSizeToFit
+            key={imageIndex}
+            // numberOfLines={20}
+            // ellipsizeMode={"head"}
+          >
+            {text}
+          </SS.Label>
+        </SS.CtnrLabel>
+      );
+      break;
+  }
 };
-
-const Sctnr = sstyled(ScrollView)((p) => ({
-  flex: 1,
-  // paddingHorizontal: spacing(6),
-  paddingTop: spacing(5),
-  backgroundColor: p.C.background,
-}));
-
-const TxtBody = sstyled(Txt.P1)((p) => ({
-  color: p.C.text,
-  paddingHorizontal: spacing(6),
-  textAlign: "center",
-}));
 
 const SS = {
-  Box: sstyled(View)({
-    height: 50,
-    width: 50,
-    backgroundColor: "red",
-    margin: 16,
-  }),
+  Sctnr: sstyled(ScrollView)((p) => ({
+    backgroundColor: p.C.background,
+    paddingTop: spacing(5),
+  })),
+  CtnrImg: sstyled(Animatable.View)((p) => ({
+    margin: 10,
+    borderRadius: 10,
+    overflow: "hidden",
+    backgroundColor: p.C.surface,
+  })),
+  CtnrLabel: sstyled(Animatable.View)(() => ({
+    margin: 10,
+    borderRadius: 10,
+    overflow: "hidden",
+    backgroundColor: "transparent",
+    alignItems: "center",
+    justifyContent: "center",
+  })),
+  CtnrLoading: sstyled(View)((p) => ({
+    justifyContent: "center",
+    alignItems: "center",
+    flex: 1,
+    backgroundColor: p.C.background,
+  })),
+  //*----Txt-SECTION ----------
+  Headline: sstyled(Txt.H6)((p) => ({
+    // fontSize: 26,
+    color: p.C.text,
+    textAlign: "center",
+    justifyContent: "center",
+    marginBottom: spacing(2),
+    paddingHorizontal: spacing(6),
+  })),
+  Label: sstyled(Txt.P2)((p) => ({ width: p.chieuRong, textAlign: "center" })),
   S: {
-    evenColumnStyle: {} as ViewStyle,
-    oddColumnStyleVertical: { marginTop: 60 } as ViewStyle,
-    oddColumnStyleHorizontal: { marginLeft: 60 } as ViewStyle,
+    IMG_CTNR: {
+      margin: 10,
+      borderRadius: 10,
+      overflow: "hidden",
+    } as ImageStyle,
   },
 };
-
-const images = [
-  "https://images.unsplash.com/photo-1558981001-792f6c0d5068?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=400&q=60",
-  "https://images.unsplash.com/photo-1580502734537-c6a7ee0bdb41?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=400&q=60",
-  "https://images.unsplash.com/photo-1580500325788-5012abe74ebf?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=400&q=60",
-  "https://images.unsplash.com/photo-1580524764764-284c2a54b185?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=400&q=60",
-  "https://images.unsplash.com/photo-1558981001-792f6c0d5068?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=400&q=60",
-  "https://images.unsplash.com/photo-1580502734537-c6a7ee0bdb41?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=400&q=60",
-  "https://images.unsplash.com/photo-1580500325788-5012abe74ebf?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=400&q=60",
-  "https://images.unsplash.com/photo-1580524764764-284c2a54b185?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=400&q=60",
-  "https://images.unsplash.com/photo-1558981001-792f6c0d5068?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=400&q=60",
-  "https://images.unsplash.com/photo-1580502734537-c6a7ee0bdb41?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=400&q=60",
-  "https://images.unsplash.com/photo-1580500325788-5012abe74ebf?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=400&q=60",
-  "https://images.unsplash.com/photo-1580524764764-284c2a54b185?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=400&q=60",
-  "https://images.unsplash.com/photo-1558981001-792f6c0d5068?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=400&q=60",
-  "https://images.unsplash.com/photo-1580502734537-c6a7ee0bdb41?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=400&q=60",
-  "https://images.unsplash.com/photo-1580500325788-5012abe74ebf?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=400&q=60",
-  "https://images.unsplash.com/photo-1580524764764-284c2a54b185?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=400&q=60",
-  "https://images.unsplash.com/photo-1558981001-792f6c0d5068?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=400&q=60",
-  "https://images.unsplash.com/photo-1580502734537-c6a7ee0bdb41?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=400&q=60",
-  "https://images.unsplash.com/photo-1580500325788-5012abe74ebf?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=400&q=60",
-  "https://images.unsplash.com/photo-1580524764764-284c2a54b185?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=400&q=60",
-  "https://images.unsplash.com/photo-1558981001-792f6c0d5068?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=400&q=60",
-  "https://images.unsplash.com/photo-1580502734537-c6a7ee0bdb41?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=400&q=60",
-  "https://images.unsplash.com/photo-1580500325788-5012abe74ebf?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=400&q=60",
-  "https://images.unsplash.com/photo-1580524764764-284c2a54b185?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=400&q=60",
-  "https://images.unsplash.com/photo-1558981001-792f6c0d5068?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=400&q=60",
-  "https://images.unsplash.com/photo-1580502734537-c6a7ee0bdb41?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=400&q=60",
-  "https://images.unsplash.com/photo-1580500325788-5012abe74ebf?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=400&q=60",
-  "https://images.unsplash.com/photo-1580524764764-284c2a54b185?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=400&q=60",
-  "https://images.unsplash.com/photo-1558981001-792f6c0d5068?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=400&q=60",
-  "https://images.unsplash.com/photo-1580502734537-c6a7ee0bdb41?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=400&q=60",
-  "https://images.unsplash.com/photo-1580500325788-5012abe74ebf?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=400&q=60",
-  "https://images.unsplash.com/photo-1580524764764-284c2a54b185?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=400&q=60",
-  "https://images.unsplash.com/photo-1558981001-792f6c0d5068?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=400&q=60",
-  "https://images.unsplash.com/photo-1580502734537-c6a7ee0bdb41?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=400&q=60",
-  "https://images.unsplash.com/photo-1580500325788-5012abe74ebf?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=400&q=60",
-  "https://images.unsplash.com/photo-1580524764764-284c2a54b185?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=400&q=60",
-  "https://images.unsplash.com/photo-1558981001-792f6c0d5068?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=400&q=60",
-  "https://images.unsplash.com/photo-1580502734537-c6a7ee0bdb41?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=400&q=60",
-  "https://images.unsplash.com/photo-1580500325788-5012abe74ebf?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=400&q=60",
-  "https://images.unsplash.com/photo-1580524764764-284c2a54b185?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=400&q=60",
-  "https://images.unsplash.com/photo-1558981001-792f6c0d5068?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=400&q=60",
-  "https://images.unsplash.com/photo-1580502734537-c6a7ee0bdb41?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=400&q=60",
-  "https://images.unsplash.com/photo-1580500325788-5012abe74ebf?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=400&q=60",
-  "https://images.unsplash.com/photo-1580524764764-284c2a54b185?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=400&q=60",
-  "https://images.unsplash.com/photo-1558981001-792f6c0d5068?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=400&q=60",
-  "https://images.unsplash.com/photo-1580502734537-c6a7ee0bdb41?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=400&q=60",
-  "https://images.unsplash.com/photo-1580500325788-5012abe74ebf?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=400&q=60",
-  "https://images.unsplash.com/photo-1580524764764-284c2a54b185?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=400&q=60",
-  "https://images.unsplash.com/photo-1558981001-792f6c0d5068?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=400&q=60",
-  "https://images.unsplash.com/photo-1580502734537-c6a7ee0bdb41?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=400&q=60",
-  "https://images.unsplash.com/photo-1580500325788-5012abe74ebf?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=400&q=60",
-  "https://images.unsplash.com/photo-1580524764764-284c2a54b185?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=400&q=60",
-  "https://images.unsplash.com/photo-1558981001-792f6c0d5068?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=400&q=60",
-  "https://images.unsplash.com/photo-1580502734537-c6a7ee0bdb41?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=400&q=60",
-  "https://images.unsplash.com/photo-1580500325788-5012abe74ebf?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=400&q=60",
-  "https://images.unsplash.com/photo-1580524764764-284c2a54b185?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=400&q=60",
-  "https://images.unsplash.com/photo-1558981001-792f6c0d5068?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=400&q=60",
-  "https://images.unsplash.com/photo-1580502734537-c6a7ee0bdb41?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=400&q=60",
-  "https://images.unsplash.com/photo-1580500325788-5012abe74ebf?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=400&q=60",
-  "https://images.unsplash.com/photo-1580524764764-284c2a54b185?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=400&q=60",
-  "https://images.unsplash.com/photo-1558981001-792f6c0d5068?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=400&q=60",
-  "https://images.unsplash.com/photo-1580502734537-c6a7ee0bdb41?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=400&q=60",
-  "https://images.unsplash.com/photo-1580500325788-5012abe74ebf?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=400&q=60",
-  "https://images.unsplash.com/photo-1580524764764-284c2a54b185?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=400&q=60",
-  "https://images.unsplash.com/photo-1558981001-792f6c0d5068?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=400&q=60",
-  "https://images.unsplash.com/photo-1580502734537-c6a7ee0bdb41?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=400&q=60",
-  "https://images.unsplash.com/photo-1580500325788-5012abe74ebf?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=400&q=60",
-  "https://images.unsplash.com/photo-1580524764764-284c2a54b185?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=400&q=60",
-  "https://images.unsplash.com/photo-1558981001-792f6c0d5068?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=400&q=60",
-  "https://images.unsplash.com/photo-1580502734537-c6a7ee0bdb41?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=400&q=60",
-  "https://images.unsplash.com/photo-1580500325788-5012abe74ebf?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=400&q=60",
-  "https://images.unsplash.com/photo-1580524764764-284c2a54b185?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=400&q=60",
-];
