@@ -188,7 +188,7 @@ const $_FlagRing = () => {
             backgroundColor: C.errorRed,
             ...SS.S.FLAG_BCKGRD,
           },
-        ]}ink
+        ]}
       >
         <Animated.View
           style={[
