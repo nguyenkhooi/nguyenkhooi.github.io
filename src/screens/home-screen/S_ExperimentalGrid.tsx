@@ -16,6 +16,7 @@ import { Placeholder, ShineOverlay, PlaceholderMedia } from "rn-placeholder";
 import { Navigation } from "screens/_navigation";
 import { dColors, IPSCR, scale, spacing, use18, useDimension } from "utils";
 import * as Animatable from "react-native-animatable";
+import { useLinkTo } from "@react-navigation/native";
 
 export function S_ExperimentalGrid(props: IPSCR) {
   const { C } = useAppContext();
@@ -28,7 +29,7 @@ export function S_ExperimentalGrid(props: IPSCR) {
 
   const refGrid = React.useRef<Animatable.View>();
   const [selectedIndex, setSelectedIndex] = React.useState(new IndexPath(0));
-
+  const linkTo = useLinkTo();
   return (
     <View style={{}}>
       {/* <Text>{JSON.stringify(keys)}</Text> */}
@@ -71,9 +72,12 @@ export function S_ExperimentalGrid(props: IPSCR) {
               <Animatable.View animation="fadeIn" delay={100 * index}>
                 <GridCtnr
                   {...props}
-                  onPress={() =>
-                    Navigation.navigate("Project", { project: item })
-                  }
+                  onPress={() => {
+                    linkTo("/project/" + item.title);
+                    Navigation.navigate("Project", {
+                      project: item,
+                    });
+                  }}
                   item={item}
                 />
               </Animatable.View>
