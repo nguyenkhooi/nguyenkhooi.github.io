@@ -4,26 +4,40 @@ import {
   TransitionPresets,
 } from "@react-navigation/stack";
 import { IconOooh, img } from "assets";
+import Color from "color";
 import { useAppContext } from "engines/providers/app-provider";
 import * as R from "ramda";
 import React from "react";
-import { Image, TextStyle } from "react-native";
+import { Image, TextStyle, View } from "react-native";
+import { GalleryScreen } from "screens/gallery-screen/GalleryScreen";
 import ProjectScreen from "screens/project-screen/ProjectScreen";
 import { IPSCR, KeyOf, spacing } from "utils";
 import AboutScreen from "../about-screen/AboutScreen";
 import HomeScreen from "../home-screen/HomeScreen";
 import { Navigation, presetNavConfig } from "./navigation-utils";
-
-const screenProps = {
+const screenProps: {
+  [name: string]: { component: any; options: StackNavigationOptions };
+} = {
+  // const screenProps = {
   Home: {
     component: HomeScreen,
     options: { ...presetNavConfig.noHeader, title: "Khoi Tran" },
   },
-  About: { component: AboutScreen },
+  About: {
+    component: AboutScreen,
+    options: {
+      title: "About",
+      headerTransparent: true,
+    },
+  },
   Project: {
     component: ProjectScreen,
     options: ({ route }) =>
       presetNavConfig.headerTitle({ route, param: "project", key: "title" }),
+  },
+  Gallery: {
+    component: GalleryScreen,
+    options: { headerTitle: "", headerTransparent: true },
   },
 };
 

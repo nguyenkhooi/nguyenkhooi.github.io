@@ -1,35 +1,34 @@
-import { Spinner } from "@ui-kitten/components";
 import { sstyled, SwipeDeck, Txt } from "components";
 import { useAppContext, useSheets } from "engines";
 import * as R from "ramda";
 import React, { useState } from "react";
 import {
+  ActivityIndicator,
   FlatList,
   ImageStyle,
   Linking,
   ScrollView,
-  TextStyle,
   View,
-  ViewStyle
 } from "react-native";
 import * as Animatable from "react-native-animatable";
 // import { ScrollView } from "react-native-gesture-handler";
 import RNMasonryScroll from "react-native-masonry-scrollview";
-import Image from "react-native-scalable-image";
-import { dColors, scale, spacing, useDimension } from "utils";
+import { Navigation } from "screens";
+import { spacing, useDimension } from "utils";
+import { S_SockdartHi } from "./s-sockdart-hi-3d";
+import { C_ContentCard } from "./c-content-card";
+import { S_Koiwave } from "./s-koiwave-3d";
 
 function ProjectScreen(props) {
-  const { navigation, route } = props;
-  const { C } = useAppContext();
+  const { route } = props;
   const { WIDTH } = useDimension();
   const [screenShown, showScreen] = useState(false);
-  const [isHorizontal, setIsHorizontal] = useState(false);
 
   const {
     project: { color: projectColor, headline },
   } = route.params;
   const [_contents, setContents] = React.useState([""]);
-  const [_index, setIndex] = React.useState(0);
+  const [_imgContents, setImgContents] = React.useState([""]);
 
   React.useEffect(function sortContents() {
     const dbContents = [
@@ -58,13 +57,16 @@ function ProjectScreen(props) {
       (content) => !content || content == "",
       dbContents
     );
+    const imgContents = R.filter(
+      (content: string) => content.includes("http"),
+      newContents
+    ).reduce((a, c) => [...a, { url: c }], []);
     setContents(newContents);
+    setImgContents(imgContents);
     global.setTimeout(() => {
       showScreen(true);
     }, 1000);
   }, []);
-
-  const refBody = React.useRef<FlatList>(null);
 
   return screenShown ? (
     <SS.Sctnr
@@ -78,13 +80,9 @@ function ProjectScreen(props) {
           showsVerticalScrollIndicator={false}
           removeClippedSubviews={true}
           columns={WIDTH < 1000 ? 1 : 3}
-          evenColumnStyle={SSS(C).evenColumnStyle}
-          oddColumnStyle={
-            isHorizontal
-              ? SSS(C).oddColumnStyleHorizontal
-              : SSS(C).oddColumnStyleVertical
-          }
-          horizontal={isHorizontal}
+          evenColumnStyle={{}}
+          oddColumnStyle={{ marginTop: 60 }}
+          horizontal={false}
         >
           {_contents.map((image, imageIndex) => {
             return (
@@ -92,6 +90,16 @@ function ProjectScreen(props) {
                 key={imageIndex}
                 text={image}
                 imageIndex={imageIndex}
+                onImagePress={() => {
+                  let imgIndex = R.findIndex(R.propEq("url", image))(
+                    _imgContents
+                  );
+                  // console.log("img index: ", imgIndex);
+                  Navigation.navigate("Gallery", {
+                    images: _imgContents,
+                    imgIndex,
+                  });
+                }}
               />
             );
           })}
@@ -101,71 +109,25 @@ function ProjectScreen(props) {
         {...props}
         visible={route.params["project"]["title"] == "Ringading"}
       />
+      <$_Koiwave
+        {...props}
+        visible={route.params["project"]["title"] == "Koiwave"}
+      />
+      <$_Sockdart
+        {...props}
+        visible={
+          route.params["project"]["title"] == "Koi x Nike Sock Dart High"
+        }
+      />
     </SS.Sctnr>
   ) : (
-    <SS.CtnrLoading projectColor={projectColor}>
-      <Spinner size="giant" />
+    <SS.CtnrLoading>
+      <ActivityIndicator size="large" color={projectColor} />
     </SS.CtnrLoading>
   );
 }
 
 export default ProjectScreen;
-
-const C_ContentCard = (props: { text: string; imageIndex: number }) => {
-  const { text, imageIndex } = props;
-  const { C } = useAppContext();
-  const { WIDTH } = useDimension();
-
-  // const imageWidth: number = height * 0.4 - 20;
-  const imageWidth: number = WIDTH < 1000 ? WIDTH * 0.8 : WIDTH * 0.3;
-  const [isHorizontal, setIsHorizontal] = useState(false);
-
-  const toggleHorizontal = () => setIsHorizontal(!isHorizontal);
-
-  const imageProp = isHorizontal
-    ? { height: imageWidth }
-    : { width: imageWidth };
-  const startsWith = R.invoker(1, "startsWith");
-  // const isContentImg = startsWith("https://", text);
-  const isContentImg = text.includes("https");
-  switch (isContentImg) {
-    case true:
-      return imageIndex == 0 ? (
-        <Image
-          source={{ uri: text }}
-          {...imageProp}
-          key={imageIndex}
-          style={SSS(C).IMG_CTNR}
-        />
-      ) : (
-        <SS.CtnrImg
-          animation={isHorizontal ? "fadeInRight" : "fadeInUp"}
-          delay={100 * imageIndex}
-        >
-          <Image source={{ uri: text }} {...imageProp} key={imageIndex} />
-        </SS.CtnrImg>
-      );
-      break;
-    case false:
-      return (
-        <SS.CtnrLabel
-          animation={isHorizontal ? "fadeInRight" : "fadeInUp"}
-          delay={100 * imageIndex}
-        >
-          <SS.Label
-            chieuRong={imageWidth}
-            adjustsFontSizeToFit
-            key={imageIndex}
-            // numberOfLines={20}
-            // ellipsizeMode={"head"}
-          >
-            {text}
-          </SS.Label>
-        </SS.CtnrLabel>
-      );
-      break;
-  }
-};
 
 const $_RingadingDeck = (props) => {
   const { visible } = props;
@@ -243,7 +205,11 @@ const $_RingadingDeck = (props) => {
   );
 };
 
-const SS = {
+const $_Koiwave = S_Koiwave;
+
+const $_Sockdart = S_SockdartHi;
+
+export const SS = {
   Sctnr: sstyled(ScrollView)((p) => ({
     backgroundColor: p.C.background,
     paddingTop: spacing(5),
@@ -254,7 +220,7 @@ const SS = {
     overflow: "hidden",
     backgroundColor: p.C.surface,
   })),
-  CtnrLabel: sstyled(Animatable.View)((p) => ({
+  CtnrLabel: sstyled(Animatable.View)(() => ({
     margin: 10,
     borderRadius: 10,
     overflow: "hidden",
@@ -266,7 +232,7 @@ const SS = {
     justifyContent: "center",
     alignItems: "center",
     flex: 1,
-    backgroundColor: p.projectColor,
+    backgroundColor: p.C.background,
   })),
   //*----Txt-SECTION ----------
   Headline: sstyled(Txt.H6)((p) => ({
@@ -278,54 +244,11 @@ const SS = {
     paddingHorizontal: spacing(6),
   })),
   Label: sstyled(Txt.P2)((p) => ({ width: p.chieuRong, textAlign: "center" })),
-};
-
-const SSS = (C?: dColors) => {
-  return {
-    LOADING_CTNR: {
-      justifyContent: "center",
-      alignItems: "center",
-      flex: 1,
-    } as ViewStyle,
+  S: {
     IMG_CTNR: {
       margin: 10,
       borderRadius: 10,
       overflow: "hidden",
-      backgroundColor: C?.surface01,
     } as ImageStyle,
-    evenColumnStyle: {} as ViewStyle,
-    oddColumnStyleVertical: { marginTop: 60 } as ViewStyle,
-    oddColumnStyleHorizontal: { marginLeft: 60 } as ViewStyle,
-
-    BODY_CTNR: {
-      alignItems: "center",
-      justifyContent: "center",
-      paddingHorizontal: spacing(2),
-      borderWidth: 1,
-      borderColor: "white",
-    } as ViewStyle,
-    GRID_CTNR: {
-      marginTop: 10,
-      marginHorizontal: spacing(5),
-      //   justifyContent: "center",
-      //   alignItems: "center",
-      // flex: 1,
-    } as ViewStyle,
-    ITEM_CTNR: {
-      justifyContent: "flex-end",
-      borderRadius: 5,
-      padding: 10,
-      overflow: "hidden",
-    } as ImageStyle,
-    itemName: {
-      fontSize: scale(18),
-      color: "#fff",
-      fontWeight: "600",
-    } as TextStyle,
-    itemCode: {
-      // fontWeight: "600",
-      fontSize: scale(12),
-      color: "#fff",
-    } as TextStyle,
-  };
+  },
 };
