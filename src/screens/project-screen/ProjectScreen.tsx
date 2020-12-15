@@ -8,12 +8,14 @@ import {
   ImageStyle,
   Linking,
   ScrollView,
+  TouchableOpacity,
   View,
 } from "react-native";
 import * as Animatable from "react-native-animatable";
 // import { ScrollView } from "react-native-gesture-handler";
 import RNMasonryScroll from "react-native-masonry-scrollview";
 import Image from "react-native-scalable-image";
+import { Navigation } from "screens";
 import { spacing, useDimension } from "utils";
 
 function ProjectScreen(props) {
@@ -25,6 +27,7 @@ function ProjectScreen(props) {
     project: { color: projectColor, headline },
   } = route.params;
   const [_contents, setContents] = React.useState([""]);
+  const [_imgContents, setImgContents] = React.useState([""]);
 
   React.useEffect(function sortContents() {
     const dbContents = [
@@ -53,7 +56,12 @@ function ProjectScreen(props) {
       (content) => !content || content == "",
       dbContents
     );
+    const imgContents = R.filter(
+      (content: string) => content.includes("http"),
+      newContents
+    ).reduce((a, c) => [...a, { url: c }], []);
     setContents(newContents);
+    setImgContents(imgContents);
     global.setTimeout(() => {
       showScreen(true);
     }, 1000);
@@ -81,6 +89,16 @@ function ProjectScreen(props) {
                 key={imageIndex}
                 text={image}
                 imageIndex={imageIndex}
+                onImagePress={() => {
+                  let imgIndex = R.findIndex(R.propEq("url", image))(
+                    _imgContents
+                  );
+                  // console.log("img index: ", imgIndex);
+                  Navigation.navigate("Gallery", {
+                    images: _imgContents,
+                    imgIndex,
+                  });
+                }}
               />
             );
           })}
@@ -111,8 +129,12 @@ function ProjectScreen(props) {
 
 export default ProjectScreen;
 
-const C_ContentCard = (props: { text: string; imageIndex: number }) => {
-  const { text, imageIndex } = props;
+const C_ContentCard = (props: {
+  text: string;
+  imageIndex: number;
+  onImagePress?(): void;
+}) => {
+  const { text, imageIndex, onImagePress } = props;
   const { WIDTH } = useDimension();
 
   // const imageWidth: number = height * 0.4 - 20;
@@ -123,17 +145,21 @@ const C_ContentCard = (props: { text: string; imageIndex: number }) => {
   const isContentImg = text.includes("https");
   switch (isContentImg) {
     case true:
-      return imageIndex == 0 ? (
-        <Image
-          source={{ uri: text }}
-          {...imageProp}
-          key={imageIndex}
-          style={SS.S.IMG_CTNR}
-        />
-      ) : (
-        <SS.CtnrImg animation={"fadeInUp"} delay={100 * imageIndex}>
-          <Image source={{ uri: text }} {...imageProp} key={imageIndex} />
-        </SS.CtnrImg>
+      return (
+        <TouchableOpacity onPress={onImagePress}>
+          {imageIndex == 0 ? (
+            <Image
+              source={{ uri: text }}
+              {...imageProp}
+              key={imageIndex}
+              style={SS.S.IMG_CTNR}
+            />
+          ) : (
+            <SS.CtnrImg animation={"fadeInUp"} delay={100 * imageIndex}>
+              <Image source={{ uri: text }} {...imageProp} key={imageIndex} />
+            </SS.CtnrImg>
+          )}
+        </TouchableOpacity>
       );
       break;
     case false:
