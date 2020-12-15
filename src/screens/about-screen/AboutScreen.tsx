@@ -2,12 +2,22 @@ import { sstyled, Txt } from "components";
 import { useAppContext, useSheets } from "engines";
 import * as R from "ramda";
 import React, { useState } from "react";
-import { ActivityIndicator, ImageStyle, ScrollView, View } from "react-native";
+import {
+  ActivityIndicator,
+  ImageStyle,
+  ScrollView,
+  View,
+  TouchableOpacity,
+} from "react-native";
 import * as Animatable from "react-native-animatable";
 // import { ScrollView } from "react-native-gesture-handler";
 import RNMasonryScroll from "react-native-masonry-scrollview";
 import Image from "react-native-scalable-image";
 import { spacing, useDimension } from "utils";
+import ImageViewer from "react-native-image-zoom-viewer";
+import { Navigation } from "screens/_navigation";
+
+
 
 export default function AboutScreen(props) {
   const { C } = useAppContext();
@@ -16,6 +26,7 @@ export default function AboutScreen(props) {
   const { data } = useSheets(0, "About");
   const headline = data[0]?.headline;
   const [_contents, setContents] = React.useState([""]);
+  const [_imgContents, setImgContents] = React.useState([""]);
 
   React.useEffect(
     function sortContents() {
@@ -47,10 +58,15 @@ export default function AboutScreen(props) {
         (content) => !content || content == "",
         dbContents
       );
+      const imgContents = R.filter(
+        (content: string) => content.includes("http"),
+        newContents
+      ).reduce((a, c) => [...a, { url: c }], []);
       setContents(newContents);
+      setImgContents(imgContents);
       global.setTimeout(() => {
         showScreen(true);
-        console.log("data: ", _contents);
+        // console.log("data: ", imgContents);
       }, 1000);
     },
     [data]
@@ -61,7 +77,17 @@ export default function AboutScreen(props) {
       horizontal
       contentContainerStyle={{ justifyContent: "center", alignItems: "center" }}
     >
-      <SS.Headline {...props}>{headline}</SS.Headline>
+      <SS.Headline
+        onPress={() =>
+          Navigation.navigate("Gallery", {
+            images: _imgContents,
+            imgIndex: 3,
+          })
+        }
+        {...props}
+      >
+        {headline}
+      </SS.Headline>
 
       <View style={{ justifyContent: "center", alignItems: "center" }}>
         <RNMasonryScroll
@@ -79,6 +105,16 @@ export default function AboutScreen(props) {
                 key={imageIndex}
                 text={image}
                 imageIndex={imageIndex}
+                onImagePress={() => {
+                  let imgIndex = R.findIndex(R.propEq("url", image))(
+                    _imgContents
+                  );
+                  // console.log("img index: ", imgIndex);
+                  Navigation.navigate("Gallery", {
+                    images: _imgContents,
+                    imgIndex,
+                  });
+                }}
               />
             );
           })}
@@ -92,8 +128,12 @@ export default function AboutScreen(props) {
   );
 }
 
-const C_ContentCard = (props: { text: string; imageIndex: number }) => {
-  const { text, imageIndex } = props;
+const C_ContentCard = (props: {
+  text: string;
+  imageIndex: number;
+  onImagePress?(): void;
+}) => {
+  const { text, imageIndex, onImagePress } = props;
   const { WIDTH } = useDimension();
 
   // const imageWidth: number = height * 0.4 - 20;
@@ -104,17 +144,21 @@ const C_ContentCard = (props: { text: string; imageIndex: number }) => {
   const isContentImg = text.includes("https");
   switch (isContentImg) {
     case true:
-      return imageIndex == 0 ? (
-        <Image
-          source={{ uri: text }}
-          {...imageProp}
-          key={imageIndex}
-          style={SS.S.IMG_CTNR}
-        />
-      ) : (
-        <SS.CtnrImg animation={"fadeInUp"} delay={100 * imageIndex}>
-          <Image source={{ uri: text }} {...imageProp} key={imageIndex} />
-        </SS.CtnrImg>
+      return (
+        <TouchableOpacity onPress={onImagePress}>
+          {imageIndex == 0 ? (
+            <Image
+              source={{ uri: text }}
+              {...imageProp}
+              key={imageIndex}
+              style={SS.S.IMG_CTNR}
+            />
+          ) : (
+            <SS.CtnrImg animation={"fadeInUp"} delay={100 * imageIndex}>
+              <Image source={{ uri: text }} {...imageProp} key={imageIndex} />
+            </SS.CtnrImg>
+          )}
+        </TouchableOpacity>
       );
       break;
     case false:

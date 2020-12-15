@@ -8,6 +8,7 @@ import { useAppContext } from "engines/providers/app-provider";
 import * as R from "ramda";
 import React from "react";
 import { Image, TextStyle } from "react-native";
+import { GalleryScreen } from "screens/gallery-screen/GalleryScreen";
 import ProjectScreen from "screens/project-screen/ProjectScreen";
 import { IPSCR, KeyOf, spacing } from "utils";
 import AboutScreen from "../about-screen/AboutScreen";
@@ -24,6 +25,10 @@ const screenProps = {
     component: ProjectScreen,
     options: ({ route }) =>
       presetNavConfig.headerTitle({ route, param: "project", key: "title" }),
+  },
+  Gallery: {
+    component: GalleryScreen,
+    options: { title: "Gallery", headerTransparent: true },
   },
 };
 

@@ -107,7 +107,7 @@ const NiAvatar = () => {
   const [] = React.useState<"Let's hi-five!" | "Noice">("Let's hi-five!");
   return (
     <SS.Ctnr>
-      <SS.Avatar animation={"fadeIn"} source={img.khoi} />
+      <SS.Avatar source={img.khoi} />
       <$_FlagRing />
     </SS.Ctnr>
   );
