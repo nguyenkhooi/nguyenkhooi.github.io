@@ -14,7 +14,7 @@ import * as React from "react";
 import { View } from "react-native";
 import { KeyOf, spacing, THEME } from "utils";
 // import { HomeScreen } from "../home-screen/HomeScreen";
-import { presetNavConfig } from "./navigation-utils";
+import { linking, presetNavConfig } from "./navigation-utils";
 // import { PrimaryStack } from "./primary-navigator";
 import { PrimaryStack } from "./primary.navigator";
 
@@ -44,16 +44,6 @@ export const RootStack = (props) => {
     },
 
     headerTitleAlign: "center",
-    headerRight: (props) => (
-      <View style={{ paddingHorizontal: spacing(3) }}>
-        <Toggle
-          checked={dark}
-          onChange={() => setTheme(dark ? THEME.LIGHT : THEME.DARK)}
-        >
-          <Text category={"h6"}>{dark ? "🌒" : "🌞"}</Text>
-        </Toggle>
-      </View>
-    ),
   };
 
   return (
@@ -82,7 +72,7 @@ export const AppNavigator = React.forwardRef<
   const { isReady } = useAppContext();
   return (
     isReady && (
-      <NavigationContainer {...props} ref={ref}>
+      <NavigationContainer {...props} ref={ref} linking={linking}>
         <RootStack />
       </NavigationContainer>
     )

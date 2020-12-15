@@ -34,6 +34,7 @@ import {
 import { Navigation } from "screens/_navigation";
 import { dColors, IPSCR, scale, spacing, use18, useDimension } from "utils";
 import * as Animatable from "react-native-animatable";
+import { useLinkTo } from "@react-navigation/native";
 
 export function S_PortfolioGrid(props: IPSCR) {
   const { C } = useAppContext();
@@ -45,7 +46,7 @@ export function S_PortfolioGrid(props: IPSCR) {
 
   const refGrid = React.useRef<Animatable.View>();
   const [selectedIndex, setSelectedIndex] = React.useState(new IndexPath(0));
-
+  const linkTo = useLinkTo();
   return (
     <View style={{}}>
       <Txt.$Title>{use18("Work")}</Txt.$Title>
@@ -86,9 +87,12 @@ export function S_PortfolioGrid(props: IPSCR) {
               <Animatable.View animation="fadeIn" delay={100 * index}>
                 <CtnrGrid
                   {...props}
-                  onPress={() =>
-                    Navigation.navigate("Project", { project: item })
-                  }
+                  onPress={() => {
+                    linkTo("/project/" + item.title);
+                    Navigation.navigate("Project", {
+                      project: item,
+                    });
+                  }}
                   item={item}
                 />
               </Animatable.View>
@@ -113,6 +117,7 @@ const CtnrGrid = (props: dGridCtnr) => {
   const { C } = useAppContext();
   const [_borderWidth, setBorderWidth] = React.useState(0);
   const { WIDTH: width } = useDimension("window");
+  const linkTo = useLinkTo();
   return type != "placeholder" ? (
     <TouchableWeb
       onMouseEnter={(e) => {

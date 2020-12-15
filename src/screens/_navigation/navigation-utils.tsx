@@ -1,11 +1,13 @@
 import {
   DefaultNavigatorOptions,
+  LinkingOptions,
   NavigationContainerRef,
   NavigationState,
   PartialState,
   RouteProp,
 } from "@react-navigation/native";
 import { StackNavigationOptions } from "@react-navigation/stack";
+import { Linking } from "expo";
 import React, { useEffect, useRef, useState } from "react";
 import { BackHandler } from "react-native";
 // import { enum_HomeStack } from "./home-navigator";
@@ -22,6 +24,21 @@ export type dStackedScreenItem = {
   component: (props) => JSX.Element;
   // options: StackNavigationOptions;
   options?: DefaultNavigatorOptions<StackNavigationOptions>["screenOptions"];
+};
+
+const prefix = Linking.makeUrl("/");
+export const linking: LinkingOptions = {
+  prefixes: [prefix],
+  config: {
+    screens: {
+      Primary: "0",
+      Home: "home",
+      About: "about",
+      Project: {
+        path: "project/:title/",
+      },
+    },
+  },
 };
 
 // ScreenOptions | ((props: {

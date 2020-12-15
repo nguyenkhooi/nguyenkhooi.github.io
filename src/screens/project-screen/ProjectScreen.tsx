@@ -8,15 +8,16 @@ import {
   ImageStyle,
   Linking,
   ScrollView,
-  TouchableOpacity,
   View,
 } from "react-native";
 import * as Animatable from "react-native-animatable";
 // import { ScrollView } from "react-native-gesture-handler";
 import RNMasonryScroll from "react-native-masonry-scrollview";
-import Image from "react-native-scalable-image";
 import { Navigation } from "screens";
 import { spacing, useDimension } from "utils";
+import { S_SockdartHi } from "./s-sockdart-hi-3d";
+import { C_ContentCard } from "./c-content-card";
+import { S_Koiwave } from "./s-koiwave-3d";
 
 function ProjectScreen(props) {
   const { route } = props;
@@ -115,8 +116,7 @@ function ProjectScreen(props) {
       <$_Sockdart
         {...props}
         visible={
-          route.params["project"]["title"] ==
-          "Natasha with Hot Pink Nike Sock Dart High"
+          route.params["project"]["title"] == "Koi x Nike Sock Dart High"
         }
       />
     </SS.Sctnr>
@@ -128,57 +128,6 @@ function ProjectScreen(props) {
 }
 
 export default ProjectScreen;
-
-const C_ContentCard = (props: {
-  text: string;
-  imageIndex: number;
-  onImagePress?(): void;
-}) => {
-  const { text, imageIndex, onImagePress } = props;
-  const { WIDTH } = useDimension();
-
-  // const imageWidth: number = height * 0.4 - 20;
-  const imageWidth: number = WIDTH < 1000 ? WIDTH * 0.8 : WIDTH * 0.3;
-
-  const imageProp = { width: imageWidth };
-  // const isContentImg = startsWith("https://", text);
-  const isContentImg = text.includes("https");
-  switch (isContentImg) {
-    case true:
-      return (
-        <TouchableOpacity onPress={onImagePress}>
-          {imageIndex == 0 ? (
-            <Image
-              source={{ uri: text }}
-              {...imageProp}
-              key={imageIndex}
-              style={SS.S.IMG_CTNR}
-            />
-          ) : (
-            <SS.CtnrImg animation={"fadeInUp"} delay={100 * imageIndex}>
-              <Image source={{ uri: text }} {...imageProp} key={imageIndex} />
-            </SS.CtnrImg>
-          )}
-        </TouchableOpacity>
-      );
-      break;
-    case false:
-      return (
-        <SS.CtnrLabel animation={"fadeInUp"} delay={100 * imageIndex}>
-          <SS.Label
-            chieuRong={imageWidth}
-            adjustsFontSizeToFit
-            key={imageIndex}
-            // numberOfLines={20}
-            // ellipsizeMode={"head"}
-          >
-            {text}
-          </SS.Label>
-        </SS.CtnrLabel>
-      );
-      break;
-  }
-};
 
 const $_RingadingDeck = (props) => {
   const { visible } = props;
@@ -256,55 +205,11 @@ const $_RingadingDeck = (props) => {
   );
 };
 
-function $_Koiwave(props: dKoiwave) {
-  const { visible } = props;
-  const { WIDTH } = useDimension();
-  return (
-    visible && (
-      <View style={{ justifyContent: "center", alignItems: "center" }}>
-        <div>
-          <iframe
-            title="A 3D model"
-            width={WIDTH}
-            height="480"
-            src="https://sketchfab.com/models/f0c987ac5c9b4fb0a40576a6ae46b92e/embed?autospin=0.6&amp;autostart=0&amp;ui_controls=1&amp;ui_infos=1&amp;ui_inspector=1&amp;ui_stop=1&amp;ui_watermark=1&amp;ui_watermark_link=1"
-            //@ts-ignore
-            frameborder="0"
-            allow="autoplay; fullscreen; vr"
-            mozallowfullscreen="true"
-            webkitallowfullscreen="true"
-          ></iframe>
-        </div>
-      </View>
-    )
-  );
-}
+const $_Koiwave = S_Koiwave;
 
-function $_Sockdart(props: dKoiwave) {
-  const { visible } = props;
-  const { WIDTH } = useDimension();
-  return (
-    visible && (
-      <View style={{ justifyContent: "center", alignItems: "center" }}>
-        <div>
-          <iframe
-            title="A 3D model"
-            width={WIDTH}
-            height="480"
-            src="https://sketchfab.com/models/a24b84781d3947798ae14385b34c82ca/embed?autospin=0.6&amp;autostart=0&amp;ui_controls=1&amp;ui_infos=1&amp;ui_inspector=1&amp;ui_stop=1&amp;ui_watermark=1&amp;ui_watermark_link=1"
-            //@ts-ignore
-            frameborder="0"
-            allow="autoplay; fullscreen; vr"
-            mozallowfullscreen="true"
-            webkitallowfullscreen="true"
-          ></iframe>
-        </div>
-      </View>
-    )
-  );
-}
+const $_Sockdart = S_SockdartHi;
 
-const SS = {
+export const SS = {
   Sctnr: sstyled(ScrollView)((p) => ({
     backgroundColor: p.C.background,
     paddingTop: spacing(5),

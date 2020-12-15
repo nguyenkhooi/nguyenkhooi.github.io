@@ -13,11 +13,9 @@ import * as Animatable from "react-native-animatable";
 // import { ScrollView } from "react-native-gesture-handler";
 import RNMasonryScroll from "react-native-masonry-scrollview";
 import Image from "react-native-scalable-image";
-import { spacing, useDimension } from "utils";
+import { spacing, use18, useDimension } from "utils";
 import ImageViewer from "react-native-image-zoom-viewer";
 import { Navigation } from "screens/_navigation";
-
-
 
 export default function AboutScreen(props) {
   const { C } = useAppContext();
@@ -77,18 +75,29 @@ export default function AboutScreen(props) {
       horizontal
       contentContainerStyle={{ justifyContent: "center", alignItems: "center" }}
     >
-      <SS.Headline
-        onPress={() =>
-          Navigation.navigate("Gallery", {
-            images: _imgContents,
-            imgIndex: 3,
-          })
-        }
-        {...props}
+      <Animatable.View
+        animation="fadeIn"
+        style={{ width: WIDTH * 0.95, alignItems: "center" }}
       >
-        {headline}
-      </SS.Headline>
-
+        <SS.Headline
+          onPress={() =>
+            Navigation.navigate("Gallery", {
+              images: _imgContents,
+              imgIndex: 3,
+            })
+          }
+          {...props}
+        >
+          {use18(headline)}
+        </SS.Headline>
+        <Animatable.Text
+          style={{ color: C.grey600 }}
+          animation="pulse"
+          iterationCount="infinite"
+        >
+          {use18("Let's scroll") + " ⟶"}
+        </Animatable.Text>
+      </Animatable.View>
       <View style={{ justifyContent: "center", alignItems: "center" }}>
         <RNMasonryScroll
           showsHorizontalScrollIndicator={false}
@@ -154,7 +163,7 @@ const C_ContentCard = (props: {
               style={SS.S.IMG_CTNR}
             />
           ) : (
-            <SS.CtnrImg animation={"fadeInUp"} delay={100 * imageIndex}>
+            <SS.CtnrImg animation={"fadeIn"} delay={100 * imageIndex}>
               <Image source={{ uri: text }} {...imageProp} key={imageIndex} />
             </SS.CtnrImg>
           )}
@@ -163,7 +172,7 @@ const C_ContentCard = (props: {
       break;
     case false:
       return (
-        <SS.CtnrLabel animation={"fadeInUp"} delay={100 * imageIndex}>
+        <SS.CtnrLabel animation={"fadeIn"} delay={100 * imageIndex}>
           <SS.Label
             chieuRong={imageWidth}
             adjustsFontSizeToFit
@@ -171,7 +180,7 @@ const C_ContentCard = (props: {
             // numberOfLines={20}
             // ellipsizeMode={"head"}
           >
-            {text}
+            {use18(text)}
           </SS.Label>
         </SS.CtnrLabel>
       );
