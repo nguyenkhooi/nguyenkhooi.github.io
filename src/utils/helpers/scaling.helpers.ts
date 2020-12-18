@@ -1,5 +1,4 @@
-import React from "react";
-import { Dimensions } from "react-native";
+import { useWindowDimensions } from "react-native";
 
 /**
  * A hook that gets dynamic dimensions,
@@ -11,24 +10,27 @@ import { Dimensions } from "react-native";
  *
  * ```
  * ---
- * @version 0.9.19
+ * @version 0.12.15
+ * -  *Use useWindowDimensions(_)*
  * @author nguyenkhooi
  */
 export function useDimension(type: "screen" | "window" = "window"): dDime {
-  const [dimensions, setDimensions] = React.useState({ window, screen });
+  const WIDTH = useWindowDimensions().width;
+  const HEIGHT = useWindowDimensions().height;
 
-  const onChange = ({ window, screen }) => {
-    setDimensions({ window, screen });
-  };
-  React.useEffect(() => {
-    Dimensions.addEventListener("change", onChange);
-    return () => {
-      Dimensions.removeEventListener("change", onChange);
-    };
-  }, []);
+  // const [dimensions, setDimensions] = React.useState({ window, screen });
+  // const onChange = ({ window, screen }) => {
+  //   setDimensions({ window, screen });
+  // };
+  // React.useEffect(() => {
+  //   Dimensions.addEventListener("change", onChange);
+  //   return () => {
+  //     Dimensions.removeEventListener("change", onChange);
+  //   };
+  // }, []);
 
-  const WIDTH = dimensions[type].width || Dimensions.get("window").width;
-  const HEIGHT = dimensions[type].height || Dimensions.get("window").height;
+  // const WIDTH = dimensions[type].width || Dimensions.get("window").width;
+  // const HEIGHT = dimensions[type].height || Dimensions.get("window").height;
 
   /**
    * Extensions of `react-native-size-matters`,

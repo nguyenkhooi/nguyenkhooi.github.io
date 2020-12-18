@@ -4,16 +4,16 @@ import {
   NavigationContainerRef,
   NavigationState,
   PartialState,
-  RouteProp,
+  RouteProp
 } from "@react-navigation/native";
 import { StackNavigationOptions } from "@react-navigation/stack";
+import { TransitionSpec } from "@react-navigation/stack/lib/typescript/src/types";
 import { Linking } from "expo";
 import React, { useEffect, useRef, useState } from "react";
 import { BackHandler } from "react-native";
 // import { enum_HomeStack } from "./home-navigator";
 import { enum_PrimaryStack } from "./primary.navigator";
 import { enum_RootStack } from "./root.navigator";
-import { enum_WelcomeStack } from "./welcome.navigator";
 
 type navigationRoute = enum_PrimaryStack | enum_RootStack;
 
@@ -222,13 +222,14 @@ export const canExit = (routeName: navigationRoute) =>
  * Preset Navigation Config
  *
  * ---
- * @version 0.10.28
- *  - *update headerTitle*
+ * @version 0.12.18
+ *  - *correct type `durationSpec`*
  */
 export const presetNavConfig = {
   durationSpec: {
     config: { duration: 1000 },
-  },
+    animation: "timing",
+  } as TransitionSpec,
   noHeader: { headerShown: false },
   headerTitle: ({
     route,

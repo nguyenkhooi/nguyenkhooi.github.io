@@ -1,9 +1,9 @@
 {
-  "name": "nguyenkhoi",
-  "displayName": "nguyenkhoi",
+  "name": "Nguyen Khoi",
+  "displayName": "Nguyen Khoi",
   "expo": {
-    "name": "nguyenkhoi",
-    "slug": "nguyenkhoi",
+    "name": "Nguyen Khoi",
+    "slug": "NguyenKhoi",
     "version": "1.0.0",
     "assetBundlePatterns": [
       "**/*"
