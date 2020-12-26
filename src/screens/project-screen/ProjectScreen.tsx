@@ -1,12 +1,11 @@
-import { sstyled, SwipeDeck, Txt } from "components";
-import { useAppContext, useSheets } from "engines";
+import { sstyled, Txt } from "components";
+import { useAppContext } from "engines";
 import * as R from "ramda";
 import React, { useState } from "react";
 import {
   ActivityIndicator,
   FlatList,
   ImageStyle,
-  Linking,
   ScrollView,
   View,
 } from "react-native";
@@ -18,6 +17,9 @@ import { spacing, useDimension } from "utils";
 import { S_SockdartHi } from "./s-sockdart-hi-3d";
 import { C_ContentCard } from "./c-content-card";
 import { S_Koiwave } from "./s-koiwave-3d";
+import { S_RingadingDeck } from "./s-ringading-deck";
+import { S_LuccMain } from "./s-lucc-concept-3d";
+import { S_LuccJacket } from "./s-lucc-jacket-3d";
 
 function ProjectScreen(props) {
   const { route } = props;
@@ -109,6 +111,14 @@ function ProjectScreen(props) {
         {...props}
         visible={route.params["project"]["title"] == "Ringading"}
       />
+      <$_LuccMain
+        {...props}
+        visible={route.params["project"]["title"].includes("LUCC Kit")}
+      />
+      <$_LuccJacket
+        {...props}
+        visible={route.params["project"]["title"].includes("LUCC Winter Jacket")}
+      />
       <$_Koiwave
         {...props}
         visible={route.params["project"]["title"] == "Koiwave"}
@@ -129,85 +139,11 @@ function ProjectScreen(props) {
 
 export default ProjectScreen;
 
-const $_RingadingDeck = (props) => {
-  const { visible } = props;
-  const { data } = useSheets(0, "Ringading_Exp");
-  const { WIDTH } = useDimension();
-  React.useEffect(
-    function fetchData() {
-      setDeckData(data);
-    },
-    [data]
-  );
-  const [deckData, setDeckData] = React.useState(data);
-  return (
-    visible &&
-    !!deckData[0] && (
-      <Animatable.View
-        animation="fadeInUp"
-        delay={1000}
-        style={{
-          // padding: spacing(5),
-          flexDirection: WIDTH < 1000 ? "column" : "row",
-          alignItems: "center",
-          alignContent: "center",
-        }}
-      >
-        <View
-          style={{
-            // flex: 1,
-            justifyContent: "flex-start",
-            width: spacing(8),
-
-            alignItems: "center",
-          }}
-        >
-          <Txt.H6
-            category="h1"
-            style={{ color: "white", textAlign: "center" }}
-            onPress={() =>
-              Linking.openURL(
-                "https://snack.expo.io/@nguyenkhooi/swipedeck-mods"
-              )
-            }
-          >
-            Try it!
-          </Txt.H6>
-          <Txt.P1
-            category="p1"
-            style={{ color: "white", fontSize: 28, textAlign: "center" }}
-          >
-            Try to swipe the deck, yup who you like and nah who you don't
-          </Txt.P1>
-          <Txt.P1
-            category="h6"
-            appearance="info"
-            style={{ textAlign: "center" }}
-            onPress={() => setDeckData(data)}
-          >
-            Reset Deck
-          </Txt.P1>
-        </View>
-        <SwipeDeck
-          {...props}
-          containerStyle={{
-            width: WIDTH < 1000 ? WIDTH * 0.8 : WIDTH * 0.4,
-            height: WIDTH < 1000 ? WIDTH * 0.8 : WIDTH * 0.4,
-          }}
-          cardStyle={{
-            width: WIDTH < 1000 ? WIDTH * 0.6 : WIDTH * 0.2,
-            height: WIDTH < 1000 ? WIDTH * 0.8 : WIDTH * 0.4,
-          }}
-          data={deckData}
-        />
-      </Animatable.View>
-    )
-  );
-};
-
+const $_LuccMain = S_LuccMain;
+const $_LuccJacket = S_LuccJacket;
 const $_Koiwave = S_Koiwave;
-
 const $_Sockdart = S_SockdartHi;
+const $_RingadingDeck = S_RingadingDeck;
 
 export const SS = {
   Sctnr: sstyled(ScrollView)((p) => ({
