@@ -1,24 +1,26 @@
 import { Button, ButtonProps } from "@ui-kitten/components";
-import * as R from "ramda";
+import { dIconOooh, IconOooh } from "assets";
+import { dAccessory } from "components";
 import * as React from "react";
 import { ActivityIndicator, Keyboard } from "react-native";
 import { scale } from "utils";
-// import { dIconOooh, IconOooh } from "../icons";
 
 /**
- * This is button component
+ * ### This is button component
+ * ---
  * @example
  *  <Buttoon
       onPress={() => {}}
       appearance="ghost"
       icon={{ name: "chevron_right"}}
       status="basic"
-      size="medium"
+      
     >
       Nine-nine!
     </Buttoon>
- * @param props
- * @version 0.10.4
+ *
+ * @version 0.11.25
+ * -  *fix _accessory to return null if !accessoryLeft/Right*
  */
 export function Buttoon(props: P) {
   const {
@@ -28,22 +30,67 @@ export function Buttoon(props: P) {
     disabled,
     onPress,
     progress,
-    textStyle,
   } = props;
   const [_loading, setLoading] = React.useState(false);
+
+  /**
+   * Internal onPress(),
+   * handling progress loading state
+   */
   function _onPress() {
     !!progress && setLoading(progress);
     Keyboard.dismiss();
     //@ts-ignore
     onPress && onPress(() => setLoading(false));
   }
-
+  /**
+   * Setup Button's accessory prop to be
+   * either `accessoryLeft` or `accessoryRight`,
+   * depending on `!!icon.right`
+   */
+  const _accessory = !!!icon
+    ? null
+    : !!icon?.right
+    ? {
+        accessoryRight: (p: dAccessory) => {
+          return _loading ? (
+            <ActivityIndicator color={p.style.tintColor} />
+          ) : (
+            // <></>
+            <IconOooh
+              preset={"default"}
+              name={`arrow_left`}
+              size={p.style.width * 0.8}
+              color={p.style.tintColor}
+              {...icon}
+            />
+          );
+        },
+      }
+    : {
+        accessoryLeft: (p: dAccessory) => {
+          return _loading ? (
+            <ActivityIndicator color={p.style.tintColor} />
+          ) : (
+            // <></>
+            <IconOooh
+              preset={"default"}
+              name={`arrow_left`}
+              size={p.style.width * 0.8}
+              color={p.style.tintColor}
+              {...icon}
+            />
+          );
+        },
+      };
   return (
+    //@ts-ignore as _accessory's expected Image, but i can use any <_>
     <Button
       {...props}
       onPress={_onPress}
       style={[
         props.style,
+        // { margin: spacing(1) },
         compact && { alignSelf: "center" },
         disabled && appearance == "ghost" && { backgroundColor: "transparent" },
         appearance == "icon" && {
@@ -54,53 +101,17 @@ export function Buttoon(props: P) {
           margin: scale(3),
         },
       ]}
-      accessoryLeft={(props: dAccessory) => {
-        return _loading ? (
-          <ActivityIndicator color={props.style.tintColor} />
-        ) : (
-          !R.isNil(icon) && R.isNil(icon.right) && (
-            <></>
-            // <IconOooh
-            //   preset={`safe`}
-            //   name={`arrow_left`}
-            //   size={props.style.width * 0.8}
-            //   color={props.style.tintColor}
-            //   {...icon}
-            // />
-          )
-        );
-      }}
-      //   accessoryRight={(props: dAccessory) => {
-      //     return (
-      //       !R.isNil(icon) &&
-      //       !R.isNil(icon.right) && (
-      //         <IconOooh
-      //           preset={`safe`}
-      //           name={`arrow_left`}
-      //           size={props.style.width * 0.8}
-      //           color={props.style.tintColor}
-      //           {...icon}
-      //         />
-      //       )
-      //     );
-      //   }}
+      {..._accessory}
     />
   );
 }
 
-export type dAccessory = {
-  style: {
-    height: number;
-    marginHorizontal: number;
-    tintColor: string;
-    width: number;
-  };
-};
+// const Confirmation = (props: P) => {
+//   const [_label, setLabel] = React.useState(props.children);
+//   return <Buttoon {...props} />;
+// };
 
 interface P extends ButtonProps {
-  /**
-   * @deprecated
-   */
   icon?: dIconOooh & {
     /** Is icon on the right? */
     right?: boolean;
