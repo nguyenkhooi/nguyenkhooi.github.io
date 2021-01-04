@@ -1,11 +1,11 @@
 {
   "files": {
-    "app.js": "/static/js/app.0dda9221.chunk.js",
-    "app.js.map": "/static/js/app.0dda9221.chunk.js.map",
+    "app.js": "/static/js/app.50f886ba.chunk.js",
+    "app.js.map": "/static/js/app.50f886ba.chunk.js.map",
     "runtime~app.js": "/static/js/runtime~app.2e9f1821.js",
     "runtime~app.js.map": "/static/js/runtime~app.2e9f1821.js.map",
-    "static/js/2.fae781e3.chunk.js": "/static/js/2.fae781e3.chunk.js",
-    "static/js/2.fae781e3.chunk.js.map": "/static/js/2.fae781e3.chunk.js.map",
+    "static/js/2.edf67074.chunk.js": "/static/js/2.edf67074.chunk.js",
+    "static/js/2.edf67074.chunk.js.map": "/static/js/2.edf67074.chunk.js.map",
     "fonts/AntDesign.ttf": "/./fonts/AntDesign.ttf",
     "fonts/Entypo.ttf": "/./fonts/Entypo.ttf",
     "fonts/Feather.ttf": "/./fonts/Feather.ttf",
@@ -23,10 +23,11 @@
     "index.html": "/index.html",
     "manifest.json": "/manifest.json",
     "serve.json": "/serve.json",
-    "static/js/2.fae781e3.chunk.js.LICENSE.txt": "/static/js/2.fae781e3.chunk.js.LICENSE.txt",
-    "static/js/app.0dda9221.chunk.js.LICENSE.txt": "/static/js/app.0dda9221.chunk.js.LICENSE.txt",
+    "static/js/2.edf67074.chunk.js.LICENSE.txt": "/static/js/2.edf67074.chunk.js.LICENSE.txt",
+    "static/js/app.50f886ba.chunk.js.LICENSE.txt": "/static/js/app.50f886ba.chunk.js.LICENSE.txt",
     "static/media/khoi-shades.jpg": "/static/media/khoi-shades.05bfbfcb.jpg",
     "static/media/khoi.jpg": "/static/media/khoi.944db799.jpg",
+    "static/media/nguyenkhoi.gif": "/static/media/nguyenkhoi.914473fc.gif",
     "static/media/shades.png": "/static/media/shades.ea0ed223.png",
     "static/media/sparkles_512.gif": "/static/media/sparkles_512.5ca6a294.gif",
     "static/media/waving_hand_sign_512.gif": "/static/media/waving_hand_sign_512.9b891f92.gif",
@@ -34,7 +35,7 @@
   },
   "entrypoints": [
     "static/js/runtime~app.2e9f1821.js",
-    "static/js/2.fae781e3.chunk.js",
-    "static/js/app.0dda9221.chunk.js"
+    "static/js/2.edf67074.chunk.js",
+    "static/js/app.50f886ba.chunk.js"
   ]
 }
