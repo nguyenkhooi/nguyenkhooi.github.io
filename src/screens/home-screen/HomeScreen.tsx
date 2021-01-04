@@ -2,9 +2,10 @@ import { useAppContext } from "engines";
 import * as React from "react";
 import { LayoutChangeEvent, ScrollView, View } from "react-native";
 import { IPSCR, useDimension } from "utils";
+import { S_Contact } from "./s-contact";
+import { S_ExperimentalGrid } from "./s-experimental-grid";
 import { S_Intro } from "./s-intro";
-import { S_ExperimentalGrid } from "./S_ExperimentalGrid";
-import { S_PortfolioGrid } from "./S_PortfolioGrid";
+import { S_PortfolioGrid } from "./s-portfolio-grid";
 
 export default (props: IPSCR) => {
   const { C } = useAppContext();
@@ -40,6 +41,17 @@ export default (props: IPSCR) => {
       <View onLayout={setExpLayout}>
         <$_ExperimentalGrid {...props} />
       </View>
+      <View onLayout={setExpLayout}>
+        <$_Contact
+          {...props}
+          scrollToWork={() => {
+            scrollToSection("work");
+          }}
+          scrollToExp={() => {
+            scrollToSection("exp");
+          }}
+        />
+      </View>
     </ScrollView>
   );
 };
@@ -47,6 +59,7 @@ export default (props: IPSCR) => {
 const $_PortfolioGrid = S_PortfolioGrid;
 const $_ExperimentalGrid = S_ExperimentalGrid;
 const $_Intro = S_Intro;
+const $_Contact = S_Contact;
 
 // import React from "react";
 // import {

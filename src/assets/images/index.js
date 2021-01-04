@@ -8,4 +8,5 @@ export const img = {
   shades: require("./shades.png"),
   wavingHand: require("./waving_hand_sign_512.gif"),
   sparkles: require("./sparkles_512.gif"),
+  nguyenkhoi: require("./nguyenkhoi.gif"),
 };

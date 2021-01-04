@@ -1,7 +1,7 @@
 // import Octicons from "react-native-vector-icons/Octicons"
 import * as R from "ramda";
 import React from "react";
-import { Platform, TouchableOpacity, View, ViewStyle } from "react-native";
+import { Platform, View, ViewStyle } from "react-native";
 import AntDesign from "react-native-vector-icons/AntDesign";
 import EntypoIcon from "react-native-vector-icons/Entypo";
 import FeatherIcon from "react-native-vector-icons/Feather";
@@ -14,7 +14,7 @@ import MaterialCommunityIcon from "react-native-vector-icons/MaterialCommunityIc
 import MaterialIcon from "react-native-vector-icons/MaterialIcons";
 import SimpleLineIcon from "react-native-vector-icons/SimpleLineIcons";
 import { scale } from "utils";
-import { dIconOptions, dIconOooh, ICON_PKG } from "./oooh-icon.props";
+import { dIconOooh, dIconOptions, ICON_PKG } from "./oooh-icon.props";
 
 // const OoohMoon = createIconSetFromIcoMoon(
 //   icoMoonConfig,
@@ -65,7 +65,7 @@ export const iconOptions = {
   dot: { type: "fa5", icon: "circle" } as dIconOptions,
   dots_horizontal: { type: "fa5", icon: "ellipsis-h" } as dIconOptions,
   dots_vertical: { type: "fa5", icon: "ellipsis-v" } as dIconOptions,
-  email: { type: "fa5", icon: "envelope-open-text" } as dIconOptions,
+  email: { type: "material", icon: "mail" } as dIconOptions,
   eye: { type: "fa5", icon: "eye" } as dIconOptions,
   eye_slash: { type: "fa5", icon: "eye-slash" } as dIconOptions,
   exclamation_circle: {
@@ -78,6 +78,7 @@ export const iconOptions = {
   home: { type: "fa5", icon: "home" } as dIconOptions,
   image: { type: "fa5", icon: "image" } as dIconOptions,
   install: { type: "entypo", icon: "install" } as dIconOptions,
+  linkedin: { type: "fa5", icon: "linkedin-in" } as dIconOptions,
   list: { type: "fa5", icon: "th-list" } as dIconOptions,
   lock: { type: "fa5", icon: "lock" } as dIconOptions,
   medal: { type: "fa5", icon: "medal" } as dIconOptions,
