@@ -1,10 +1,10 @@
 import { img } from "assets";
-import { Buttoon, sstyled, TouchableWeb, Txt } from "components";
+import { Buttoon, sstyled, Toasty, TouchableWeb, Txt } from "components";
 import { fn, useAppContext } from "engines";
 import React from "react";
 import { Image, View } from "react-native";
 import * as Animatable from "react-native-animatable";
-import { IPSCR, moderateScale, spacing, use18, useDimension } from "utils";
+import { IPSCR, spacing, use18, useDimension } from "utils";
 
 interface d$_Intro extends IPSCR {
   scrollToWork(): void;
@@ -24,6 +24,7 @@ export function S_Contact(props: d$_Intro) {
       style={{
         height: HEIGHT,
         justifyContent: "center",
+        alignItems: "center",
       }}
     >
       <SS.CtnrContact animation="fadeIn" delay={1000}>
@@ -38,8 +39,8 @@ export function S_Contact(props: d$_Intro) {
             setUnderline("none");
           }}
         >
-          <Txt.H6 style={{ textAlign: "center" }}>
-            {use18("Noice! Let's connect")}
+          <Txt.H6 style={{ textAlign: "center", color: C["color-basic-1100"] }}>
+            {use18("contact-title")}
           </Txt.H6>
           <View
             style={{ flexDirection: "row", justifyContent: "space-around" }}
@@ -78,29 +79,58 @@ export function S_Contact(props: d$_Intro) {
           style={{ width: 714 * 0.5, height: 288 * 0.5 }}
         />
       </SS.CtnrContact>
+      <Txt.C2 style={{ color: C.dim, marginVertical: spacing(5) }}>
+        <Txt.C2
+          style={{ color: C.dim }}
+          onPress={() =>
+            fn.web.LinkURL(
+              "https://github.com/nguyenkhooi/nguyenkhooi.github.io",
+              true
+            )
+          }
+        >
+          {use18("Proudly created with") + " ❤️, "}
+        </Txt.C2>
+        <Txt.C2
+          style={{ color: C.dim }}
+          onPress={() =>
+            fn.web.LinkURL(
+              "https://akveo.github.io/react-native-ui-kitten/",
+              true
+            )
+          }
+        >
+          {use18("ui kitten") + "😸, "}
+        </Txt.C2>
+        {use18("and of course") + ", "}
+        <Txt.C2
+          style={{ color: C.dim }}
+          onPress={() =>
+            fn.web.LinkURL(
+              "http://necolas.github.io/react-native-web/docs/?path=/docs/overview-getting-started--page",
+              true
+            )
+          }
+        >
+          {use18("react native web") + "⚛️🕸️. "}
+        </Txt.C2>
+      </Txt.C2>
+      <Txt.C2
+        style={{ color: C.dim, textDecorationLine: "underline" }}
+        onPress={() => Toasty.show("Yessir!", { type: "normal" })}
+      >
+        {use18("Wait, really?")}
+      </Txt.C2>
     </View>
   );
 }
 
 const SS = {
-  Ctnr: sstyled(View)(() => ({
-    width: moderateScale(100),
-    height: moderateScale(100),
-    paddingHorizontal: spacing(6),
-  })),
   CtnrContact: sstyled(Animatable.View)((p) => ({
     paddingHorizontal: spacing(6),
     alignItems: "center",
+    backgroundColor: "#fff",
+    alignSelf: "center",
+    borderRadius: 5,
   })),
-  Avatar: sstyled(Animatable.Image)(() => ({
-    width: moderateScale(100),
-    height: moderateScale(100),
-    borderRadius: 200,
-    transform: [{ rotate: "-10deg" }],
-  })),
-  TxtLink: sstyled(Txt.S1)({
-    // fontSize: 29,
-    fontWeight: "500",
-    fontStyle: "italic",
-  }),
 };
