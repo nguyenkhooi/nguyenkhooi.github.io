@@ -2,7 +2,7 @@ import React from "react";
 import { View } from "react-native";
 import { useDimension } from "utils";
 
-export function S_Koiwave(props: dKoiwave) {
+export function S_LuccMain(props: dLuccMain) {
   const { visible } = props;
   const { WIDTH } = useDimension();
   return (
@@ -13,7 +13,7 @@ export function S_Koiwave(props: dKoiwave) {
             title="A 3D model"
             width={WIDTH}
             height="640"
-            src="https://sketchfab.com/models/f0c987ac5c9b4fb0a40576a6ae46b92e/embed?autospin=0.6&amp;autostart=0&amp;ui_controls=1&amp;ui_infos=1&amp;ui_inspector=1&amp;ui_stop=1&amp;ui_watermark=1&amp;ui_watermark_link=1"
+            src="https://sketchfab.com/models/9bc977137c0f4ec5af858a0c45eaf4d2/embed?autospin=0.2&amp;autostart=0&amp;ui_controls=1&amp;ui_infos=1&amp;ui_inspector=1&amp;ui_stop=1&amp;ui_theme=dark&amp;ui_watermark=1&amp;ui_watermark_link=1"
             //@ts-ignore
             frameborder="0"
             allow="autoplay; fullscreen; vr"
