@@ -1,5 +1,5 @@
 import { img } from "assets";
-import { Buttoon, sstyled, Toasty, TouchableWeb, Txt } from "components";
+import { Buttoon, sstyled, TouchableWeb, Txt } from "components";
 import { fn, useAppContext } from "engines";
 import React from "react";
 import { Image, View } from "react-native";
@@ -23,7 +23,7 @@ export function S_Contact(props: d$_Intro) {
     <View
       style={{
         height: HEIGHT,
-        justifyContent: "center",
+        justifyContent: "flex-end",
         alignItems: "center",
       }}
     >
@@ -79,9 +79,16 @@ export function S_Contact(props: d$_Intro) {
           style={{ width: 714 * 0.5, height: 288 * 0.5 }}
         />
       </SS.CtnrContact>
-      <Txt.C2 style={{ color: C.dim, marginVertical: spacing(5) }}>
+      <Txt.C2
+        style={{
+          color: C.grey500,
+          marginVertical: spacing(5),
+          fontSize: 12,
+          fontWeight: "700",
+        }}
+      >
         <Txt.C2
-          style={{ color: C.dim }}
+          style={{ color: C.grey500, fontSize: 12, fontWeight: "700" }}
           onPress={() =>
             fn.web.LinkURL(
               "https://github.com/nguyenkhooi/nguyenkhooi.github.io",
@@ -92,7 +99,7 @@ export function S_Contact(props: d$_Intro) {
           {use18("Proudly created with") + " ❤️, "}
         </Txt.C2>
         <Txt.C2
-          style={{ color: C.dim }}
+          style={{ color: C.grey500, fontSize: 12, fontWeight: "700" }}
           onPress={() =>
             fn.web.LinkURL(
               "https://akveo.github.io/react-native-ui-kitten/",
@@ -104,7 +111,7 @@ export function S_Contact(props: d$_Intro) {
         </Txt.C2>
         {use18("and of course") + ", "}
         <Txt.C2
-          style={{ color: C.dim }}
+          style={{ color: C.grey500, fontSize: 12, fontWeight: "700" }}
           onPress={() =>
             fn.web.LinkURL(
               "http://necolas.github.io/react-native-web/docs/?path=/docs/overview-getting-started--page",
@@ -115,12 +122,17 @@ export function S_Contact(props: d$_Intro) {
           {use18("react native web") + "⚛️🕸️. "}
         </Txt.C2>
       </Txt.C2>
-      <Txt.C2
-        style={{ color: C.dim, textDecorationLine: "underline" }}
+      {/* <Txt.C2
+        style={{
+          color: C.grey500,
+          textDecorationLine: "underline",
+          fontSize: 12,
+          fontWeight: "700",
+        }}
         onPress={() => Toasty.show("Yessir!", { type: "normal" })}
       >
         {use18("Wait, really?")}
-      </Txt.C2>
+      </Txt.C2> */}
     </View>
   );
 }

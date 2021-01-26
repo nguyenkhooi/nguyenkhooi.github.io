@@ -4,7 +4,8 @@
 export const img = {
   x: require("./x-icon.png"),
   khoi: require("./khoi.jpg"),
-  khoiShades: require("./khoi-shades.jpg"),
+  khoi3d: require("./khoi-3d.jpg"),
+  khoi3dRound: require("./khoi-3d-round.jpg"),
   shades: require("./shades.png"),
   wavingHand: require("./waving_hand_sign_512.gif"),
   sparkles: require("./sparkles_512.gif"),

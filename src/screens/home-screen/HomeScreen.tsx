@@ -41,16 +41,8 @@ export default (props: IPSCR) => {
       <View onLayout={setExpLayout}>
         <$_ExperimentalGrid {...props} />
       </View>
-      <View onLayout={setExpLayout}>
-        <$_Contact
-          {...props}
-          scrollToWork={() => {
-            scrollToSection("work");
-          }}
-          scrollToExp={() => {
-            scrollToSection("exp");
-          }}
-        />
+      <View>
+        <$_Contact {...props} />
       </View>
     </ScrollView>
   );

@@ -10,6 +10,7 @@ import {
   IPSCR,
   LANG,
   moderateScale,
+  scale,
   spacing,
   THEME,
   use18,
@@ -107,7 +108,7 @@ const NiAvatar = () => {
   const [] = React.useState<"Let's hi-five!" | "Noice">("Let's hi-five!");
   return (
     <SS.Ctnr>
-      <SS.Avatar source={img.khoi} />
+      <SS.Avatar animation={"zoomIn"} source={dark ? img.khoi : img.khoi3d} />
       <$_FlagRing />
     </SS.Ctnr>
   );
@@ -225,8 +226,8 @@ const SS = {
     paddingRight: p.WIDTH < 1000 ? spacing(6) : spacing(9),
   })),
   Avatar: sstyled(Animatable.Image)(() => ({
-    width: moderateScale(100),
-    height: moderateScale(100),
+    width: scale(95),
+    height: scale(95),
     borderRadius: 200,
     transform: [{ rotate: "-10deg" }],
   })),
