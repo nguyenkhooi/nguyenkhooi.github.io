@@ -1,6 +1,7 @@
 {
   "main": "index.js",
   "homepage": "http://nguyenkhooi.github.io",
+  "version": "1.2.1",
   "scripts": {
     "android": "react-native run-android",
     "ios": "react-native run-ios --simulator='iPhone 12'",
@@ -35,6 +36,7 @@
     "react-native-blurhash": "^1.0.27",
     "react-native-gesture-handler": "~1.7.0",
     "react-native-image-zoom-viewer": "^3.0.1",
+    "react-native-markdown-display": "^7.0.0-alpha.2",
     "react-native-masonry-scrollview": "^0.0.2",
     "react-native-reanimated": "~1.13.0",
     "react-native-responsive-dimensions": "^3.1.1",

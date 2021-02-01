@@ -1,5 +1,5 @@
 import { sstyled, Txt } from "components";
-import { useAppContext } from "engines";
+import { LinkURL } from "engines/functions/web-functions";
 import * as R from "ramda";
 import React, { useState } from "react";
 import {
@@ -7,19 +7,19 @@ import {
   FlatList,
   ImageStyle,
   ScrollView,
-  View,
+  View
 } from "react-native";
 import * as Animatable from "react-native-animatable";
 // import { ScrollView } from "react-native-gesture-handler";
 import RNMasonryScroll from "react-native-masonry-scrollview";
 import { Navigation } from "screens";
 import { spacing, useDimension } from "utils";
-import { S_SockdartHi } from "./s-sockdart-hi-3d";
 import { C_ContentCard } from "./c-content-card";
 import { S_Koiwave } from "./s-koiwave-3d";
-import { S_RingadingDeck } from "./s-ringading-deck";
 import { S_LuccMain } from "./s-lucc-concept-3d";
 import { S_LuccJacket } from "./s-lucc-jacket-3d";
+import { S_RingadingDeck } from "./s-ringading-deck";
+import { S_SockdartHi } from "./s-sockdart-hi-3d";
 
 function ProjectScreen(props) {
   const { route } = props;
@@ -101,9 +101,20 @@ function ProjectScreen(props) {
         }}
       >
         {_bodyContents.map((body) => (
-          <Txt style={{ marginVertical: spacing(3), textAlign: "justify" }}>
+          // <Txt style={{ marginVertical: spacing(3), textAlign: "justify" }}>
+          //   {body}
+          // </Txt>
+          <Txt.Md
+            onLinkPress={(url) => {
+              if (url) {
+                LinkURL(url, true);
+                return false;
+              }
+              return true;
+            }}
+          >
             {body}
-          </Txt>
+          </Txt.Md>
         ))}
       </View>
       <View

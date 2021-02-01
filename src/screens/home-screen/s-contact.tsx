@@ -5,6 +5,7 @@ import React from "react";
 import { Image, View } from "react-native";
 import * as Animatable from "react-native-animatable";
 import { IPSCR, spacing, use18, useDimension } from "utils";
+import { version } from "../../../package.json";
 
 interface d$_Intro extends IPSCR {
   scrollToWork(): void;
@@ -87,7 +88,7 @@ export function S_Contact(props: d$_Intro) {
             height: 288 * 0.5,
             borderRadius: 10,
             overflow: "hidden",
-            opacity: 1
+            opacity: 1,
           }}
         />
       </SS.CtnrContact>
@@ -97,6 +98,7 @@ export function S_Contact(props: d$_Intro) {
           marginVertical: spacing(5),
           fontSize: 12,
           fontWeight: "700",
+          textAlign: "center",
         }}
       >
         <Txt.C2
@@ -133,6 +135,7 @@ export function S_Contact(props: d$_Intro) {
         >
           {use18("react native web") + "⚛️🕸️. "}
         </Txt.C2>
+        {"\n Version: " + version}
       </Txt.C2>
       {/* <Txt.C2
         style={{
