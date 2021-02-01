@@ -22,8 +22,8 @@ export function S_Contact(props: d$_Intro) {
   return (
     <View
       style={{
-        height: HEIGHT,
-        justifyContent: "flex-end",
+        // height: HEIGHT,
+        justifyContent: "center",
         alignItems: "center",
       }}
     >
@@ -43,14 +43,17 @@ export function S_Contact(props: d$_Intro) {
             {use18("contact-title")}
           </Txt.H6>
           <View
-            style={{ flexDirection: "row", justifyContent: "space-around" }}
+          // style={{ flexDirection: "row", justifyContent: "space-around" }}
           >
             <Buttoon
               appearance="ghost"
               compact
               size="giant"
               style={{ borderRadius: 100 }}
-              icon={{ name: visible ? "email" : null, color: C.errorRed }}
+              icon={{
+                name: "email",
+                color: visible ? C.errorRed : C.primary,
+              }}
               onPress={() => {
                 fn.web.LinkURL(
                   `mailto:drkhoi16@gmail.com?subject=Hi Khoi&body=`,
@@ -63,7 +66,10 @@ export function S_Contact(props: d$_Intro) {
             <Buttoon
               appearance="ghost"
               compact
-              icon={{ name: visible ? "linkedin" : null, color: C.infoBlue }}
+              icon={{
+                name: "linkedin",
+                color: visible ? C.infoBlue : C.primary,
+              }}
               size="giant"
               style={{ borderRadius: 100 }}
               onPress={() => {
@@ -76,7 +82,13 @@ export function S_Contact(props: d$_Intro) {
         </TouchableWeb>
         <Image
           source={img.nguyenkhoi}
-          style={{ width: 714 * 0.5, height: 288 * 0.5 }}
+          style={{
+            width: 714 * 0.5,
+            height: 288 * 0.5,
+            borderRadius: 10,
+            overflow: "hidden",
+            opacity: 1
+          }}
         />
       </SS.CtnrContact>
       <Txt.C2
@@ -109,7 +121,7 @@ export function S_Contact(props: d$_Intro) {
         >
           {use18("ui kitten") + "😸, "}
         </Txt.C2>
-        {use18("and of course") + ", "}
+        {use18("and yup") + ", "}
         <Txt.C2
           style={{ color: C.grey500, fontSize: 12, fontWeight: "700" }}
           onPress={() =>
@@ -139,10 +151,12 @@ export function S_Contact(props: d$_Intro) {
 
 const SS = {
   CtnrContact: sstyled(Animatable.View)((p) => ({
-    paddingHorizontal: spacing(6),
+    padding: spacing(6),
     alignItems: "center",
-    backgroundColor: "#fff",
+    backgroundColor: p.C["color-basic-200"],
     alignSelf: "center",
     borderRadius: 5,
+    borderWidth: 2,
+    borderColor: p.C.dim,
   })),
 };

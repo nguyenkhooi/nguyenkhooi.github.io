@@ -22,7 +22,11 @@ export function C_ContentCard(props: {
   switch (isContentImg) {
     case true:
       return (
-        <TouchableOpacity onPress={onImagePress}>
+        <TouchableOpacity
+          onPress={onImagePress}
+          style={{ transform: [{ scale: 0.7 }] }}
+          activeOpacity={0.9}
+        >
           {imageIndex == 0 ? (
             <Image
               source={{ uri: text }}
@@ -31,7 +35,7 @@ export function C_ContentCard(props: {
               style={SS.S.IMG_CTNR}
             />
           ) : (
-            <SS.CtnrImg animation={"fadeInUp"} delay={100 * imageIndex}>
+            <SS.CtnrImg animation={"zoomIn"} delay={100 * imageIndex}>
               <Image source={{ uri: text }} {...imageProp} key={imageIndex} />
             </SS.CtnrImg>
           )}
@@ -56,13 +60,13 @@ export function C_ContentCard(props: {
 
 export const SS = {
   CtnrImg: sstyled(Animatable.View)((p) => ({
-    margin: 10,
+    // margin: 10,
     borderRadius: 10,
     overflow: "hidden",
     backgroundColor: p.C.surface,
   })),
   CtnrLabel: sstyled(Animatable.View)(() => ({
-    margin: 10,
+    // margin: 10,
     borderRadius: 10,
     overflow: "hidden",
     backgroundColor: "transparent",
@@ -73,7 +77,7 @@ export const SS = {
   Label: sstyled(Txt.P2)((p) => ({ width: p.chieuRong, textAlign: "center" })),
   S: {
     IMG_CTNR: {
-      margin: 10,
+      // margin: 10,
       borderRadius: 10,
       overflow: "hidden",
     } as ImageStyle,

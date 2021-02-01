@@ -30,40 +30,58 @@ function ProjectScreen(props) {
     project: { color: projectColor, headline },
   } = route.params;
   const [_contents, setContents] = React.useState([""]);
+  const [_bodyContents, setBodyContents] = React.useState([""]);
   const [_imgContents, setImgContents] = React.useState([""]);
 
   React.useEffect(function sortContents() {
     const dbContents = [
-      route.params.project.body00,
       route.params.project.image00,
-      route.params.project.body01,
+
       route.params.project.image01,
-      route.params.project.body02,
+
       route.params.project.image02,
-      route.params.project.body03,
+
       route.params.project.image03,
-      route.params.project.body04,
+
       route.params.project.image04,
-      route.params.project.body05,
+
       route.params.project.image05,
-      route.params.project.body06,
+
       route.params.project.image06,
-      route.params.project.body07,
+
       route.params.project.image07,
-      route.params.project.body08,
+
       route.params.project.image08,
-      route.params.project.body09,
+
       route.params.project.image09,
     ];
+    const dbBodyContents = [
+      route.params.project.body00,
+      route.params.project.body01,
+      route.params.project.body02,
+      route.params.project.body03,
+      route.params.project.body04,
+      route.params.project.body05,
+      route.params.project.body06,
+      route.params.project.body07,
+      route.params.project.body08,
+      route.params.project.body09,
+    ];
+
     const newContents = R.reject(
       (content) => !content || content == "",
       dbContents
+    );
+    const newBodyContents = R.reject(
+      (content) => !content || content == "",
+      dbBodyContents
     );
     const imgContents = R.filter(
       (content: string) => content.includes("http"),
       newContents
     ).reduce((a, c) => [...a, { url: c }], []);
     setContents(newContents);
+    setBodyContents(newBodyContents);
     setImgContents(imgContents);
     global.setTimeout(() => {
       showScreen(true);
@@ -72,40 +90,82 @@ function ProjectScreen(props) {
 
   return screenShown ? (
     <SS.Sctnr
-      contentContainerStyle={{ justifyContent: "center", alignItems: "center" }}
+    // contentContainerStyle={{ justifyContent: "center", alignItems: "center" }}
     >
       <SS.Headline {...props}>{headline}</SS.Headline>
-
-      <View style={{ justifyContent: "center", alignItems: "center" }}>
-        <RNMasonryScroll
-          showsHorizontalScrollIndicator={false}
-          showsVerticalScrollIndicator={false}
-          removeClippedSubviews={true}
-          columns={WIDTH < 1000 ? 1 : 3}
-          evenColumnStyle={{}}
-          oddColumnStyle={{ marginTop: 60 }}
-          horizontal={false}
-        >
-          {_contents.map((image, imageIndex) => {
-            return (
-              <C_ContentCard
-                key={imageIndex}
-                text={image}
-                imageIndex={imageIndex}
-                onImagePress={() => {
-                  let imgIndex = R.findIndex(R.propEq("url", image))(
-                    _imgContents
-                  );
-                  // console.log("img index: ", imgIndex);
-                  Navigation.navigate("Gallery", {
-                    images: _imgContents,
-                    imgIndex,
-                  });
-                }}
-              />
-            );
-          })}
-        </RNMasonryScroll>
+      <View
+        style={{
+          justifyContent: "center",
+          alignItems: "flex-start",
+          paddingHorizontal: WIDTH > 996 ? spacing(7) : spacing(5),
+        }}
+      >
+        {_bodyContents.map((body) => (
+          <Txt style={{ marginVertical: spacing(3), textAlign: "justify" }}>
+            {body}
+          </Txt>
+        ))}
+      </View>
+      <View
+        style={{
+          justifyContent: "flex-start",
+          alignItems: "center",
+        }}
+      >
+        {WIDTH > 996 ? (
+          <RNMasonryScroll
+            showsHorizontalScrollIndicator={false}
+            showsVerticalScrollIndicator={false}
+            removeClippedSubviews={true}
+            columns={4}
+            evenColumnStyle={{}}
+            oddColumnStyle={{ marginTop: 60 }}
+            horizontal={false}
+          >
+            {_contents.map((image, imageIndex) => {
+              return (
+                <C_ContentCard
+                  key={imageIndex}
+                  text={image}
+                  imageIndex={imageIndex}
+                  onImagePress={() => {
+                    let imgIndex = R.findIndex(R.propEq("url", image))(
+                      _imgContents
+                    );
+                    // console.log("img index: ", imgIndex);
+                    Navigation.navigate("Gallery", {
+                      images: _imgContents,
+                      imgIndex,
+                    });
+                  }}
+                />
+              );
+            })}
+          </RNMasonryScroll>
+        ) : (
+          <FlatList
+            data={_contents}
+            renderItem={({ item: image, index: imageIndex }) => {
+              return (
+                <C_ContentCard
+                  key={imageIndex}
+                  text={image}
+                  imageIndex={imageIndex}
+                  onImagePress={() => {
+                    let imgIndex = R.findIndex(R.propEq("url", image))(
+                      _imgContents
+                    );
+                    // console.log("img index: ", imgIndex);
+                    Navigation.navigate("Gallery", {
+                      images: _imgContents,
+                      imgIndex,
+                    });
+                  }}
+                />
+              );
+            }}
+          />
+        )}
       </View>
       <$_RingadingDeck
         {...props}
@@ -117,7 +177,9 @@ function ProjectScreen(props) {
       />
       <$_LuccJacket
         {...props}
-        visible={route.params["project"]["title"].includes("LUCC Winter Jacket")}
+        visible={route.params["project"]["title"].includes(
+          "LUCC Winter Jacket"
+        )}
       />
       <$_Koiwave
         {...props}

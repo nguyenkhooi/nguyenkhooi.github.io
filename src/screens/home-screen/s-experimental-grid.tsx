@@ -31,7 +31,7 @@ export function S_ExperimentalGrid(props: IPSCR) {
   const [selectedIndex, setSelectedIndex] = React.useState(new IndexPath(0));
   const linkTo = useLinkTo();
   return (
-    <View style={{}}>
+    <View style={{ marginVertical: spacing(4) }}>
       {/* <Text>{JSON.stringify(keys)}</Text> */}
       <Txt.$Title>{use18("Experiments")}</Txt.$Title>
       <SS.CtnrFilter
@@ -149,9 +149,10 @@ const SS = {
     borderRadius: 5,
     borderWidth: 0,
     borderBottomWidth: 1,
-    alignSelf: "center",
+    alignSelf: "flex-start",
     overflow: "hidden",
     borderColor: p.C.dim,
+    marginLeft: spacing(5),
   })),
 };
 

@@ -1,6 +1,7 @@
 import { img } from "assets";
 import { sstyled, Toasty, TouchableWeb, Txt } from "components";
 import { useAppContext } from "engines";
+import { LinkURL } from "engines/functions/web-functions";
 import React from "react";
 import { Animated, ImageStyle, View, ViewStyle } from "react-native";
 import * as Animatable from "react-native-animatable";
@@ -14,7 +15,7 @@ import {
   spacing,
   THEME,
   use18,
-  useDimension
+  useDimension,
 } from "utils";
 
 interface d$_Intro extends IPSCR {
@@ -26,9 +27,7 @@ export function S_Intro(props: d$_Intro) {
   const { C, dark, setTheme } = useAppContext();
   const { HEIGHT } = useDimension("window");
   const [_color, setColor] = React.useState(C.text);
-  const [_underline, setUnderline] = React.useState<"none" | "underline">(
-    "none"
-  );
+  const [_weight, setFontWeight] = React.useState<"500" | "bold">("500");
 
   return (
     <View
@@ -42,11 +41,11 @@ export function S_Intro(props: d$_Intro) {
         <TouchableWeb
           onMouseEnter={() => {
             setColor(C.dim);
-            setUnderline("underline");
+            setFontWeight("bold");
           }}
           onMouseLeave={() => {
             setColor(C.text);
-            setUnderline("none");
+            setFontWeight("500");
           }}
         >
           <Txt.H6
@@ -57,17 +56,26 @@ export function S_Intro(props: d$_Intro) {
             {use18("intro-1")} {"👋"}{" "}
           </Txt.H6>
 
-          <Txt.S1 style={{ color: _color }} adjustsFontSizeToFit={true}>
+          <Txt.S1
+            style={{ color: _color, fontWeight: "500" }}
+            adjustsFontSizeToFit={true}
+          >
             {use18("intro-2")}{" "}
             <SS.TxtLink
-              style={{ textDecorationLine: _underline }}
+              style={{
+                textDecorationLine: "underline",
+                fontWeight: _weight,
+              }}
               onPress={scrollToWork}
             >
               {use18("intro-3")}
             </SS.TxtLink>{" "}
             {use18("intro-4")}{" "}
             <SS.TxtLink
-              style={{ textDecorationLine: _underline }}
+              style={{
+                textDecorationLine: "underline",
+                fontWeight: _weight,
+              }}
               onPress={scrollToExp}
             >
               {use18("intro-5")}
@@ -75,14 +83,22 @@ export function S_Intro(props: d$_Intro) {
             {"\n"}
             {use18("intro-6")}{" "}
             <SS.TxtLink
-              style={{ textDecorationLine: _underline }}
-              onPress={() => Navigation.navigate("About")}
+              style={{
+                textDecorationLine: "underline",
+                fontWeight: _weight,
+              }}
+              onPress={() =>
+                LinkURL("https://www.instagram.com/nguyenkhooi/?hl=en", true)
+              }
             >
               {use18("intro-7")}
             </SS.TxtLink>{" "}
             {use18("intro-8")}{" "}
             <SS.TxtLink
-              style={{ textDecorationLine: _underline }}
+              style={{
+                textDecorationLine: "underline",
+                fontWeight: _weight,
+              }}
               onPress={() => Navigation.navigate("About")}
             >
               {use18("intro-9")}
@@ -234,7 +250,7 @@ const SS = {
   TxtLink: sstyled(Txt.S1)({
     // fontSize: 29,
     fontWeight: "500",
-    fontStyle: "italic",
+    // fontStyle: "italic",
   }),
 
   S: {

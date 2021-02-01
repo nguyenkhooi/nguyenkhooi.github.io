@@ -48,7 +48,7 @@ export function S_PortfolioGrid(props: IPSCR) {
   const [selectedIndex, setSelectedIndex] = React.useState(new IndexPath(0));
   const linkTo = useLinkTo();
   return (
-    <View style={{}}>
+    <View style={{ marginVertical: spacing(4) }}>
       <Txt.$Title>{use18("Work")}</Txt.$Title>
       <SS.CtnrFilter
         horizontal={true}
@@ -163,9 +163,10 @@ const SS = {
     borderRadius: 5,
     borderWidth: 0,
     borderBottomWidth: 1,
-    alignSelf: "center",
+    alignSelf: "flex-start",
     overflow: "hidden",
     borderColor: p.C.dim,
+    marginLeft: spacing(5),
   })),
 };
 

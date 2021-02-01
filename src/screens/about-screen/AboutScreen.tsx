@@ -214,7 +214,7 @@ const SS = {
     backgroundColor: p.C.background,
   })),
   //*----Txt-SECTION ----------
-  Headline: sstyled(Txt.H6)((p) => ({
+  Headline: sstyled(Txt.H4)((p) => ({
     // fontSize: 26,
     color: p.C.text,
     textAlign: "center",
@@ -222,7 +222,7 @@ const SS = {
     marginBottom: spacing(2),
     paddingHorizontal: spacing(6),
   })),
-  Label: sstyled(Txt.P2)((p) => ({ width: p.chieuRong, textAlign: "center" })),
+  Label: sstyled(Txt.H6)((p) => ({ width: p.chieuRong, textAlign: "left" })),
   S: {
     IMG_CTNR: {
       margin: 10,
