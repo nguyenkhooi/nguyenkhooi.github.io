@@ -6,14 +6,14 @@
 
 import React from "react";
 import {
-    NativeSyntheticEvent,
-    Platform,
-    StyleSheet,
-    TargetedEvent
+  NativeSyntheticEvent,
+  Platform,
+  StyleSheet,
+  TargetedEvent,
 } from "react-native";
 import {
-    TouchableWithoutFeedback,
-    TouchableWithoutFeedbackProps
+  TouchableWithoutFeedback,
+  TouchableWithoutFeedbackProps,
 } from "./touchie";
 
 export interface TouchableWebProps extends TouchableWithoutFeedbackProps {
@@ -26,7 +26,11 @@ export interface TouchableWebProps extends TouchableWithoutFeedbackProps {
 export type TouchableWebElement = React.ReactElement<TouchableWebProps>;
 
 /**
- * Helper component for the Touchable component rendered on the web.
+ * ###  Helper component for the Touchable component rendered on the web.
+ * 
+ *  ---
+ * @author K
+ * @version 1.2.10
  * 
  * @example
  *  const [_color, setColor] = React.useState("dodgerblue")

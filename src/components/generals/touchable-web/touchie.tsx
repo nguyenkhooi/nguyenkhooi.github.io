@@ -2,15 +2,16 @@
  * @license
  * Copyright Akveo. All Rights Reserved.
  * Licensed under the MIT License. See License.txt in the project root for license information.
+ *
  */
 
 import React from "react";
 import {
-    Insets,
-    StyleSheet,
-    TouchableOpacity,
-    TouchableOpacityProps,
-    ViewStyle
+  Insets,
+  StyleSheet,
+  TouchableOpacity,
+  TouchableOpacityProps,
+  ViewStyle,
 } from "react-native";
 
 export interface TouchableWithoutFeedbackProps extends TouchableOpacityProps {
@@ -18,21 +19,21 @@ export interface TouchableWithoutFeedbackProps extends TouchableOpacityProps {
   children?: React.ReactNode;
 }
 
-export type TouchableWithoutFeedbackElement = React.ReactElement<
-  TouchableWithoutFeedbackProps
->;
+export type TouchableWithoutFeedbackElement = React.ReactElement<TouchableWithoutFeedbackProps>;
 
 /**
- * Helper component for the Touchable component with no opacity feedback.
+ * ###  Helper component for the Touchable component with no opacity feedback.
  *
  * Applies recommended hitSlop by default.
  * @see https://reactnative.dev/docs/view#hitslop
  *
  * Allows passing ReactNode as children whereas original TouchableWithoutFeedback not.
+ *
+ * ---
+ * @author K
+ * @version 1.2.10
  */
-export class TouchableWithoutFeedback extends React.Component<
-  TouchableWithoutFeedbackProps
-> {
+export class TouchableWithoutFeedback extends React.Component<TouchableWithoutFeedbackProps> {
   private createHitSlopInsets = (): Insets => {
     const flatStyle: ViewStyle = StyleSheet.flatten(this.props.style || {});
 
