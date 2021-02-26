@@ -1,6 +1,12 @@
 import { useAppContext } from "engines";
 import * as React from "react";
 import { LayoutChangeEvent, ScrollView, View } from "react-native";
+import Animated, {
+  interpolateColor,
+  useAnimatedScrollHandler,
+  useAnimatedStyle,
+  useSharedValue
+} from "react-native-reanimated";
 import { IPSCR, useDimension } from "utils";
 import { S_Contact } from "./s-contact";
 import { S_ExperimentalGrid } from "./s-experimental-grid";
@@ -24,8 +30,29 @@ export default (props: IPSCR) => {
       : refList.current.scrollTo(HEIGHT);
   };
 
+  //#region [REANI]
+  const opacity = useSharedValue(0);
+  const scrollY = useSharedValue(0);
+
+  let animatedScrollViewStyle = useAnimatedStyle(() => ({
+    backgroundColor: interpolateColor(
+      scrollY.value,
+      [HEIGHT * 0.5, HEIGHT, HEIGHT * 2.5, HEIGHT * 3],
+      [C.background, C["color-basic-1100"], C["color-basic-1100"], C.primary]
+    ),
+  }));
+  const scrollHandler = useAnimatedScrollHandler((event) => {
+    scrollY.value = event.contentOffset.y;
+  });
+  //#endregion
+
   return (
-    <ScrollView ref={refList} style={{ backgroundColor: C.background }}>
+    <Animated.ScrollView
+      ref={refList}
+      onScroll={scrollHandler}
+      scrollEventThrottle={16}
+      style={{ ...animatedScrollViewStyle }}
+    >
       <$_Intro
         {...props}
         scrollToWork={() => {
@@ -44,7 +71,7 @@ export default (props: IPSCR) => {
       <View>
         <$_Contact {...props} />
       </View>
-    </ScrollView>
+    </Animated.ScrollView>
   );
 };
 
