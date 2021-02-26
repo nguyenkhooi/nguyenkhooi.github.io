@@ -2,9 +2,16 @@ import { img } from "assets";
 import { sstyled, Toasty, TouchableWeb, Txt } from "components";
 import { useAppContext } from "engines";
 import { LinkURL } from "engines/functions/web-functions";
-import React from "react";
-import { Animated, ImageStyle, View, ViewStyle } from "react-native";
-import * as Animatable from "react-native-animatable";
+import { View as Motiview } from "moti";
+import React, { useReducer } from "react";
+import {
+  Animated,
+  Image,
+  ImageStyle,
+
+  View,
+  ViewStyle
+} from "react-native";
 import FA5 from "react-native-vector-icons/FontAwesome5";
 import { Navigation } from "screens";
 import {
@@ -15,13 +22,14 @@ import {
   spacing,
   THEME,
   use18,
-  useDimension,
+  useDimension
 } from "utils";
 
 interface d$_Intro extends IPSCR {
   scrollToWork(): void;
   scrollToExp(): void;
 }
+
 export function S_Intro(props: d$_Intro) {
   const { scrollToWork, scrollToExp } = props;
   const { C, dark, setTheme } = useAppContext();
@@ -29,6 +37,7 @@ export function S_Intro(props: d$_Intro) {
   const [_color, setColor] = React.useState(C.text);
   const [_weight, setFontWeight] = React.useState<"500" | "bold">("500");
 
+  const [visible, toggle] = useReducer((s) => !s, true);
   return (
     <View
       style={{
@@ -37,7 +46,20 @@ export function S_Intro(props: d$_Intro) {
       }}
     >
       <NiAvatar />
-      <SS.CtnrIntro animation="fadeIn" delay={1000}>
+      <SS.CtnrIntro
+        from={{
+          opacity: 0,
+          // scale: 0.5,
+        }}
+        animate={{
+          opacity: 1,
+          // scale: 1,
+        }}
+        transition={{
+          type: "timing",
+          delay: 600,
+        }}
+      >
         <TouchableWeb
           onMouseEnter={() => {
             setColor(C.dim);
@@ -123,8 +145,20 @@ const NiAvatar = () => {
 
   const [] = React.useState<"Let's hi-five!" | "Noice">("Let's hi-five!");
   return (
-    <SS.Ctnr>
-      <SS.Avatar animation={"zoomIn"} source={dark ? img.khoi : img.khoi3d} />
+    <SS.Ctnr
+      from={{
+        opacity: 0,
+        scale: 0.5,
+      }}
+      animate={{
+        opacity: 1,
+        scale: 1,
+      }}
+      transition={{
+        type: "timing",
+      }}
+    >
+      <SS.Avatar source={dark ? img.khoi : img.khoi3d} />
       <$_FlagRing />
     </SS.Ctnr>
   );
@@ -232,16 +266,16 @@ const $_FlagRing = () => {
 };
 
 const SS = {
-  Ctnr: sstyled(View)(() => ({
+  Ctnr: sstyled(Motiview)(() => ({
     width: moderateScale(100),
     height: moderateScale(100),
     paddingHorizontal: spacing(6),
   })),
-  CtnrIntro: sstyled(Animatable.View)((p) => ({
+  CtnrIntro: sstyled(Motiview)((p) => ({
     paddingHorizontal: spacing(6),
     paddingRight: p.WIDTH < 1000 ? spacing(6) : spacing(9),
   })),
-  Avatar: sstyled(Animatable.Image)(() => ({
+  Avatar: sstyled(Image)(() => ({
     width: scale(95),
     height: scale(95),
     borderRadius: 200,

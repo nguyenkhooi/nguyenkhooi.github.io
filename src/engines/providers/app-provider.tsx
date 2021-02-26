@@ -1,6 +1,8 @@
 import * as eva from "@eva-design/eva";
 import { ApplicationProvider } from "@ui-kitten/components";
+import I18n from "i18n-js";
 import React, { useContext, useState } from "react";
+import { defaultTheme, Theme, ThemeProvider } from "react-native-reflect";
 import {
   colors,
   dColors,
@@ -8,9 +10,8 @@ import {
   LANG,
   THEME,
   themeDark,
-  themeLight,
+  themeLight
 } from "utils";
-import I18n from "i18n-js";
 
 /** 
  * App Provider,
@@ -78,18 +79,16 @@ export function AppProvider({ children }) {
           break;
       }
       console.log("💋 Current theme: ", _theme.toString());
-
-      // setTimeout(() => {
-      //   //* Base theme value to frbs
-      //   userDocState?.path &&
-      //     _theme !== userDocState?.doc?.theme &&
-      //     db.doc(userDocState.path).update({
-      //       theme: _theme,
-      //     });
-      // }, 1000);
     },
     [_theme]
   );
+  const themeReflect: Theme = {
+    ...defaultTheme,
+    colors: _colors,
+    space: [0, 2, 4, 8, 16, 20, 32, 64, 128, 256],
+    sizes: [0, 2, 4, 8, 16, 20, 32, 64, 128, 256],
+    radii: [0, 15, 30],
+  };
 
   //*---- I18N-SECTION ---------------
   const [i18n, setI18N] = React.useState<LANG>(LANG.EN);
@@ -129,12 +128,14 @@ export function AppProvider({ children }) {
         isReady: _isReady,
       }}
     >
-      <ApplicationProvider
-        {...eva}
-        theme={_theme == THEME.LIGHT ? themeLight : themeDark}
-      >
-        {children}
-      </ApplicationProvider>
+      <ThemeProvider value={themeReflect}>
+        <ApplicationProvider
+          {...eva}
+          theme={_theme == THEME.LIGHT ? themeLight : themeDark}
+        >
+          {children}
+        </ApplicationProvider>
+      </ThemeProvider>
     </AppContext.Provider>
   );
 }
