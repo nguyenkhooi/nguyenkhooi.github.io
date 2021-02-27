@@ -5,7 +5,7 @@ import Animated, {
   interpolateColor,
   useAnimatedScrollHandler,
   useAnimatedStyle,
-  useSharedValue
+  useSharedValue,
 } from "react-native-reanimated";
 import { IPSCR, useDimension } from "utils";
 import { S_Contact } from "./s-contact";
@@ -31,14 +31,13 @@ export default (props: IPSCR) => {
   };
 
   //#region [REANI]
-  const opacity = useSharedValue(0);
   const scrollY = useSharedValue(0);
 
   let animatedScrollViewStyle = useAnimatedStyle(() => ({
     backgroundColor: interpolateColor(
       scrollY.value,
-      [HEIGHT * 0.5, HEIGHT, HEIGHT * 2.5, HEIGHT * 3],
-      [C.background, C["color-basic-1100"], C["color-basic-1100"], C.primary]
+      [HEIGHT * 0.5, HEIGHT],
+      [C.background, C["color-basic-1100"]]
     ),
   }));
   const scrollHandler = useAnimatedScrollHandler((event) => {
@@ -52,6 +51,7 @@ export default (props: IPSCR) => {
       onScroll={scrollHandler}
       scrollEventThrottle={16}
       style={{ ...animatedScrollViewStyle }}
+      pagingEnabled={true}
     >
       <$_Intro
         {...props}

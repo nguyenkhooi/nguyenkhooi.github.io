@@ -1,0 +1,14 @@
+{
+    "recommendations": [
+        "msjsdiag.vscode-react-native",
+        "bierner.emojisense",
+        "aaron-bond.better-comments",
+        "naumovs.color-highlight",
+        "exodiusstudios.comment-anchors",
+        "ms-vsliveshare.vsliveshare",
+        "ms-vsliveshare.vsliveshare-audio",
+        "ms-vsliveshare.vsliveshare-pack",
+        "esbenp.prettier-vscode",
+        "jsayol.firebase-explorer"
+    ]
+}

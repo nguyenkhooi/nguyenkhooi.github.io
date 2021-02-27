@@ -1,0 +1,173 @@
+{
+  "4HM function": {
+    "prefix": "zzfun",
+    "body": [
+      "interface d${7} {",
+      "  $8",
+      "};",
+      "",
+      "/**",
+      " * ### ${2:Brief description}",
+      " *  - ${3:Detailed explanation (if any)}",
+      " *  ----",
+      " *  @example ",
+      " *  ${6:Copy and paste function is the best...}",
+      " *  ----",
+      " *  @version ${CURRENT_YEAR_SHORT}.${CURRENT_MONTH}.${CURRENT_DATE}",
+      " *  -  *${4:Brief changelog}*",
+      " *  @author  ${5:Your Name}",
+      " *  ",
+      " **/",
+      "${9:export} function ${1:${TM_FILENAME_BASE}}(props: d${7}) {",
+      "   const { ${10} } = props",
+      "  return (",
+      "\t${0:<></>} ",
+      "  );",
+      "};"
+    ],
+    "description": "Create a 4 horsemen function, with type"
+  },
+
+  "4HM const": {
+    "prefix": "zzcon",
+    "body": [
+      "interface d${7} {",
+      "  $8",
+      "};",
+      "",
+      "/**",
+      " * ### ${2:Brief description}",
+      " *  - ${3:Detailed explanation (if any)}",
+      " *  ----",
+      " *  @example ",
+      " *  ${6:Copy and paste function is the best...}",
+      " *  ----",
+      " *  @version ${CURRENT_YEAR_SHORT}.${CURRENT_MONTH}.${CURRENT_DATE}",
+      " *  -  *${4:Brief changelog}*",
+      " *  @author  ${5:Your Name}",
+      " *  ",
+      " **/",
+      "${9:export} const ${1:${TM_FILENAME_BASE}} = (props: d${7}) => {",
+      "   const { ${10} } = props",
+      "  return (",
+      "\t${0:<></>} ",
+      "  );",
+      "};"
+    ],
+    "description": "Create a 4 horsemen const, with type"
+  },
+
+  "import * as sth from somewhere": {
+    "prefix": "zzim*",
+    "body": ["import * as $1 from '$2'"],
+    "description": "import * as sth from somewhere"
+  },
+
+  "import { sth } from somewhere": {
+    "prefix": "zzim{",
+    "body": ["import { $1 } from '$2'"],
+    "description": "import { sth } from somewhere"
+  },
+
+  "import sth from somewhere": {
+    "prefix": "zzimdefault",
+    "body": ["import $1 from '$2'"],
+    "description": "import sth from somewhere"
+  },
+
+  "export * from somewhere": {
+    "prefix": "zzex*",
+    "body": ["export * from '$2'"],
+    "description": "export * from somewhere"
+  },
+
+  "useState": {
+    "prefix": "zzus",
+    "body": [
+      "const [${1}, set${1/(.*)/${1:/capitalize}/}] = React.useState<${3:any}>($2);$0"
+    ],
+    "description": "React useState() hook"
+  },
+  "useEffect": {
+    "prefix": "zzue",
+    "body": ["React.useEffect(function $1 () {", "\t$3", "}, [${2}]);$0"],
+    "description": "React useEffect() hook"
+  },
+  "useEffectCleanup": {
+    "prefix": "zzueclean",
+    "body": [
+      "${5://? This is the explanation. Understand? hit Backspace then Tab}",
+      "React.useEffect(function ${1:effectName} () {",
+      "\t$3",
+      "\treturn () => {",
+      "\t\t$4",
+      "}",
+      "\t}, [${2}]);$0"
+    ],
+    "description": "React useEffect() hook, with cleanup function"
+  },
+  "useRef": {
+    "prefix": "zzur",
+    "body": [
+      "const ref${1/(.*)/${1:/capitalize}/} = React.useRef<any$3>($2);$0"
+    ],
+    "description": "React useRef() hook"
+  },
+  "useMemo": {
+    "prefix": "zzum",
+    "body": [
+      "const ${1:memoizedValue} = React.useMemo(() => ${2:computeExpensiveValue}(${3:a}, ${4:b}), [${5:a}, ${6:b}]);$0"
+    ],
+    "description": "React useMemo() hook"
+  },
+  "useReducer": {
+    "prefix": "zzurd",
+    "body": [
+      "const [${1:state},${2: dispatch}] = React.useReducer(${3:reducer}, ${4:initialArg}, ${5:init});"
+    ],
+    "description": "React useReducer() hook"
+  },
+  "useContext": {
+    "prefix": "zzuc",
+    "body": ["const $1 = React.useContext($2);$0"],
+    "description": "React useContext() hook"
+  },
+  "useCallback": {
+    "prefix": "zzucall",
+    "body": [
+      "const ${1:memoizedCallback} = React.useCallback(",
+      "\t() => {",
+      "\t\t${2:doSomething}(${3:a}, ${4:b})",
+      "\t},",
+      "\t[${5:a}, ${6:b}],",
+      ");$0"
+    ],
+    "description": "React useCallback() hook"
+  },
+
+  "import React": {
+    "prefix": "zzimr",
+    "body": ["import * as React from 'react';"]
+  },
+  "import React Native": {
+    "prefix": "zzimrn",
+    "body": ["import { View } from 'react-native';"]
+  },
+  "4HM Doc": {
+    "prefix": "zz4hm",
+    "body": [
+      "/**",
+      " * ### ${1/(.*)/${1:/capitalize}/}",
+      " *  - ${2:Detailed explanation (if any)}",
+      " *  ----",
+      " *  @example ",
+      " *  ${0:Copy and paste function is the best...}",
+      " *  ----",
+      " *  @version ${CURRENT_YEAR_SHORT}.${CURRENT_MONTH}.${CURRENT_DATE}",
+      " *  -  *${3:Brief changelog}*",
+      " *  @author  ${4:Your Name}",
+      " *  ",
+      " **/"
+    ]
+  }
+}
