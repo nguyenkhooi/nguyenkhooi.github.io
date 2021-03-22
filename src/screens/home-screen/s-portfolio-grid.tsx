@@ -1,40 +1,33 @@
+import { useLinkTo } from "@react-navigation/native";
 import {
-  ButtonGroup,
   IndexPath,
   Menu,
-  MenuItem,
-  Text,
+  MenuItem
 } from "@ui-kitten/components";
 import {
-  Txt,
-  TouchableWeb,
-  TouchableWebProps,
-  Buttoon,
-  sstyled,
+  sstyled, TouchableWeb,
+  TouchableWebProps, Txt
 } from "components";
 import { useSheets } from "engines/hooks";
 import { useAppContext } from "engines/providers/app-provider";
 import * as R from "ramda";
 import React from "react";
 import {
-  ActivityIndicator,
   ImageBackground,
   TextStyle,
   View,
-  ViewStyle,
+  ViewStyle
 } from "react-native";
+import * as Animatable from "react-native-animatable";
 import { FlatGrid } from "react-native-super-grid";
 import {
-  Fade,
   Placeholder,
-  PlaceholderLine,
+
   PlaceholderMedia,
-  ShineOverlay,
+  ShineOverlay
 } from "rn-placeholder";
 import { Navigation } from "screens/_navigation";
-import { dColors, IPSCR, scale, spacing, use18, useDimension } from "utils";
-import * as Animatable from "react-native-animatable";
-import { useLinkTo } from "@react-navigation/native";
+import { dColors, IPSCR, spacing, use18, useDimension } from "utils";
 
 export function S_PortfolioGrid(props: IPSCR) {
   const { C } = useAppContext();
@@ -165,7 +158,7 @@ const SS = {
     borderBottomWidth: 1,
     alignSelf: "flex-start",
     overflow: "hidden",
-    borderColor: p.C.dim,
+    borderColor: "dim",
     marginLeft: spacing(5),
   })),
 };

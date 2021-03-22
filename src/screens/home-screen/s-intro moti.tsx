@@ -2,16 +2,15 @@ import { img } from "assets";
 import { sstyled, Toasty, TouchableWeb, Txt } from "components";
 import { useAppContext } from "engines";
 import { LinkURL } from "engines/functions/web-functions";
-import { image } from "faker";
-import { AnimatePresence, View as Motiview, Image as Motiimage } from "moti";
+import { AnimatePresence, Image as Motiimage, View as Motiview } from "moti";
 import React, { useReducer } from "react";
 import {
   Animated,
-  StyleSheet,
+
   ImageStyle,
-  Pressable,
+
   View,
-  ViewStyle,
+  ViewStyle
 } from "react-native";
 import FA5 from "react-native-vector-icons/FontAwesome5";
 import { Navigation } from "screens";
@@ -23,7 +22,7 @@ import {
   spacing,
   THEME,
   use18,
-  useDimension,
+  useDimension
 } from "utils";
 
 interface d$_Intro extends IPSCR {
@@ -34,7 +33,7 @@ interface d$_Intro extends IPSCR {
 export function S_Intro(props: d$_Intro) {
   const { scrollToWork, scrollToExp } = props;
   const { C, dark, setTheme } = useAppContext();
-  const { HEIGHT } = useDimension("window");
+  const { HEIGHT, WIDTH } = useDimension("window");
   const [_color, setColor] = React.useState(C.text);
   const [_weight, setFontWeight] = React.useState<"500" | "bold">("500");
 
@@ -48,6 +47,7 @@ export function S_Intro(props: d$_Intro) {
     >
       <NiAvatar />
       <SS.CtnrIntro
+        WIDTH={WIDTH}
         from={{
           opacity: 0,
           // scale: 0.5,

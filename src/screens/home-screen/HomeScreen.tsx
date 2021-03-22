@@ -1,13 +1,13 @@
+import { sstyled } from "components";
 import { useAppContext } from "engines";
 import * as React from "react";
 import { LayoutChangeEvent, ScrollView, View } from "react-native";
 import Animated, {
-  interpolateColor,
   useAnimatedScrollHandler,
   useAnimatedStyle,
-  useSharedValue,
+  useSharedValue
 } from "react-native-reanimated";
-import { IPSCR, useDimension } from "utils";
+import { IPSCR, spacing, useDimension } from "utils";
 import { S_Contact } from "./s-contact";
 import { S_ExperimentalGrid } from "./s-experimental-grid";
 import { S_Intro } from "./s-intro";
@@ -34,11 +34,11 @@ export default (props: IPSCR) => {
   const scrollY = useSharedValue(0);
 
   let animatedScrollViewStyle = useAnimatedStyle(() => ({
-    backgroundColor: interpolateColor(
-      scrollY.value,
-      [HEIGHT * 0.5, HEIGHT],
-      [C.background, C["color-basic-1100"]]
-    ),
+    // backgroundColor: interpolateColor(
+    //   scrollY.value,
+    //   [HEIGHT * 0.5, HEIGHT, HEIGHT * 2],
+    //   [C.background, C["color-basic-1100"], C["color-basic-1100"]]
+    // ),
   }));
   const scrollHandler = useAnimatedScrollHandler((event) => {
     scrollY.value = event.contentOffset.y;
@@ -46,11 +46,11 @@ export default (props: IPSCR) => {
   //#endregion
 
   return (
-    <Animated.ScrollView
+    <SS.Sctnr
       ref={refList}
       onScroll={scrollHandler}
       scrollEventThrottle={16}
-      style={{ ...animatedScrollViewStyle }}
+      // style={{ ...animatedScrollViewStyle }}
       pagingEnabled={true}
     >
       <$_Intro
@@ -71,7 +71,7 @@ export default (props: IPSCR) => {
       <View>
         <$_Contact {...props} />
       </View>
-    </Animated.ScrollView>
+    </SS.Sctnr>
   );
 };
 
@@ -79,6 +79,17 @@ const $_PortfolioGrid = S_PortfolioGrid;
 const $_ExperimentalGrid = S_ExperimentalGrid;
 const $_Intro = S_Intro;
 const $_Contact = S_Contact;
+
+const SS = {
+  Sctnr: sstyled(Animated.ScrollView)({
+    maxHeight: "100%",
+    minWidth: 300,
+    flex: 1,
+    paddingHorizontal: spacing(4),
+    backgroundColor: "background",
+    // borderRightWidth: 1,
+  }),
+};
 
 // import React from "react";
 // import {

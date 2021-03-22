@@ -3,11 +3,11 @@ import { LinkURL } from "engines/functions/web-functions";
 import * as R from "ramda";
 import React, { useState } from "react";
 import {
-  ActivityIndicator,
-  FlatList,
-  ImageStyle,
-  ScrollView,
-  View
+    ActivityIndicator,
+    FlatList,
+    ImageStyle,
+    ScrollView,
+    View
 } from "react-native";
 import * as Animatable from "react-native-animatable";
 // import { ScrollView } from "react-native-gesture-handler";
@@ -220,14 +220,14 @@ const $_RingadingDeck = S_RingadingDeck;
 
 export const SS = {
   Sctnr: sstyled(ScrollView)((p) => ({
-    backgroundColor: p.C.background,
+    backgroundColor: "background",
     paddingTop: spacing(5),
   })),
   CtnrImg: sstyled(Animatable.View)((p) => ({
     margin: 10,
     borderRadius: 10,
     overflow: "hidden",
-    backgroundColor: p.C.surface,
+    backgroundColor: "surface",
   })),
   CtnrLabel: sstyled(Animatable.View)(() => ({
     margin: 10,
@@ -241,12 +241,12 @@ export const SS = {
     justifyContent: "center",
     alignItems: "center",
     flex: 1,
-    backgroundColor: p.C.background,
+    backgroundColor: "background",
   })),
   //*----Txt-SECTION ----------
   Headline: sstyled(Txt.H6)((p) => ({
     // fontSize: 26,
-    color: p.C.text,
+    color: "text",
     textAlign: "center",
     justifyContent: "center",
     marginBottom: spacing(2),

@@ -156,10 +156,10 @@ const SS = {
   CtnrContact: sstyled(Animatable.View)((p) => ({
     padding: spacing(6),
     alignItems: "center",
-    backgroundColor: p.C["color-basic-200"],
+    backgroundColor: "color-basic-200",
     alignSelf: "center",
     borderRadius: 5,
     borderWidth: 2,
-    borderColor: p.C.dim,
+    borderColor: "dim",
   })),
 };

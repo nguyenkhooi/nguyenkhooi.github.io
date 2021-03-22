@@ -1,9 +1,9 @@
 import { sstyled, Txt } from "components";
 import React from "react";
-import { ImageStyle, ScrollView, TouchableOpacity, View } from "react-native";
-import Image from "react-native-scalable-image";
-import { spacing, useDimension } from "utils";
+import { ImageStyle, TouchableOpacity } from "react-native";
 import * as Animatable from "react-native-animatable";
+import Image from "react-native-scalable-image";
+import { useDimension } from "utils";
 
 export function C_ContentCard(props: {
   text: string;
@@ -63,7 +63,7 @@ export const SS = {
     // margin: 10,
     borderRadius: 10,
     overflow: "hidden",
-    backgroundColor: p.C.surface,
+    backgroundColor: "surface",
   })),
   CtnrLabel: sstyled(Animatable.View)(() => ({
     // margin: 10,

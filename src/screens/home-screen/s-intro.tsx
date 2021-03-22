@@ -1,24 +1,18 @@
 import { img } from "assets";
 import { sstyled, Toasty, TouchableWeb, Txt } from "components";
+import { View as Dripview } from "dripsy";
 import { useAppContext } from "engines";
 import { LinkURL } from "engines/functions/web-functions";
 import { View as Motiview } from "moti";
 import React, { useReducer } from "react";
-import {
-  Animated,
-  Image,
-  ImageStyle,
-
-  View,
-  ViewStyle
-} from "react-native";
+import { Animated, Image, ImageStyle, View, ViewStyle } from "react-native";
+import Reanimated from "react-native-reanimated";
 import FA5 from "react-native-vector-icons/FontAwesome5";
 import { Navigation } from "screens";
 import {
   IPSCR,
   LANG,
   moderateScale,
-  scale,
   spacing,
   THEME,
   use18,
@@ -33,7 +27,7 @@ interface d$_Intro extends IPSCR {
 export function S_Intro(props: d$_Intro) {
   const { scrollToWork, scrollToExp } = props;
   const { C, dark, setTheme } = useAppContext();
-  const { HEIGHT } = useDimension("window");
+  const { HEIGHT, WIDTH } = useDimension("window");
   const [_color, setColor] = React.useState(C.text);
   const [_weight, setFontWeight] = React.useState<"500" | "bold">("500");
 
@@ -43,10 +37,12 @@ export function S_Intro(props: d$_Intro) {
       style={{
         height: HEIGHT,
         justifyContent: "center",
+        alignItems: "center",
       }}
     >
       <NiAvatar />
       <SS.CtnrIntro
+        WIDTH={WIDTH}
         from={{
           opacity: 0,
           // scale: 0.5,
@@ -70,16 +66,17 @@ export function S_Intro(props: d$_Intro) {
             setFontWeight("500");
           }}
         >
-          <Txt.H6
+          <Txt.H5
             onPress={() => {
               setTheme(dark ? THEME.LIGHT : THEME.DARK);
             }}
+            style={{ textAlign: "center" }}
           >
             {use18("intro-1")} {"👋"}{" "}
-          </Txt.H6>
+          </Txt.H5>
 
           <Txt.S1
-            style={{ color: _color, fontWeight: "500" }}
+            style={{ color: _color, fontWeight: "500", textAlign: "center" }}
             adjustsFontSizeToFit={true}
           >
             {use18("intro-2")}{" "}
@@ -231,8 +228,20 @@ const $_FlagRing = () => {
   const transform = [{ rotate: rotate }];
   const transform1 = [{ rotate: rotateOpposit, scale: starSize }];
   return (
-    <Animated.View
-      style={[SS.S.CTNR_FLAG, { transform: [{ rotate: "-90deg" }] }]}
+    <Dripview
+      as={Reanimated.View}
+      style={[
+        {
+          // marginLeft: spacing(6),
+          position: "absolute",
+          padding: 1,
+          bottom: 0,
+          left: 0,
+          width: 2,
+          height: 2,
+        },
+        { transform: [{ rotate: "-90deg" }] },
+      ]}
     >
       <Animated.View
         style={[
@@ -261,23 +270,24 @@ const $_FlagRing = () => {
           />
         </Animated.View>
       </Animated.View>
-    </Animated.View>
+    </Dripview>
   );
 };
 
 const SS = {
   Ctnr: sstyled(Motiview)(() => ({
-    width: moderateScale(100),
-    height: moderateScale(100),
-    paddingHorizontal: spacing(6),
+    // width: 5,
+    // height: 5,
+    // paddingHorizontal: spacing(6),
   })),
   CtnrIntro: sstyled(Motiview)((p) => ({
-    paddingHorizontal: spacing(6),
-    paddingRight: p.WIDTH < 1000 ? spacing(6) : spacing(9),
+    alignItems: "center",
+    marginHorizontal: ["5%", "5%", "10%", "18%", "18%"],
+    // paddingRight: p.WIDTH < 1000 ? spacing(6) : spacing(9),
   })),
   Avatar: sstyled(Image)(() => ({
-    width: scale(95),
-    height: scale(95),
+    width: 6,
+    height: 6,
     borderRadius: 200,
     transform: [{ rotate: "-10deg" }],
   })),

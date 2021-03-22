@@ -1,8 +1,8 @@
 import * as eva from "@eva-design/eva";
 import { ApplicationProvider } from "@ui-kitten/components";
+import { DripsyProvider, Theme } from "dripsy";
 import I18n from "i18n-js";
 import React, { useContext, useState } from "react";
-import { defaultTheme, Theme, ThemeProvider } from "react-native-reflect";
 import {
   colors,
   dColors,
@@ -82,12 +82,12 @@ export function AppProvider({ children }) {
     },
     [_theme]
   );
-  const themeReflect: Theme = {
-    ...defaultTheme,
+
+  const dripsyTheme: Theme = {
     colors: _colors,
-    space: [0, 2, 4, 8, 16, 20, 32, 64, 128, 256],
-    sizes: [0, 2, 4, 8, 16, 20, 32, 64, 128, 256],
-    radii: [0, 15, 30],
+    // custom fonts are easy!
+    sizes: [0, 10, 30, 60, 90, 120, 150, 180, 210, 240, 270],
+    space: [0, 2, 4, 8, 16, 20, 32, 64, 128, 256], //* length = 10
   };
 
   //*---- I18N-SECTION ---------------
@@ -128,14 +128,14 @@ export function AppProvider({ children }) {
         isReady: _isReady,
       }}
     >
-      <ThemeProvider value={themeReflect}>
+      <DripsyProvider theme={dripsyTheme}>
         <ApplicationProvider
           {...eva}
           theme={_theme == THEME.LIGHT ? themeLight : themeDark}
         >
           {children}
         </ApplicationProvider>
-      </ThemeProvider>
+      </DripsyProvider>
     </AppContext.Provider>
   );
 }

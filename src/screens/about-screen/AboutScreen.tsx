@@ -6,16 +6,15 @@ import {
   ActivityIndicator,
   ImageStyle,
   ScrollView,
-  View,
-  TouchableOpacity,
+
+  TouchableOpacity, View
 } from "react-native";
 import * as Animatable from "react-native-animatable";
 // import { ScrollView } from "react-native-gesture-handler";
 import RNMasonryScroll from "react-native-masonry-scrollview";
 import Image from "react-native-scalable-image";
-import { spacing, use18, useDimension } from "utils";
-import ImageViewer from "react-native-image-zoom-viewer";
 import { Navigation } from "screens/_navigation";
+import { spacing, use18, useDimension } from "utils";
 
 export default function AboutScreen(props) {
   const { C } = useAppContext();
@@ -190,14 +189,14 @@ const C_ContentCard = (props: {
 
 const SS = {
   Sctnr: sstyled(ScrollView)((p) => ({
-    backgroundColor: p.C.background,
+    backgroundColor: "background",
     paddingTop: spacing(5),
   })),
   CtnrImg: sstyled(Animatable.View)((p) => ({
     margin: 10,
     borderRadius: 10,
     overflow: "hidden",
-    backgroundColor: p.C.surface,
+    backgroundColor: "surface",
   })),
   CtnrLabel: sstyled(Animatable.View)(() => ({
     margin: 10,
@@ -211,12 +210,12 @@ const SS = {
     justifyContent: "center",
     alignItems: "center",
     flex: 1,
-    backgroundColor: p.C.background,
+    backgroundColor: "background",
   })),
   //*----Txt-SECTION ----------
   Headline: sstyled(Txt.H4)((p) => ({
     // fontSize: 26,
-    color: p.C.text,
+    color: "text",
     textAlign: "center",
     justifyContent: "center",
     marginBottom: spacing(2),
