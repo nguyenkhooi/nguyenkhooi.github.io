@@ -1,11 +1,11 @@
-import { sstyled } from "components";
+import { M, RText, ScrollVue, sstyled } from "components";
 import { useAppContext } from "engines";
 import * as React from "react";
 import { LayoutChangeEvent, ScrollView, View } from "react-native";
 import Animated, {
   useAnimatedScrollHandler,
   useAnimatedStyle,
-  useSharedValue
+  useSharedValue,
 } from "react-native-reanimated";
 import { IPSCR, spacing, useDimension } from "utils";
 import { S_Contact } from "./s-contact";
@@ -46,12 +46,12 @@ export default (props: IPSCR) => {
   //#endregion
 
   return (
-    <SS.Sctnr
+    <A.Sctnr
       ref={refList}
       onScroll={scrollHandler}
       scrollEventThrottle={16}
       // style={{ ...animatedScrollViewStyle }}
-      pagingEnabled={true}
+      // pagingEnabled={true}
     >
       <$_Intro
         {...props}
@@ -62,6 +62,7 @@ export default (props: IPSCR) => {
           scrollToSection("exp");
         }}
       />
+      {/* <M.ThemeCard /> */}
       <View onLayout={setWorkLayout}>
         <$_PortfolioGrid {...props} />
       </View>
@@ -71,7 +72,7 @@ export default (props: IPSCR) => {
       <View>
         <$_Contact {...props} />
       </View>
-    </SS.Sctnr>
+    </A.Sctnr>
   );
 };
 
@@ -79,14 +80,15 @@ const $_PortfolioGrid = S_PortfolioGrid;
 const $_ExperimentalGrid = S_ExperimentalGrid;
 const $_Intro = S_Intro;
 const $_Contact = S_Contact;
-
-const SS = {
-  Sctnr: sstyled(Animated.ScrollView)({
+export type vuee = typeof A.Sctnr;
+const A = {
+  Sctnr: sstyled(ScrollVue)({
     maxHeight: "100%",
     minWidth: 300,
     flex: 1,
     paddingHorizontal: spacing(4),
-    backgroundColor: "background",
+    // backgroundColor: "blue",
+    // backgroundColor: "background",
     // borderRightWidth: 1,
   }),
 };

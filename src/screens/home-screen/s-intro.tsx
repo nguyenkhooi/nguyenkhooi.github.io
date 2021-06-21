@@ -1,24 +1,39 @@
 import { img } from "assets";
 import { sstyled, Toasty, TouchableWeb, Txt } from "components";
-import { View as Dripview } from "dripsy";
+import { useSx, View as Dripview } from "dripsy";
 import { useAppContext } from "engines";
 import { LinkURL } from "engines/functions/web-functions";
 import { View as Motiview } from "moti";
 import React, { useReducer } from "react";
-import { Animated, Image, ImageStyle, View, ViewStyle } from "react-native";
-import Reanimated from "react-native-reanimated";
+import {
+  Animated,
+  Image,
+  ImageStyle,
+  TextProps,
+  TextStyle,
+  View,
+  ViewStyle,
+} from "react-native";
+import Reanimated, {
+  interpolate,
+  interpolateColor,
+  useAnimatedStyle,
+  useDerivedValue,
+  withTiming,
+} from "react-native-reanimated";
 import FA5 from "react-native-vector-icons/FontAwesome5";
 import { Navigation } from "screens";
 import {
+  dColors,
   IPSCR,
   LANG,
   moderateScale,
   spacing,
   THEME,
   use18,
-  useDimension
+  useDimension,
 } from "utils";
-
+import { Text } from "dripsy";
 interface d$_Intro extends IPSCR {
   scrollToWork(): void;
   scrollToExp(): void;
@@ -28,10 +43,10 @@ export function S_Intro(props: d$_Intro) {
   const { scrollToWork, scrollToExp } = props;
   const { C, dark, setTheme } = useAppContext();
   const { HEIGHT, WIDTH } = useDimension("window");
-  const [_color, setColor] = React.useState(C.text);
-  const [_weight, setFontWeight] = React.useState<"500" | "bold">("500");
+  const [_color, setColor] = React.useState(C.grey600);
 
-  const [visible, toggle] = useReducer((s) => !s, true);
+  const [dak, setDak] = React.useState<boolean>(false);
+
   return (
     <View
       style={{
@@ -41,7 +56,7 @@ export function S_Intro(props: d$_Intro) {
       }}
     >
       <NiAvatar />
-      <SS.CtnrIntro
+      <A.CtnrIntro
         WIDTH={WIDTH}
         from={{
           opacity: 0,
@@ -59,11 +74,11 @@ export function S_Intro(props: d$_Intro) {
         <TouchableWeb
           onMouseEnter={() => {
             setColor(C.dim);
-            setFontWeight("bold");
+            setDak(true);
           }}
           onMouseLeave={() => {
-            setColor(C.text);
-            setFontWeight("500");
+            setColor(C.grey600);
+            setDak(false);
           }}
         >
           <Txt.H5
@@ -74,60 +89,78 @@ export function S_Intro(props: d$_Intro) {
           >
             {use18("intro-1")} {"👋"}{" "}
           </Txt.H5>
-
           <Txt.S1
             style={{ color: _color, fontWeight: "500", textAlign: "center" }}
             adjustsFontSizeToFit={true}
           >
             {use18("intro-2")}{" "}
-            <SS.TxtLink
-              style={{
-                textDecorationLine: "underline",
-                fontWeight: _weight,
-              }}
-              onPress={scrollToWork}
-            >
+            <TxtLink parentColor={_color} onPress={scrollToWork}>
               {use18("intro-3")}
-            </SS.TxtLink>{" "}
+            </TxtLink>{" "}
             {use18("intro-4")}{" "}
-            <SS.TxtLink
-              style={{
-                textDecorationLine: "underline",
-                fontWeight: _weight,
-              }}
-              onPress={scrollToExp}
-            >
+            <TxtLink parentColor={_color} onPress={scrollToExp}>
               {use18("intro-5")}
-            </SS.TxtLink>{" "}
+            </TxtLink>{" "}
             {"\n"}
             {use18("intro-6")}{" "}
-            <SS.TxtLink
-              style={{
-                textDecorationLine: "underline",
-                fontWeight: _weight,
-              }}
+            <TxtLink
+              parentColor={_color}
               onPress={() =>
                 LinkURL("https://www.instagram.com/nguyenkhooi/?hl=en", true)
               }
             >
               {use18("intro-7")}
-            </SS.TxtLink>{" "}
+            </TxtLink>{" "}
             {use18("intro-8")}{" "}
-            <SS.TxtLink
-              style={{
-                textDecorationLine: "underline",
-                fontWeight: _weight,
-              }}
+            <TxtLink
+              parentColor={_color}
               onPress={() => Navigation.navigate("About")}
             >
               {use18("intro-9")}
-            </SS.TxtLink>
+            </TxtLink>
           </Txt.S1>
         </TouchableWeb>
-      </SS.CtnrIntro>
+      </A.CtnrIntro>
     </View>
   );
 }
+
+const TxtLink = (params: TextProps & { parentColor: string }) => {
+  const { parentColor, style } = params;
+  const { C } = useAppContext();
+  const sx = useSx();
+
+  //* Since dripsy export style in [], must convert it into Object before insert into rStyle
+  let styleObject = Array.isArray(style)
+    ? style?.reduce((r, c) => Object.assign(r, c), {})
+    : style;
+  /**
+   * Style Preset for this component
+   */
+  let stylePreset = { fontSize: 5 };
+
+  //#region [REANI]
+  const progress = useDerivedValue(() => {
+    return parentColor == C.dim ? withTiming(1) : withTiming(0);
+  }, [parentColor]);
+
+  const rStyle = useAnimatedStyle<TextStyle>(() => {
+    return {
+      textDecorationLine: "underline",
+      color: interpolateColor(progress.value, [0, 1], [C.grey600, C.text]),
+      ...styleObject,
+    };
+  });
+  //#endregion
+
+  return (
+    <Text
+      as={Reanimated.Text}
+      {...params}
+      style={[rStyle, sx({ ...stylePreset, ...styleObject })]}
+    />
+  );
+};
 
 const NiAvatar = () => {
   const { WIDTH } = useDimension();
@@ -142,7 +175,7 @@ const NiAvatar = () => {
 
   const [] = React.useState<"Let's hi-five!" | "Noice">("Let's hi-five!");
   return (
-    <SS.Ctnr
+    <A.Ctnr
       from={{
         opacity: 0,
         scale: 0.5,
@@ -155,9 +188,9 @@ const NiAvatar = () => {
         type: "timing",
       }}
     >
-      <SS.Avatar source={dark ? img.khoi : img.khoi3d} />
+      <A.Avatar source={dark ? img.khoi : img.khoi3d} />
       <$_FlagRing />
-    </SS.Ctnr>
+    </A.Ctnr>
   );
 };
 
@@ -248,7 +281,7 @@ const $_FlagRing = () => {
           {
             transform: [{ rotate: "90deg" }],
             backgroundColor: C.errorRed,
-            ...SS.S.FLAG_BCKGRD,
+            ...A.S.FLAG_BCKGRD,
           },
         ]}
       >
@@ -257,7 +290,7 @@ const $_FlagRing = () => {
             {
               transform: [{ scale: shieldSize }],
               backgroundColor: flagColor,
-              ...SS.S.FLAG_BCKGRD,
+              ...A.S.FLAG_BCKGRD,
             },
           ]}
         >
@@ -274,7 +307,7 @@ const $_FlagRing = () => {
   );
 };
 
-const SS = {
+const A = {
   Ctnr: sstyled(Motiview)(() => ({
     // width: 5,
     // height: 5,
@@ -282,18 +315,18 @@ const SS = {
   })),
   CtnrIntro: sstyled(Motiview)((p) => ({
     alignItems: "center",
-    marginHorizontal: ["5%", "5%", "10%", "18%", "18%"],
+    marginHorizontal: ["3%", "3%", "9%", "18%", "18%"],
     // paddingRight: p.WIDTH < 1000 ? spacing(6) : spacing(9),
   })),
-  Avatar: sstyled(Image)(() => ({
+  Avatar: sstyled(Image)({
     width: 6,
     height: 6,
     borderRadius: 200,
-    transform: [{ rotate: "-10deg" }],
-  })),
+  }),
   TxtLink: sstyled(Txt.S1)({
     // fontSize: 29,
     fontWeight: "500",
+    color: "grey600",
     // fontStyle: "italic",
   }),
 

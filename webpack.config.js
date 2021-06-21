@@ -9,12 +9,28 @@ const aliases = {
   engines: path.resolve("./src/engines"),
 };
 
+const webViewRule = {
+  test: /postMock.html$/,
+  use: {
+    loader: "file-loader",
+    options: {
+      name: "[name].[ext]",
+    },
+  },
+};
+
 const babelLoaderRules = {
   test: /\.tsx?$/,
   loader: "babel-loader",
   options: {
     presets: ["babel-preset-expo"],
   },
+};
+
+const fontLoaderRules = {
+  test: /\.ttf$/,
+  loader: "url-loader", // or directly file-loader
+  include: path.resolve(__dirname, "node_modules/react-native-vector-icons"),
 };
 
 module.exports = async function (env, argv) {
@@ -24,7 +40,12 @@ module.exports = async function (env, argv) {
     {
       ...env,
       babel: {
-        dangerouslyAddModulePathsToTranspile: ["@ui-kitten/components", "moti"],
+        dangerouslyAddModulePathsToTranspile: [
+          "@ui-kitten/components",
+          "moti",
+          "dripsy",
+          "@dripsy/core",
+        ],
       },
     },
     argv
@@ -33,8 +54,14 @@ module.exports = async function (env, argv) {
   config.resolve.alias = {
     ...config.resolve.alias,
     ...aliases,
+    "react-native-webview": "react-native-web-webview",
   };
 
-  config.module.rules = [...config.module.rules, babelLoaderRules];
+  config.module.rules = [
+    ...config.module.rules,
+    fontLoaderRules,
+    babelLoaderRules,
+    webViewRule,
+  ];
   return config;
 };

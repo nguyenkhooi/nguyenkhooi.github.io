@@ -10,7 +10,7 @@ import {
   LANG,
   THEME,
   themeDark,
-  themeLight
+  themeLight,
 } from "utils";
 
 /** 
@@ -84,10 +84,8 @@ export function AppProvider({ children }) {
   );
 
   const dripsyTheme: Theme = {
+    ...staticDripsyTheme,
     colors: _colors,
-    // custom fonts are easy!
-    sizes: [0, 10, 30, 60, 90, 120, 150, 180, 210, 240, 270],
-    space: [0, 2, 4, 8, 16, 20, 32, 64, 128, 256], //* length = 10
   };
 
   //*---- I18N-SECTION ---------------
@@ -160,6 +158,12 @@ export const AppContext = React.createContext<dAppContext>({
  * @author nguyenkhooi
  */
 export const useAppContext = () => useContext(AppContext);
+
+const staticDripsyTheme: Theme = {
+  // custom fonts are easy!
+  sizes: [0, 10, 30, 60, 90, 120, 150, 180, 210, 240, 270],
+  space: [0, 2, 4, 8, 16, 20, 32, 64, 128, 256], //* length = 10
+};
 
 interface dAppContext {
   C: dColors;

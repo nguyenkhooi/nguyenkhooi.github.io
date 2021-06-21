@@ -1,21 +1,61 @@
-import { Text, TextProps } from "@ui-kitten/components";
-import { Platform } from "react-native";
+import { TextProps } from "@ui-kitten/components";
+import { useAppContext } from "engines";
+import { Platform, TextStyle } from "react-native";
 import Markdown, { MarkdownProps } from "react-native-markdown-display";
-import { IS_ANDROID } from "utils";
+import Animated, {
+  interpolateColor,
+  useAnimatedStyle,
+  useDerivedValue,
+  withTiming,
+} from "react-native-reanimated";
+import { IS_ANDROID, themeDark, themeLight } from "utils";
 // import { scale } from "utils";
 import { sstyled } from "../sstyled/sstyled";
+import * as React from "react";
+import { Text, useSx } from "dripsy";
 
 //! Temporary set scale == no scale for proper Web appearance
 let scale = (size: number) => size;
 
-const H1 = sstyled(Text)((p) => ({
+/**
+ * ### A reanimated Text, with smooth theme colors change
+ *  - If apply backgroundColor, put it in the inline style
+ *  ----
+ *  @version 21.06.21
+ *  -  *Build product*
+ *  @author  K
+ *
+ **/
+export function RText(params: TextProps) {
+  const { C, dark } = useAppContext();
+
+  const progress = useDerivedValue(() => {
+    return dark ? withTiming(1) : withTiming(0);
+  }, [dark]);
+
+  const rStyle = useAnimatedStyle(() => {
+    let _style = params.style?.reduce((r, c) => Object.assign(r, c), {});
+    return {
+      color: interpolateColor(
+        progress.value,
+        [0, 1],
+        [themeLight.text, themeDark.text]
+      ),
+      ..._style,
+    };
+  });
+
+  return <Text as={Animated.Text} {...params} style={[rStyle, params.style]} />;
+}
+
+const H1 = sstyled(RText)((p) => ({
   color: "text",
   borderRadius: 73, //* To create a "bordered" placeholder when text is being loaded
   fontSize: 9,
   // fontFamily: "Montserrat_800ExtraBold",
   fontWeight: Platform.select({ web: "800", ios: "800", android: "bold" }),
 }));
-const H2 = sstyled(Text)((p) => ({
+const H2 = sstyled(RText)((p) => ({
   color: "text",
   borderRadius: 73, //* To create a "bordered" placeholder when text is being loaded
   fontSize: 8,
@@ -23,49 +63,49 @@ const H2 = sstyled(Text)((p) => ({
   // fontFamily: "Inter_800ExtraBold"
   fontWeight: Platform.select({ web: "800", ios: "800", android: "bold" }),
 }));
-const H3 = sstyled(Text)((p) => ({
+const H3 = sstyled(RText)((p) => ({
   color: "text",
   borderRadius: 73, //* To create a "bordered" placeholder when text is being loaded
   fontSize: 7,
   // fontFamily: "Inter_800ExtraBold"
   fontWeight: Platform.select({ web: "800", ios: "800", android: "bold" }),
 }));
-const H4 = sstyled(Text)((p) => ({
+const H4 = sstyled(RText)((p) => ({
   color: "text",
   borderRadius: 73, //* To create a "bordered" placeholder when text is being loaded
   fontSize: 6,
   // fontFamily: "Inter_800ExtraBold"
   fontWeight: Platform.select({ web: "800", ios: "800", android: "bold" }),
 }));
-const H5 = sstyled(Text)((p) => ({
-  color: "text",
+const H5 = sstyled(RText)((p) => ({
+  // color: "text",
   borderRadius: 73, //* To create a "bordered" placeholder when text is being loaded
   fontSize: 5,
   // fontFamily: "Inter_800ExtraBold"
   fontWeight: Platform.select({ web: "800", ios: "800", android: "bold" }),
 }));
-const H6 = sstyled(Text)((p) => ({
+const H6 = sstyled(RText)((p) => ({
   color: "text",
   borderRadius: 73, //* To create a "bordered" placeholder when text is being loaded
   fontSize: 4,
   // fontFamily: "Inter_800ExtraBold"
   fontWeight: Platform.select({ web: "800", ios: "800", android: "bold" }),
 }));
-const S1 = sstyled(Text)((p) => ({
+const S1 = sstyled(RText)((p) => ({
+  color: "text",
+  borderRadius: 73, //* To create a "bordered" placeholder when text is being loaded
+  fontSize: 5,
+  // fontFamily: "Inter_600SemiBold",
+  fontWeight: Platform.select({ web: "600", ios: "600", android: "bold" }),
+}));
+const S2 = sstyled(RText)((p) => ({
   color: "text",
   borderRadius: 73, //* To create a "bordered" placeholder when text is being loaded
   fontSize: 4,
   // fontFamily: "Inter_600SemiBold",
   fontWeight: Platform.select({ web: "600", ios: "600", android: "bold" }),
 }));
-const S2 = sstyled(Text)((p) => ({
-  color: "text",
-  borderRadius: 73, //* To create a "bordered" placeholder when text is being loaded
-  fontSize: 3,
-  // fontFamily: "Inter_600SemiBold",
-  fontWeight: Platform.select({ web: "600", ios: "600", android: "bold" }),
-}));
-const P1 = sstyled(Text)((p) => ({
+const P1 = sstyled(RText)((p) => ({
   color: "text",
   borderRadius: 73, //* To create a "bordered" placeholder when text is being loaded
   fontSize: 2,
@@ -73,7 +113,7 @@ const P1 = sstyled(Text)((p) => ({
   fontWeight: Platform.select({ web: "400", ios: "400", android: "normal" }),
   // letterSpacing: 0.5,
 }));
-const P2 = sstyled(Text)((p) => ({
+const P2 = sstyled(RText)((p) => ({
   color: "text",
   borderRadius: 73, //* To create a "bordered" placeholder when text is being loaded
   fontSize: 2,
@@ -81,14 +121,14 @@ const P2 = sstyled(Text)((p) => ({
   fontWeight: Platform.select({ web: "400", ios: "400", android: "normal" }),
   // letterSpacing: 0.5,
 }));
-const C1 = sstyled(Text)((p) => ({
+const C1 = sstyled(RText)((p) => ({
   color: "text",
   borderRadius: 73, //* To create a "bordered" placeholder when text is being loaded
   fontSize: 1,
   // fontFamily: "Inter_500Medium",
   fontWeight: Platform.select({ web: "500", ios: "500", android: "normal" }),
 }));
-const C2 = sstyled(Text)((p) => ({
+const C2 = sstyled(RText)((p) => ({
   color: "text",
   borderRadius: 73, //* To create a "bordered" placeholder when text is being loaded
   fontSize: 1,
@@ -280,22 +320,22 @@ Txt.Md = Md;
 
 export interface dTxtC0 extends React.FC<TextProps> {
   /** Heading 1 */
-  H1?: React.FC<TextProps>;
-  H2?: React.FC<TextProps>;
-  H3?: React.FC<TextProps>;
-  H4?: React.FC<TextProps>;
-  H5?: React.FC<TextProps>;
-  H6?: React.FC<TextProps>;
+  H1?: typeof H1;
+  H2?: typeof H2;
+  H3?: typeof H3;
+  H4?: typeof H4;
+  H5?: typeof H5;
+  H6?: typeof H6;
   /** Subheading 1 */
-  S1?: React.FC<TextProps>;
-  S2?: React.FC<TextProps>;
-  P1?: React.FC<TextProps>;
-  P2?: React.FC<TextProps>;
-  C1?: React.FC<TextProps>;
-  C2?: React.FC<TextProps>;
+  S1?: typeof S1;
+  S2?: typeof S2;
+  P1?: typeof P1;
+  P2?: typeof P2;
+  C1?: typeof C1;
+  C2?: typeof C2;
   /** Section Title */
-  $Title?: React.FC<TextProps>;
-  Indicator?: React.FC<TextProps>;
+  $Title?: typeof $Title;
+  Indicator?: typeof Indicator;
   Md?: React.FC<MarkdownProps>;
 }
 // export const Txt = Text;

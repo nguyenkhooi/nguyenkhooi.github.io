@@ -1,5 +1,5 @@
 import { Text } from "@ui-kitten/components";
-import { sstyled } from "components/generals";
+import { sstyled } from "components/a/generals";
 import React from "react";
 import {
   Animated,

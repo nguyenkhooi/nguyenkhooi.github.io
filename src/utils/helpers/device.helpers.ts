@@ -1,11 +1,31 @@
 import React from "react";
 //@ts-check
 import { Dimensions, Platform, StatusBar } from "react-native";
-import { moderateScale, scale, verticalScale } from "react-native-size-matters";
+import {
+  moderateScale as mS,
+  verticalScale as vS,
+} from "react-native-size-matters";
 
 // export * from "react-native-size-matters"
 
-export { moderateScale as scale, moderateScale, verticalScale };
+export const DEVICE_WIDTH = Dimensions.get("window").width;
+export const DEVICE_HEIGHT = Dimensions.get("window").height;
+
+export const IS_ANDROID = Platform.OS === "android";
+export const IS_WEB = Platform.OS === "web";
+
+export const LOCAL_STORAGE_KEY = "mid5LocalStorage";
+
+export function scale(number: number) {
+  return IS_WEB ? number : mS(number);
+}
+
+export function moderateScale(number: number) {
+  return IS_WEB ? number : mS(number);
+}
+export function verticalScale(number: number) {
+  return IS_WEB ? number : vS(number);
+}
 
 /**
  * Check if device is iphoneX
@@ -49,11 +69,3 @@ export function getBottomSpace(safe?: string) {
     return isIphoneX() ? 34 : 0;
   }
 }
-
-export const DEVICE_WIDTH = Dimensions.get("window").width;
-export const DEVICE_HEIGHT = Dimensions.get("window").height;
-
-export const IS_ANDROID = Platform.OS === "android";
-export const IS_WEB = Platform.OS === "web";
-
-export const LOCAL_STORAGE_KEY = "mid5LocalStorage";
