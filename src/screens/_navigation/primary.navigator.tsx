@@ -11,7 +11,7 @@ import React from "react";
 import { Image, TextStyle, View } from "react-native";
 import { GalleryScreen } from "screens/gallery-screen/GalleryScreen";
 import ProjectScreen from "screens/project-screen/ProjectScreen";
-import { IPSCR, KeyOf, spacing } from "utils";
+import {  KeyOf, spacing } from "utils";
 import AboutScreen from "../about-screen/AboutScreen";
 import HomeScreen from "../home-screen/HomeScreen";
 import { Navigation, presetNavConfig } from "./navigation-utils";
@@ -44,7 +44,7 @@ const screenProps: {
 const __PRIMARY = R.keys(screenProps);
 export type enum_PrimaryStack = KeyOf<typeof screenProps>;
 
-export const PrimaryStack = (props: IPSCR) => {
+export const PrimaryStack = (props) => {
   const { C } = useAppContext();
   const Stack = createStackNavigator<typeof screenProps>();
 

@@ -27,9 +27,9 @@ import {
   ShineOverlay
 } from "rn-placeholder";
 import { Navigation } from "screens/_navigation";
-import { dColors, IPSCR, spacing, use18, useDimension } from "utils";
+import { dColors,  spacing, use18, useDimension } from "utils";
 
-export function S_PortfolioGrid(props: IPSCR) {
+export function S_PortfolioGrid(props) {
   const { C } = useAppContext();
   const { data } = useSheets(0, "Work");
   // console.log("data: ", data);
@@ -101,7 +101,7 @@ export function S_PortfolioGrid(props: IPSCR) {
   );
 }
 
-interface dGridCtnr extends TouchableWebProps, IPSCR {
+interface dGridCtnr extends TouchableWebProps {
   item?: { thumbnail: string; title: string; color: string; label: string };
   type?: "placeholder";
 }

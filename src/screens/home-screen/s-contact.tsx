@@ -4,10 +4,10 @@ import { fn, useAppContext } from "engines";
 import React from "react";
 import { Image, View } from "react-native";
 import * as Animatable from "react-native-animatable";
-import { IPSCR, spacing, use18, useDimension } from "utils";
+import {  spacing, use18, useDimension } from "utils";
 import { version } from "../../../package.json";
 
-interface d$_Intro extends IPSCR {
+interface d$_Intro  {
   scrollToWork(): void;
   scrollToExp(): void;
 }

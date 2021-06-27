@@ -160,9 +160,17 @@ export const AppContext = React.createContext<dAppContext>({
 export const useAppContext = () => useContext(AppContext);
 
 const staticDripsyTheme: Theme = {
-  // custom fonts are easy!
-  sizes: [0, 10, 30, 60, 90, 120, 150, 180, 210, 240, 270],
+  fonts: {
+    // root: webFont("Inter_400Regular"),
+  },
+  sizes: [0, 10, 30, 60, 90, 120, 150, 180, 210, 240, 270, 300, 330],
   space: [0, 2, 4, 8, 16, 20, 32, 64, 128, 256], //* length = 10
+  text: {
+    thick: {
+      fontFamily: "root",
+      fontWeight: "black", // 'Circular-StdBlack'
+    },
+  },
 };
 
 interface dAppContext {

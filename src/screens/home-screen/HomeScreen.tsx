@@ -1,4 +1,4 @@
-import { M, RText, ScrollVue, sstyled } from "components";
+import { M, ScrollVue, sstyled } from "components";
 import { useAppContext } from "engines";
 import * as React from "react";
 import { LayoutChangeEvent, ScrollView, View } from "react-native";
@@ -7,13 +7,13 @@ import Animated, {
   useAnimatedStyle,
   useSharedValue,
 } from "react-native-reanimated";
-import { IPSCR, spacing, useDimension } from "utils";
+import { spacing, useDimension } from "utils";
 import { S_Contact } from "./s-contact";
 import { S_ExperimentalGrid } from "./s-experimental-grid";
 import { S_Intro } from "./s-intro";
 import { S_PortfolioGrid } from "./s-portfolio-grid";
 
-export default (props: IPSCR) => {
+export default (props) => {
   const { C } = useAppContext();
   const { HEIGHT } = useDimension();
 

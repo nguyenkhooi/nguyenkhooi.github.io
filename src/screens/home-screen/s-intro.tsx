@@ -25,7 +25,6 @@ import FA5 from "react-native-vector-icons/FontAwesome5";
 import { Navigation } from "screens";
 import {
   dColors,
-  IPSCR,
   LANG,
   moderateScale,
   spacing,
@@ -34,7 +33,7 @@ import {
   useDimension,
 } from "utils";
 import { Text } from "dripsy";
-interface d$_Intro extends IPSCR {
+interface d$_Intro {
   scrollToWork(): void;
   scrollToExp(): void;
 }
@@ -157,7 +156,10 @@ const TxtLink = (params: TextProps & { parentColor: string }) => {
     <Text
       as={Reanimated.Text}
       {...params}
-      style={[rStyle, sx({ ...stylePreset, ...styleObject })]}
+      style={[
+        rStyle,
+        sx({ ...stylePreset, ...styleObject, fontSize: [3, 4, 5] }),
+      ]}
     />
   );
 };
@@ -319,8 +321,8 @@ const A = {
     // paddingRight: p.WIDTH < 1000 ? spacing(6) : spacing(9),
   })),
   Avatar: sstyled(Image)({
-    width: 6,
-    height: 6,
+    width: [5, 5, 6],
+    height: [5, 5, 6],
     borderRadius: 200,
   }),
   TxtLink: sstyled(Txt.S1)({

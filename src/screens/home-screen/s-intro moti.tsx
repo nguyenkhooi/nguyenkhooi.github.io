@@ -15,7 +15,7 @@ import {
 import FA5 from "react-native-vector-icons/FontAwesome5";
 import { Navigation } from "screens";
 import {
-  IPSCR,
+  
   LANG,
   moderateScale,
   scale,
@@ -25,7 +25,7 @@ import {
   useDimension
 } from "utils";
 
-interface d$_Intro extends IPSCR {
+interface d$_Intro  {
   scrollToWork(): void;
   scrollToExp(): void;
 }

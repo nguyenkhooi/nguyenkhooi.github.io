@@ -1,27 +1,31 @@
 import { sstyled, Txt } from "components";
+import { useAppContext } from "engines";
 import { LinkURL } from "engines/functions/web-functions";
 import * as R from "ramda";
 import React, { useState } from "react";
 import {
-    ActivityIndicator,
-    FlatList,
-    ImageStyle,
-    ScrollView,
-    View
+  ActivityIndicator,
+  FlatList,
+  ImageStyle,
+  Platform,
+  ScrollView,
+  View,
 } from "react-native";
 import * as Animatable from "react-native-animatable";
 // import { ScrollView } from "react-native-gesture-handler";
 import RNMasonryScroll from "react-native-masonry-scrollview";
 import { Navigation } from "screens";
-import { spacing, useDimension } from "utils";
+import { IS_ANDROID, spacing, useDimension } from "utils";
 import { C_ContentCard } from "./c-content-card";
 import { S_Koiwave } from "./s-koiwave-3d";
 import { S_LuccMain } from "./s-lucc-concept-3d";
 import { S_LuccJacket } from "./s-lucc-jacket-3d";
 import { S_RingadingDeck } from "./s-ringading-deck";
 import { S_SockdartHi } from "./s-sockdart-hi-3d";
+import Markdown, { MarkdownProps } from "react-native-markdown-display";
 
 function ProjectScreen(props) {
+  const { C } = useAppContext();
   const { route } = props;
   const { WIDTH } = useDimension();
   const [screenShown, showScreen] = useState(false);
@@ -93,18 +97,142 @@ function ProjectScreen(props) {
     // contentContainerStyle={{ justifyContent: "center", alignItems: "center" }}
     >
       <SS.Headline {...props}>{headline}</SS.Headline>
-      <View
-        style={{
-          justifyContent: "center",
-          alignItems: "flex-start",
-          paddingHorizontal: WIDTH > 996 ? spacing(7) : spacing(5),
-        }}
-      >
+      <SS.CtnrBody>
         {_bodyContents.map((body) => (
           // <Txt style={{ marginVertical: spacing(3), textAlign: "justify" }}>
           //   {body}
           // </Txt>
-          <Txt.Md
+          <Markdown
+            style={{
+              heading1: {
+                color: C.text,
+                borderRadius: 73,
+                marginTop: 4,
+                marginBottom: 6,
+                fontSize: 36,
+                fontWeight: IS_ANDROID ? "bold" : "800",
+              },
+              heading2: {
+                color: C.text,
+                borderRadius: 73,
+                marginTop: 4,
+                marginBottom: 6,
+                fontSize: 32,
+                fontWeight: IS_ANDROID ? "bold" : "800",
+              },
+              heading3: {
+                color: C.text,
+                borderRadius: 73,
+                marginTop: 4,
+                marginBottom: 6,
+                fontSize: 30,
+                fontWeight: IS_ANDROID ? "bold" : "800",
+              },
+              heading4: {
+                color: C.text,
+                borderRadius: 73,
+                marginTop: 4,
+                marginBottom: 6,
+                fontSize: 26,
+                fontWeight: IS_ANDROID ? "bold" : "800",
+              },
+              heading5: {
+                color: C.text,
+                borderRadius: 73,
+                marginTop: 4,
+                marginBottom: 6,
+                fontSize: 22,
+                fontWeight: IS_ANDROID ? "bold" : "800",
+              },
+              heading6: {
+                color: C.text,
+                borderRadius: 73,
+                marginTop: 4,
+                marginBottom: 6,
+                fontSize: 18,
+                fontWeight: IS_ANDROID ? "bold" : "800",
+              },
+              body: {
+                color: C.text,
+                borderRadius: 73, //* To create a "bordered" placeholder when text is being loaded
+                fontSize: 20,
+                fontWeight: "400",
+              },
+              hr: { color: C.text },
+              strong: {
+                color: C.text,
+                borderRadius: 73,
+
+                fontWeight: "700",
+              },
+              em: { color: "errorRed" },
+              s: { color: C.text },
+              blockquote: {
+                backgroundColor: "surface",
+                fontWeight: "600",
+                margin: 4,
+              },
+              bullet_list: { color: C.text },
+              ordered_list: { color: C.text },
+              list_item: { color: C.text },
+              code_inline: {
+                backgroundColor: "surface01",
+                borderWidth: 0,
+                padding: 1,
+                zIndex: -99,
+                color: "awakenVolt",
+                ...Platform.select({
+                  ["ios"]: {
+                    fontFamily: "Courier",
+                  },
+                  ["android"]: {
+                    fontFamily: "monospace",
+                  },
+                  ["web"]: {
+                    fontFamily: "monospace",
+                  },
+                }),
+              },
+              code_block: {
+                color: "awakenVolt",
+                backgroundColor: "surface01",
+                borderColor: "dim",
+                fontSize: 14,
+              },
+              fence: {
+                color: "awakenVolt",
+                backgroundColor: "surface01",
+                borderColor: "dim",
+                ...Platform.select({
+                  ["ios"]: {
+                    fontFamily: "Courier",
+                  },
+                  ["android"]: {
+                    fontFamily: "monospace",
+                  },
+                  ["web"]: {
+                    fontFamily: "monospace",
+                  },
+                }),
+              },
+              table: { color: C.text },
+              thead: { color: C.text },
+              tbody: { color: C.text },
+              th: { color: C.text },
+              tr: { color: C.text },
+              td: { color: C.text },
+              link: { color: C.text },
+              blocklink: { color: C.text },
+              image: { color: C.text },
+              text: { color: C.text },
+              textgroup: { color: C.text },
+              paragraph: { color: C.text },
+              hardbreak: { color: C.text },
+              softbreak: { color: C.text },
+              pre: { color: C.text },
+              inline: { color: C.text },
+              span: { color: C.text },
+            }}
             onLinkPress={(url) => {
               if (url) {
                 LinkURL(url, true);
@@ -114,9 +242,9 @@ function ProjectScreen(props) {
             }}
           >
             {body}
-          </Txt.Md>
+          </Markdown>
         ))}
-      </View>
+      </SS.CtnrBody>
       <View
         style={{
           justifyContent: "flex-start",
@@ -244,7 +372,7 @@ export const SS = {
     backgroundColor: "background",
   })),
   //*----Txt-SECTION ----------
-  Headline: sstyled(Txt.H6)((p) => ({
+  Headline: sstyled(Txt.H4)((p) => ({
     // fontSize: 26,
     color: "text",
     textAlign: "center",
@@ -253,6 +381,12 @@ export const SS = {
     paddingHorizontal: spacing(6),
   })),
   Label: sstyled(Txt.P2)((p) => ({ width: p.chieuRong, textAlign: "center" })),
+  CtnrBody: sstyled(View)({
+    justifyContent: "center",
+    alignItems: "flex-start",
+    marginLeft: ["5%", "10%", "20%"],
+    marginRight: ["5%", "10%", "20%"],
+  }),
   S: {
     IMG_CTNR: {
       margin: 10,

@@ -1,29 +1,29 @@
-import { sstyled, Txt } from "components";
+import { ActivityIndicator } from "dripsy";
 import { useAppContext, useSheets } from "engines";
 import * as R from "ramda";
-import React, { useState } from "react";
-import {
-  ActivityIndicator,
-  ImageStyle,
-  ScrollView,
+import React from "react";
+import { StyleSheet, View } from "react-native";
+import Animated, {
+  useAnimatedScrollHandler,
+  useSharedValue,
+} from "react-native-reanimated";
+import { Page } from "./page";
 
-  TouchableOpacity, View
-} from "react-native";
-import * as Animatable from "react-native-animatable";
-// import { ScrollView } from "react-native-gesture-handler";
-import RNMasonryScroll from "react-native-masonry-scrollview";
-import Image from "react-native-scalable-image";
-import { Navigation } from "screens/_navigation";
-import { spacing, use18, useDimension } from "utils";
+const WORDS = ["What's", "up", "mobile", "devs?"];
 
-export default function AboutScreen(props) {
+export default function AboutScreen() {
   const { C } = useAppContext();
-  const { WIDTH } = useDimension();
-  const [screenShown, showScreen] = useState(false);
+  const translateY = useSharedValue(0);
+
+  const scrollHandler = useAnimatedScrollHandler((event) => {
+    translateY.value = event.contentOffset.y;
+  });
+
   const { data } = useSheets(0, "About");
   const headline = data[0]?.headline;
   const [_contents, setContents] = React.useState([""]);
   const [_imgContents, setImgContents] = React.useState([""]);
+  const [screenShown, showScreen] = React.useState(false);
 
   React.useEffect(
     function sortContents() {
@@ -52,7 +52,7 @@ export default function AboutScreen(props) {
         data[0]?.image10,
       ];
       const newContents = R.reject(
-        (content) => !content || content == "",
+        (content) => !content || content == "" || content.includes("http"),
         dbContents
       );
       const imgContents = R.filter(
@@ -68,165 +68,46 @@ export default function AboutScreen(props) {
     },
     [data]
   );
-
-  return screenShown ? (
-    <SS.Sctnr
-      horizontal
-      contentContainerStyle={{ justifyContent: "center", alignItems: "center" }}
-    >
-      <Animatable.View
-        animation="fadeIn"
-        style={{ width: WIDTH * 0.95, alignItems: "center" }}
+  if (!screenShown)
+    return (
+      <View
+        style={{
+          flex: 1,
+          width: "100%",
+          height: "100%",
+          backgroundColor: `rgba(0,0,256, 0.2)`,
+          justifyContent: "center",
+          alignItems: "center",
+        }}
       >
-        <SS.Headline
-          onPress={() =>
-            Navigation.navigate("Gallery", {
-              images: _imgContents,
-              imgIndex: 3,
-            })
-          }
-          {...props}
-        >
-          {use18(headline)}
-        </SS.Headline>
-        <Animatable.Text
-          style={{ color: C.grey600 }}
-          animation="pulse"
-          iterationCount="infinite"
-        >
-          {use18("Let's scroll") + " ⟶"}
-        </Animatable.Text>
-      </Animatable.View>
-      <View style={{ justifyContent: "center", alignItems: "center" }}>
-        <RNMasonryScroll
-          showsHorizontalScrollIndicator={false}
-          showsVerticalScrollIndicator={false}
-          removeClippedSubviews={true}
-          columns={WIDTH < 1000 ? 1 : 3}
-          evenColumnStyle={{}}
-          oddColumnStyle={{ marginLeft: 60 }}
-          horizontal={true}
-        >
-          {_contents.map((image, imageIndex) => {
-            return (
-              <C_ContentCard
-                key={imageIndex}
-                text={image}
-                imageIndex={imageIndex}
-                onImagePress={() => {
-                  let imgIndex = R.findIndex(R.propEq("url", image))(
-                    _imgContents
-                  );
-                  // console.log("img index: ", imgIndex);
-                  Navigation.navigate("Gallery", {
-                    images: _imgContents,
-                    imgIndex,
-                  });
-                }}
-              />
-            );
-          })}
-        </RNMasonryScroll>
+        <ActivityIndicator size="large" color={"rgba(0, 0, 256, 0.4)"} />
       </View>
-    </SS.Sctnr>
-  ) : (
-    <SS.CtnrLoading>
-      <ActivityIndicator size="large" color={C.primary} />
-    </SS.CtnrLoading>
+    );
+  return (
+    <Animated.ScrollView
+      onScroll={scrollHandler}
+      pagingEnabled
+      scrollEventThrottle={16}
+      // horizontal
+      style={styles.container}
+    >
+      {_contents.map((title, index) => {
+        return (
+          <Page
+            key={index.toString()}
+            title={title}
+            translateY={translateY}
+            index={index}
+          />
+        );
+      })}
+    </Animated.ScrollView>
   );
 }
 
-const C_ContentCard = (props: {
-  text: string;
-  imageIndex: number;
-  onImagePress?(): void;
-}) => {
-  const { text, imageIndex, onImagePress } = props;
-  const { WIDTH } = useDimension();
-
-  // const imageWidth: number = height * 0.4 - 20;
-  const imageWidth: number = WIDTH < 1000 ? WIDTH * 0.8 : WIDTH * 0.3;
-
-  const imageProp = { height: imageWidth };
-  // const isContentImg = startsWith("https://", text);
-  const isContentImg = text.includes("https");
-  switch (isContentImg) {
-    case true:
-      return (
-        <TouchableOpacity onPress={onImagePress}>
-          {imageIndex == 0 ? (
-            <Image
-              source={{ uri: text }}
-              {...imageProp}
-              key={imageIndex}
-              style={SS.S.IMG_CTNR}
-            />
-          ) : (
-            <SS.CtnrImg animation={"fadeIn"} delay={100 * imageIndex}>
-              <Image source={{ uri: text }} {...imageProp} key={imageIndex} />
-            </SS.CtnrImg>
-          )}
-        </TouchableOpacity>
-      );
-      break;
-    case false:
-      return (
-        <SS.CtnrLabel animation={"fadeIn"} delay={100 * imageIndex}>
-          <SS.Label
-            chieuRong={imageWidth}
-            adjustsFontSizeToFit
-            key={imageIndex}
-            // numberOfLines={20}
-            // ellipsizeMode={"head"}
-          >
-            {use18(text)}
-          </SS.Label>
-        </SS.CtnrLabel>
-      );
-      break;
-  }
-};
-
-const SS = {
-  Sctnr: sstyled(ScrollView)((p) => ({
-    backgroundColor: "background",
-    paddingTop: spacing(5),
-  })),
-  CtnrImg: sstyled(Animatable.View)((p) => ({
-    margin: 10,
-    borderRadius: 10,
-    overflow: "hidden",
-    backgroundColor: "surface",
-  })),
-  CtnrLabel: sstyled(Animatable.View)(() => ({
-    margin: 10,
-    borderRadius: 10,
-    overflow: "hidden",
-    backgroundColor: "transparent",
-    alignItems: "center",
-    justifyContent: "center",
-  })),
-  CtnrLoading: sstyled(View)((p) => ({
-    justifyContent: "center",
-    alignItems: "center",
+const styles = StyleSheet.create({
+  container: {
     flex: 1,
-    backgroundColor: "background",
-  })),
-  //*----Txt-SECTION ----------
-  Headline: sstyled(Txt.H4)((p) => ({
-    // fontSize: 26,
-    color: "text",
-    textAlign: "center",
-    justifyContent: "center",
-    marginBottom: spacing(2),
-    paddingHorizontal: spacing(6),
-  })),
-  Label: sstyled(Txt.H6)((p) => ({ width: p.chieuRong, textAlign: "left" })),
-  S: {
-    IMG_CTNR: {
-      margin: 10,
-      borderRadius: 10,
-      overflow: "hidden",
-    } as ImageStyle,
+    backgroundColor: "#fff",
   },
-};
+});

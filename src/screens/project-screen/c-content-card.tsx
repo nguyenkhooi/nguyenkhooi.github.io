@@ -1,9 +1,10 @@
 import { sstyled, Txt } from "components";
+import { useBreakpointIndex } from "dripsy";
 import React from "react";
 import { ImageStyle, TouchableOpacity } from "react-native";
 import * as Animatable from "react-native-animatable";
 import Image from "react-native-scalable-image";
-import { useDimension } from "utils";
+import { spacing, useDimension } from "utils";
 
 export function C_ContentCard(props: {
   text: string;
@@ -15,16 +16,16 @@ export function C_ContentCard(props: {
 
   // const imageWidth: number = height * 0.4 - 20;
   const imageWidth: number = WIDTH < 1000 ? WIDTH * 0.8 : WIDTH * 0.3;
-
+  const breakpoint = useBreakpointIndex();
   const imageProp = { width: imageWidth };
   // const isContentImg = startsWith("https://", text);
   const isContentImg = text.includes("https");
   switch (isContentImg) {
     case true:
       return (
-        <TouchableOpacity
+        <SS.Ctnr
+          style={{ transform: [{ scale: breakpoint <= 2 ? 1 : 0.7 }] }}
           onPress={onImagePress}
-          style={{ transform: [{ scale: 0.7 }] }}
           activeOpacity={0.9}
         >
           {imageIndex == 0 ? (
@@ -39,7 +40,7 @@ export function C_ContentCard(props: {
               <Image source={{ uri: text }} {...imageProp} key={imageIndex} />
             </SS.CtnrImg>
           )}
-        </TouchableOpacity>
+        </SS.Ctnr>
       );
       break;
     case false:
@@ -59,6 +60,12 @@ export function C_ContentCard(props: {
 }
 
 export const SS = {
+  Ctnr: sstyled(TouchableOpacity)({
+    // marginLeft: ["0%", "5%", "10%"],
+    // marginRight: ["0%", "5%", "10%"],
+    // backgroundColor: "blue",
+    marginBottom: spacing(3),
+  }),
   CtnrImg: sstyled(Animatable.View)((p) => ({
     // margin: 10,
     borderRadius: 10,
