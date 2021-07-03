@@ -31,9 +31,9 @@ export function Page({ index, translateY, title }: PageProps) {
   const SIZE = 200;
 
   const inputRange = [
-    (-index - 1) * height,
+    (-index - 3) * height,
     index * height,
-    (index + 1) * height,
+    (index + 3) * height,
   ];
 
   const rStyle = useAnimatedStyle(() => {
@@ -89,64 +89,13 @@ export function Page({ index, translateY, title }: PageProps) {
     >
       <Animated.View style={[styles.square, rStyle]} />
       <Animated.View style={[styles.textContainer, rTextStyle]}>
-        <SS.Label style={{ color: "white" }}>{use18(title)}</SS.Label>
+        <A.Label style={{ color: "white" }}>{use18(title)}</A.Label>
       </Animated.View>
     </View>
   );
 }
 
-const C_ContentCard = (props: {
-  text: string;
-  imageIndex: number;
-  onImagePress?(): void;
-}) => {
-  const { text, imageIndex, onImagePress } = props;
-  const { width: WIDTH } = useWindowDimensions();
-
-  // const imageWidth: number = height * 0.4 - 20;
-  const imageWidth: number = WIDTH < 1000 ? WIDTH * 0.8 : WIDTH * 0.3;
-
-  const imageProp = { height: imageWidth };
-  // const isContentImg = startsWith("https://", text);
-  const isContentImg = text.includes("https");
-  switch (isContentImg) {
-    case true:
-      return (
-        <TouchableOpacity onPress={onImagePress}>
-          {imageIndex == 0 ? (
-            <Image
-              source={{ uri: text }}
-              {...imageProp}
-              key={imageIndex}
-              style={SS.S.IMG_CTNR}
-            />
-          ) : (
-            <SS.CtnrImg animation={"fadeIn"} delay={100 * imageIndex}>
-              <Image source={{ uri: text }} {...imageProp} key={imageIndex} />
-            </SS.CtnrImg>
-          )}
-        </TouchableOpacity>
-      );
-      break;
-    case false:
-      return (
-        <SS.CtnrLabel animation={"fadeIn"} delay={100 * imageIndex}>
-          <SS.Label
-            chieuRong={imageWidth}
-            adjustsFontSizeToFit
-            key={imageIndex}
-            // numberOfLines={20}
-            // ellipsizeMode={"head"}
-          >
-            {use18(text)}
-          </SS.Label>
-        </SS.CtnrLabel>
-      );
-      break;
-  }
-};
-
-const SS = {
+const A = {
   Sctnr: sstyled(ScrollView)((p) => ({
     backgroundColor: "background",
     paddingTop: spacing(5),

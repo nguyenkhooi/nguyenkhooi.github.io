@@ -24,7 +24,7 @@ export function C_ContentCard(props: {
     case true:
       return (
         <SS.Ctnr
-          style={{ transform: [{ scale: breakpoint <= 2 ? 1 : 0.7 }] }}
+          style={{ transform: [{ scale: breakpoint <= 2 ? 1 : 0.8 }] }}
           onPress={onImagePress}
           activeOpacity={0.9}
         >

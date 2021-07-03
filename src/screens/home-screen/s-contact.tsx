@@ -2,33 +2,61 @@ import { img } from "assets";
 import { Buttoon, sstyled, TouchableWeb, Txt } from "components";
 import { fn, useAppContext } from "engines";
 import React from "react";
-import { Image, View } from "react-native";
+import { Image, useWindowDimensions, View } from "react-native";
 import * as Animatable from "react-native-animatable";
-import {  spacing, use18, useDimension } from "utils";
+import Animated, {
+  Extrapolate,
+  interpolate,
+  useAnimatedStyle,
+} from "react-native-reanimated";
+import { spacing, use18, useDimension } from "utils";
 import { version } from "../../../package.json";
 
-interface d$_Intro  {
-  scrollToWork(): void;
-  scrollToExp(): void;
+interface d$_Intro {
+  scrollY: Animated.SharedValue<number>;
+  index: number;
+  distanceScrolled: number;
+  dataName: "Exp" | "Work";
 }
 export function S_Contact(props: d$_Intro) {
-  const { scrollToWork, scrollToExp } = props;
+  const { distanceScrolled, index, scrollY } = props;
   const { C, dark, setTheme } = useAppContext();
-  const { HEIGHT } = useDimension("window");
+  const { height } = useWindowDimensions();
   const [visible, setVisible] = React.useState(false);
   const [_underline, setUnderline] = React.useState<"none" | "underline">(
     "none"
   );
 
+  //#region [reani]
+
+  const rCtnrStyle = useAnimatedStyle(() => {
+    const _inputRange = [-index * height * 0.1, distanceScrolled];
+    return {
+      justifyContent: "center",
+      alignItems: "center",
+      opacity: interpolate(
+        scrollY.value,
+        _inputRange,
+        [0, 1],
+        Extrapolate.CLAMP
+      ),
+      transform: [
+        {
+          scale: interpolate(
+            scrollY.value,
+            _inputRange,
+            [0, 1],
+            Extrapolate.CLAMP
+          ),
+        },
+      ],
+    };
+  });
+  //#endregion
+
   return (
-    <View
-      style={{
-        // height: HEIGHT,
-        justifyContent: "center",
-        alignItems: "center",
-      }}
-    >
-      <SS.CtnrContact animation="fadeIn" delay={1000}>
+    <Animated.View style={rCtnrStyle}>
+      <A.CtnrContact animation="fadeIn" delay={1000}>
         <TouchableWeb
           style={{ justifyContent: "flex-start" }}
           onMouseEnter={() => {
@@ -91,7 +119,7 @@ export function S_Contact(props: d$_Intro) {
             opacity: 1,
           }}
         />
-      </SS.CtnrContact>
+      </A.CtnrContact>
       <Txt.C2
         style={{
           color: C.grey500,
@@ -148,11 +176,11 @@ export function S_Contact(props: d$_Intro) {
       >
         {use18("Wait, really?")}
       </Txt.C2> */}
-    </View>
+    </Animated.View>
   );
 }
 
-const SS = {
+const A = {
   CtnrContact: sstyled(Animatable.View)((p) => ({
     padding: spacing(6),
     alignItems: "center",

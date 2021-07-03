@@ -48,8 +48,8 @@ import {
 export function AppProvider({ children }) {
   const [_isReady, shouldReady] = React.useState(false);
 
-  //*----THEME-SECTION --------------------
-  const [_theme, setTheme] = useState<THEME>(THEME.LIGHT);
+  //#region [section]
+  const [_theme, setTheme] = useState<THEME>(THEME.DARK);
   const [_colors, setColors] = React.useState(
     _theme == THEME.DARK ? themeDark : themeLight
   );
@@ -87,6 +87,7 @@ export function AppProvider({ children }) {
     ...staticDripsyTheme,
     colors: _colors,
   };
+  //#endregion
 
   //*---- I18N-SECTION ---------------
   const [i18n, setI18N] = React.useState<LANG>(LANG.EN);

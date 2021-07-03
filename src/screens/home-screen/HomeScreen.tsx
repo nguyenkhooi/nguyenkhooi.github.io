@@ -1,36 +1,48 @@
-import { M, ScrollVue, sstyled } from "components";
+import { ScrollVue, sstyled } from "components";
 import { useAppContext } from "engines";
 import * as React from "react";
-import { LayoutChangeEvent, ScrollView, View } from "react-native";
-import Animated, {
+import {
+  LayoutChangeEvent,
+  ScrollView,
+  useWindowDimensions,
+  View,
+} from "react-native";
+import {
   useAnimatedScrollHandler,
   useAnimatedStyle,
   useSharedValue,
 } from "react-native-reanimated";
-import { spacing, useDimension } from "utils";
+import { spacing } from "utils";
 import { S_Contact } from "./s-contact";
-import { S_ExperimentalGrid } from "./s-experimental-grid";
 import { S_Intro } from "./s-intro";
-import { S_PortfolioGrid } from "./s-portfolio-grid";
+import { WorkGrid } from "./work-grid";
 
-export default (props) => {
+export function HomeScreen(props) {
   const { C } = useAppContext();
-  const { HEIGHT } = useDimension();
+  const { height } = useWindowDimensions();
 
   const refList = React.useRef<ScrollView>(null);
 
-  const [_workLayout, setWorkLayout] = React.useState<LayoutChangeEvent>();
-  // console.log("🖐️ work layout: ", _workLayout?.nativeEvent?.layout?.height);
-  const [_ExpLayout, setExpLayout] = React.useState<LayoutChangeEvent>();
-  // console.log("🖐️ Exp layout: ", _ExpLayout?.nativeEvent?.layout?.height);
+  //#region [section] layout calculation
+  const [_workLayout, setWorkLayout] = React.useState<
+    Partial<LayoutChangeEvent>
+  >({
+    nativeEvent: { layout: { x: 0, y: 0, width: 0, height: 0 } },
+  });
+  const [_expLayout, setExpLayout] = React.useState<Partial<LayoutChangeEvent>>(
+    {
+      nativeEvent: { layout: { x: 0, y: 0, width: 0, height: 0 } },
+    }
+  );
 
-  const scrollToSection = (section: "work" | "exp") => {
-    section == "exp"
-      ? refList.current.scrollTo(HEIGHT + _workLayout.nativeEvent.layout.height)
-      : refList.current.scrollTo(HEIGHT);
+  const scrollToSection = (section: "Work" | "Exp") => {
+    section == "Exp"
+      ? refList.current.scrollTo(height + _workLayout.nativeEvent.layout.height)
+      : refList.current.scrollTo(height);
   };
+  //#endregion
 
-  //#region [REANI]
+  //#region [reani]
   const scrollY = useSharedValue(0);
 
   let animatedScrollViewStyle = useAnimatedStyle(() => ({
@@ -50,37 +62,57 @@ export default (props) => {
       ref={refList}
       onScroll={scrollHandler}
       scrollEventThrottle={16}
-      // style={{ ...animatedScrollViewStyle }}
-      // pagingEnabled={true}
+      bounces={false}
     >
       <$_Intro
-        {...props}
+        index={0}
+        scrollY={scrollY}
         scrollToWork={() => {
-          scrollToSection("work");
+          scrollToSection("Work");
         }}
         scrollToExp={() => {
-          scrollToSection("exp");
+          scrollToSection("Exp");
         }}
+        {...props}
       />
       {/* <M.ThemeCard /> */}
       <View onLayout={setWorkLayout}>
-        <$_PortfolioGrid {...props} />
+        <WorkGrid
+          dataName={"Work"}
+          index={1}
+          distanceScrolled={height}
+          scrollY={scrollY}
+          {...props}
+        />
       </View>
       <View onLayout={setExpLayout}>
-        <$_ExperimentalGrid {...props} />
+        <WorkGrid
+          dataName={"Exp"}
+          index={2}
+          distanceScrolled={height + _workLayout.nativeEvent?.layout?.height}
+          scrollY={scrollY}
+          {...props}
+        />
       </View>
       <View>
-        <$_Contact {...props} />
+        <$_Contact
+          index={3}
+          distanceScrolled={
+            height +
+            _workLayout.nativeEvent?.layout?.height +
+            _expLayout.nativeEvent?.layout?.height
+          }
+          scrollY={scrollY}
+          {...props}
+        />
       </View>
     </A.Sctnr>
   );
-};
+}
 
-const $_PortfolioGrid = S_PortfolioGrid;
-const $_ExperimentalGrid = S_ExperimentalGrid;
 const $_Intro = S_Intro;
 const $_Contact = S_Contact;
-export type vuee = typeof A.Sctnr;
+
 const A = {
   Sctnr: sstyled(ScrollVue)({
     maxHeight: "100%",

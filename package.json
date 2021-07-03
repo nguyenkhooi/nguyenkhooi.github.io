@@ -116,5 +116,13 @@
     "env": {},
     "componentsDefaultDirectory": "components/{name}",
     "packageManager": "npm"
+  },
+  "coloredRegions": {
+    "namedColors": {
+      "reani": "rgba(0,0,255,.3)",
+      "import": "rgba(0,128,128,.2)",
+      "section": "rgba(127, 0, 255, 0.3)",
+      "case": "rgba(255,105,180,.5)"
+    }
   }
 }

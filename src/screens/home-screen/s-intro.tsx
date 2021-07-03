@@ -11,10 +11,12 @@ import {
   ImageStyle,
   TextProps,
   TextStyle,
+  useWindowDimensions,
   View,
   ViewStyle,
 } from "react-native";
 import Reanimated, {
+  Extrapolate,
   interpolate,
   interpolateColor,
   useAnimatedStyle,
@@ -34,29 +36,68 @@ import {
 } from "utils";
 import { Text } from "dripsy";
 interface d$_Intro {
+  scrollY: Reanimated.SharedValue<number>;
   scrollToWork(): void;
   scrollToExp(): void;
 }
 
 export function S_Intro(props: d$_Intro) {
-  const { scrollToWork, scrollToExp } = props;
+  const { scrollToWork, scrollToExp, scrollY } = props;
   const { C, dark, setTheme } = useAppContext();
-  const { HEIGHT, WIDTH } = useDimension("window");
   const [_color, setColor] = React.useState(C.grey600);
 
   const [dak, setDak] = React.useState<boolean>(false);
+  const { width, height } = useWindowDimensions();
+  const SIZE = 200;
+
+  //#region [reani]
+  const inputRange = [(-0 - 3) * height, 0 * height, (0 + 3) * height];
+  const rCtnrAvatarStyle = useAnimatedStyle(() => {
+    const transY = interpolate(
+      scrollY.value,
+      inputRange,
+      [height / 2, 0, -height / 2],
+      Extrapolate.CLAMP
+    );
+    return {
+      transform: [{ translateY: transY }],
+    };
+  });
+  const rCtnrIntroStyle = useAnimatedStyle(() => {
+    return {
+      opacity: interpolate(
+        scrollY.value,
+        [-height * 3, 0, height * 3],
+        [0, 1, 0],
+        Extrapolate.CLAMP
+      ),
+      transform: [
+        {
+          translateY: interpolate(
+            scrollY.value,
+            [-height * 3, 0, height * 3],
+            [-height * 0.5, 0, height * 0.5],
+            Extrapolate.CLAMP
+          ),
+        },
+      ],
+    };
+  });
+  //#endregion
 
   return (
     <View
       style={{
-        height: HEIGHT,
+        height: height,
         justifyContent: "center",
         alignItems: "center",
       }}
     >
-      <NiAvatar />
+      <Reanimated.View style={[rCtnrAvatarStyle]}>
+        <NiAvatar />
+      </Reanimated.View>
       <A.CtnrIntro
-        WIDTH={WIDTH}
+        WIDTH={width}
         from={{
           opacity: 0,
           // scale: 0.5,
@@ -70,55 +111,57 @@ export function S_Intro(props: d$_Intro) {
           delay: 600,
         }}
       >
-        <TouchableWeb
-          onMouseEnter={() => {
-            setColor(C.dim);
-            setDak(true);
-          }}
-          onMouseLeave={() => {
-            setColor(C.grey600);
-            setDak(false);
-          }}
-        >
-          <Txt.H5
-            onPress={() => {
-              setTheme(dark ? THEME.LIGHT : THEME.DARK);
+        <Reanimated.View style={[rCtnrIntroStyle]}>
+          <TouchableWeb
+            onMouseEnter={() => {
+              setColor(C.dim);
+              setDak(true);
             }}
-            style={{ textAlign: "center" }}
+            onMouseLeave={() => {
+              setColor(C.grey600);
+              setDak(false);
+            }}
           >
-            {use18("intro-1")} {"👋"}{" "}
-          </Txt.H5>
-          <Txt.S1
-            style={{ color: _color, fontWeight: "500", textAlign: "center" }}
-            adjustsFontSizeToFit={true}
-          >
-            {use18("intro-2")}{" "}
-            <TxtLink parentColor={_color} onPress={scrollToWork}>
-              {use18("intro-3")}
-            </TxtLink>{" "}
-            {use18("intro-4")}{" "}
-            <TxtLink parentColor={_color} onPress={scrollToExp}>
-              {use18("intro-5")}
-            </TxtLink>{" "}
-            {"\n"}
-            {use18("intro-6")}{" "}
-            <TxtLink
-              parentColor={_color}
-              onPress={() =>
-                LinkURL("https://www.instagram.com/nguyenkhooi/?hl=en", true)
-              }
+            <Txt.H5
+              onPress={() => {
+                setTheme(dark ? THEME.LIGHT : THEME.DARK);
+              }}
+              style={{ textAlign: "center" }}
             >
-              {use18("intro-7")}
-            </TxtLink>{" "}
-            {use18("intro-8")}{" "}
-            <TxtLink
-              parentColor={_color}
-              onPress={() => Navigation.navigate("About")}
+              {use18("intro-1")} {"👋"}{" "}
+            </Txt.H5>
+            <Txt.S1
+              style={{ color: _color, fontWeight: "500", textAlign: "center" }}
+              adjustsFontSizeToFit={true}
             >
-              {use18("intro-9")}
-            </TxtLink>
-          </Txt.S1>
-        </TouchableWeb>
+              {use18("intro-2")}{" "}
+              <TxtLink parentColor={_color} onPress={scrollToWork}>
+                {use18("intro-3")}
+              </TxtLink>{" "}
+              {use18("intro-4")}{" "}
+              <TxtLink parentColor={_color} onPress={scrollToExp}>
+                {use18("intro-5")}
+              </TxtLink>{" "}
+              {"\n"}
+              {use18("intro-6")}{" "}
+              <TxtLink
+                parentColor={_color}
+                onPress={() =>
+                  LinkURL("https://www.instagram.com/nguyenkhooi/?hl=en", true)
+                }
+              >
+                {use18("intro-7")}
+              </TxtLink>{" "}
+              {use18("intro-8")}{" "}
+              <TxtLink
+                parentColor={_color}
+                onPress={() => Navigation.navigate("About")}
+              >
+                {use18("intro-9")}
+              </TxtLink>
+            </Txt.S1>
+          </TouchableWeb>
+        </Reanimated.View>
       </A.CtnrIntro>
     </View>
   );
@@ -138,7 +181,7 @@ const TxtLink = (params: TextProps & { parentColor: string }) => {
    */
   let stylePreset = { fontSize: 5 };
 
-  //#region [REANI]
+  //#region [reani]
   const progress = useDerivedValue(() => {
     return parentColor == C.dim ? withTiming(1) : withTiming(0);
   }, [parentColor]);
@@ -324,6 +367,7 @@ const A = {
     width: [5, 5, 6],
     height: [5, 5, 6],
     borderRadius: 200,
+    backgroundColor: "blue",
   }),
   TxtLink: sstyled(Txt.S1)({
     // fontSize: 29,

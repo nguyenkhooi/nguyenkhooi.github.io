@@ -86,8 +86,10 @@ export default function AboutScreen() {
   return (
     <Animated.ScrollView
       onScroll={scrollHandler}
-      pagingEnabled
+      // pagingEnabled
       scrollEventThrottle={16}
+      decelerationRate={0}
+      
       // horizontal
       style={styles.container}
     >
