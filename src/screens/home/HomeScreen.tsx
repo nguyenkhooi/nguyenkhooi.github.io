@@ -1,4 +1,4 @@
-import { ScrollVue, sstyled } from "components";
+import { O, ScrollVue, sstyled } from "components";
 import { useAppContext } from "engines";
 import * as React from "react";
 import {
@@ -13,9 +13,6 @@ import {
   useSharedValue,
 } from "react-native-reanimated";
 import { spacing } from "utils";
-import { S_Contact } from "./s-contact";
-import { S_Intro } from "./s-intro";
-import { WorkGrid } from "./work-grid";
 
 export function HomeScreen(props) {
   const { C } = useAppContext();
@@ -64,7 +61,7 @@ export function HomeScreen(props) {
       scrollEventThrottle={16}
       bounces={false}
     >
-      <$_Intro
+      <O.IntroSection
         index={0}
         scrollY={scrollY}
         scrollToWork={() => {
@@ -77,7 +74,7 @@ export function HomeScreen(props) {
       />
       {/* <M.ThemeCard /> */}
       <View onLayout={setWorkLayout}>
-        <WorkGrid
+        <O.ExhibitionGrid
           dataName={"Work"}
           index={1}
           distanceScrolled={height}
@@ -86,7 +83,7 @@ export function HomeScreen(props) {
         />
       </View>
       <View onLayout={setExpLayout}>
-        <WorkGrid
+        <O.ExhibitionGrid
           dataName={"Exp"}
           index={2}
           distanceScrolled={height + _workLayout.nativeEvent?.layout?.height}
@@ -95,7 +92,7 @@ export function HomeScreen(props) {
         />
       </View>
       <View>
-        <$_Contact
+        <O.ContactSection
           index={3}
           distanceScrolled={
             height +
@@ -110,15 +107,13 @@ export function HomeScreen(props) {
   );
 }
 
-const $_Intro = S_Intro;
-const $_Contact = S_Contact;
-
 const A = {
   Sctnr: sstyled(ScrollVue)({
     maxHeight: "100%",
     minWidth: 300,
     flex: 1,
-    paddingHorizontal: spacing(4),
+    paddingLeft: spacing(4),
+    paddingRight: spacing(4),
     // backgroundColor: "blue",
     // backgroundColor: "background",
     // borderRightWidth: 1,

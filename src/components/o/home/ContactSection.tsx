@@ -10,7 +10,7 @@ import Animated, {
   useAnimatedStyle,
 } from "react-native-reanimated";
 import { spacing, use18, useDimension } from "utils";
-import { version } from "../../../package.json";
+import { version } from "../../../../package.json";
 
 interface d$_Intro {
   scrollY: Animated.SharedValue<number>;
@@ -18,7 +18,7 @@ interface d$_Intro {
   distanceScrolled: number;
   dataName: "Exp" | "Work";
 }
-export function S_Contact(props: d$_Intro) {
+export function ContactSection(props: d$_Intro) {
   const { distanceScrolled, index, scrollY } = props;
   const { C, dark, setTheme } = useAppContext();
   const { height } = useWindowDimensions();

@@ -6,4 +6,4 @@ export * from "./touchable-web/TouchableWeb";
 export * from "./txt/Txt";
 
 export * from "./ima/Ima";
-export * from "./ScrollVue/ScrollVue";
+export * from "./scroll-vue/ScrollVue";

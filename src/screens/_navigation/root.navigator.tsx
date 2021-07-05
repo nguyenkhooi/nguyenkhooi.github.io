@@ -7,12 +7,10 @@ import {
   TransitionPresets,
 } from "@react-navigation/stack";
 import { StackNavigationOptions } from "@react-navigation/stack/lib/typescript/src/types";
-import { Text, Toggle } from "@ui-kitten/components";
 import { useAppContext } from "engines";
 import * as R from "ramda";
 import * as React from "react";
-import { View } from "react-native";
-import { KeyOf, spacing, THEME } from "utils";
+import { KeyOf } from "utils";
 // import { HomeScreen } from "../home-screen/HomeScreen";
 import { linking, presetNavConfig } from "./navigation-utils";
 // import { PrimaryStack } from "./primary-navigator";

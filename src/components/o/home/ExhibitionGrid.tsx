@@ -23,7 +23,7 @@ import { Placeholder, PlaceholderMedia, ShineOverlay } from "rn-placeholder";
 import { Navigation } from "screens/_navigation";
 import { dColors, spacing, use18 } from "utils";
 
-export function WorkGrid(props: {
+export function ExhibitionGrid(props: {
   scrollY: Animated.SharedValue<number>;
   index: number;
   distanceScrolled: number;
