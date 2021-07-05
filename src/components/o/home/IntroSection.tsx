@@ -49,7 +49,7 @@ export function IntroSection(props: d$_Intro) {
     return {
       opacity: interpolate(
         scrollY.value,
-        [-height * 3, 0, height * 3],
+        [-height * 3, 0, height * 0.4],
         [0, 1, 0],
         Extrapolate.CLAMP
       ),
