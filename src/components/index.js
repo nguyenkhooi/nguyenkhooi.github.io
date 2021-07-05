@@ -3,7 +3,7 @@
 export * from "./m/decks";
 export * from "./a/generals";
 export * from "./a/others";
-
+export * from "./a/externals";
 //@ts-check
 // export * from "./atoms";
 // export * from "./molecules";

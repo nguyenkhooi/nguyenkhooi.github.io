@@ -34,8 +34,11 @@ export function HomeScreen(props) {
 
   const scrollToSection = (section: "Work" | "Exp") => {
     section == "Exp"
-      ? refList.current.scrollTo(height + _workLayout.nativeEvent.layout.height)
-      : refList.current.scrollTo(height);
+      ? refList.current.scrollTo({
+          y: height + _workLayout.nativeEvent.layout.height,
+          animated: true,
+        })
+      : refList.current.scrollTo({ y: height, animated: true });
   };
   //#endregion
 

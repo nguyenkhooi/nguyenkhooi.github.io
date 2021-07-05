@@ -1,17 +1,12 @@
 import { useLinkTo } from "@react-navigation/native";
-import { IndexPath, Menu, MenuItem } from "@ui-kitten/components";
-import { sstyled, TouchableWeb, TouchableWebProps, Txt } from "components";
+import { IndexPath, Menu } from "@ui-kitten/components";
+import { M, sstyled, Kitten, Txt } from "components";
+
 import { useSheets } from "engines/hooks";
 import { useAppContext } from "engines/providers/app-provider";
 import * as R from "ramda";
 import React from "react";
-import {
-  ImageBackground,
-  TextStyle,
-  useWindowDimensions,
-  View,
-  ViewStyle,
-} from "react-native";
+import { useWindowDimensions, View } from "react-native";
 import * as Animatable from "react-native-animatable";
 import Animated, {
   Extrapolate,
@@ -19,9 +14,8 @@ import Animated, {
   useAnimatedStyle,
 } from "react-native-reanimated";
 import { FlatGrid } from "react-native-super-grid";
-import { Placeholder, PlaceholderMedia, ShineOverlay } from "rn-placeholder";
 import { Navigation } from "screens/_navigation";
-import { dColors, spacing, use18 } from "utils";
+import { spacing, use18 } from "utils";
 
 export function ExhibitionGrid(props: {
   scrollY: Animated.SharedValue<number>;
@@ -101,7 +95,7 @@ export function ExhibitionGrid(props: {
           selectedIndex={selectedIndex}
           onSelect={(index) => setSelectedIndex(index)}
         >
-          <MenuItem
+          <Kitten.MenuItem
             onPress={() => {
               setData(ogData);
               setSelectedIndex(new IndexPath(0));
@@ -109,7 +103,7 @@ export function ExhibitionGrid(props: {
             title={use18("All")}
           />
           {[...new Set(R.pluck("cat", ogData))].map((cat, index) => (
-            <MenuItem
+            <Kitten.MenuItem
               key={cat + index}
               onPress={() => {
                 setData([...ogData.filter((item) => item.cat === cat)]);
@@ -131,8 +125,11 @@ export function ExhibitionGrid(props: {
               spacing={10}
               renderItem={({ item, index }) => (
                 <Animatable.View animation="fadeIn" delay={100 * index}>
-                  <CtnrGrid
+                  <M.ExhibitionCard
+                    key={index}
+                    dataName={dataName}
                     {...props}
+                    index={index}
                     onPress={() => {
                       linkTo("/project/" + item.title);
                       Navigation.navigate("Project", {
@@ -146,62 +143,14 @@ export function ExhibitionGrid(props: {
             />
           </Animatable.View>
         ) : (
-          <View style={{ ...SSS().GRID_CTNR }}>
-            <CtnrGrid {...props} type="placeholder" />
+          <View>
+            <M.ExhibitionCard {...props} type="placeholder" />
           </View>
         )}
       </Animated.View>
     </View>
   );
 }
-
-interface dGridCtnr extends TouchableWebProps {
-  item?: { thumbnail: string; title: string; color: string; label: string };
-  type?: "placeholder";
-}
-const CtnrGrid = (props: dGridCtnr) => {
-  const { type, onPress, item } = props;
-  const { C } = useAppContext();
-  const [_borderWidth, setBorderWidth] = React.useState(0);
-  const { width } = useWindowDimensions();
-  const linkTo = useLinkTo();
-  return type != "placeholder" ? (
-    <TouchableWeb
-      onMouseEnter={(e) => {
-        setBorderWidth(6);
-      }}
-      onMouseLeave={(e) => {
-        setBorderWidth(0);
-      }}
-      onPress={onPress}
-    >
-      <ImageBackground
-        source={{ uri: item?.thumbnail }}
-        style={[
-          SSS().ITEM_CTNR,
-          {
-            backgroundColor: item?.color,
-            overflow: "hidden",
-            borderWidth: _borderWidth,
-            borderColor: item?.color,
-          },
-        ]}
-      >
-        <Txt.S1 style={SSS().itemName}>{item?.title}</Txt.S1>
-        <Txt.P2 style={SSS().itemCode}>{item?.label}</Txt.P2>
-      </ImageBackground>
-    </TouchableWeb>
-  ) : (
-    <Placeholder Animation={ShineOverlay}>
-      <PlaceholderMedia
-        style={[
-          SSS().ITEM_CTNR,
-          { width: width <= 1000 ? width * 0.9 : width * 0.3 },
-        ]}
-      ></PlaceholderMedia>
-    </Placeholder>
-  );
-};
 
 const A = {
   CtnrFilter: sstyled(Menu)((p) => ({
@@ -216,25 +165,4 @@ const A = {
     marginLeft: spacing(5),
   })),
   Grid: sstyled(FlatGrid)({ marginTop: 10, marginHorizontal: spacing(5) }),
-};
-
-const SSS = (C?: dColors) => {
-  return {
-    ITEM_CTNR: {
-      justifyContent: "flex-end",
-      borderRadius: 5,
-      padding: 10,
-      height: 300,
-    } as ViewStyle,
-    itemName: {
-      color: "#fff",
-      // fontSize: scale(18),
-      // fontWeight: "600",
-    } as TextStyle,
-    itemCode: {
-      // fontWeight: "600",
-      // fontSize: scale(12),
-      color: "#fff",
-    } as TextStyle,
-  };
 };

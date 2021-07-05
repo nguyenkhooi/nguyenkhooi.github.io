@@ -70,7 +70,7 @@ export const AppNavigator = React.forwardRef<
   const { isReady } = useAppContext();
   return (
     isReady && (
-      <NavigationContainer {...props} ref={ref} linking={linking}>
+      <NavigationContainer {...props} ref={ref}>
         <RootStack />
       </NavigationContainer>
     )
