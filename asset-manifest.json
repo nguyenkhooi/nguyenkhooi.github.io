@@ -1,7 +1,7 @@
 {
   "files": {
-    "app.js": "/static/js/app.d4b3dcee.chunk.js",
-    "app.js.map": "/static/js/app.d4b3dcee.chunk.js.map",
+    "app.js": "/static/js/app.d655e752.chunk.js",
+    "app.js.map": "/static/js/app.d655e752.chunk.js.map",
     "runtime~app.js": "/static/js/runtime~app.2e9f1821.js",
     "runtime~app.js.map": "/static/js/runtime~app.2e9f1821.js.map",
     "static/js/2.96a98ade.chunk.js": "/static/js/2.96a98ade.chunk.js",
@@ -24,7 +24,7 @@
     "manifest.json": "/manifest.json",
     "serve.json": "/serve.json",
     "static/js/2.96a98ade.chunk.js.LICENSE.txt": "/static/js/2.96a98ade.chunk.js.LICENSE.txt",
-    "static/js/app.d4b3dcee.chunk.js.LICENSE.txt": "/static/js/app.d4b3dcee.chunk.js.LICENSE.txt",
+    "static/js/app.d655e752.chunk.js.LICENSE.txt": "/static/js/app.d655e752.chunk.js.LICENSE.txt",
     "static/media/khoi-3d-round.jpg": "/static/media/khoi-3d-round.40d46969.jpg",
     "static/media/khoi-3d.jpg": "/static/media/khoi-3d.c49be764.jpg",
     "static/media/khoi.jpg": "/static/media/khoi.944db799.jpg",
@@ -37,6 +37,6 @@
   "entrypoints": [
     "static/js/runtime~app.2e9f1821.js",
     "static/js/2.96a98ade.chunk.js",
-    "static/js/app.d4b3dcee.chunk.js"
+    "static/js/app.d655e752.chunk.js"
   ]
 }
